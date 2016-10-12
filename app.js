@@ -21,6 +21,8 @@ var expressErrorHandler = require('express-error-handler');
 var mongodb = require('mongodb');
 var mongoose = require('mongoose');
 
+var config = require('./config');
+
 // crypto 모듈 불러들이기
 //var crypto = require('crypto');
 
@@ -30,7 +32,9 @@ var app = express();
 
 
 //===== 서버 변수 설정 및 static으로 public 폴더 설정  =====//
-app.set('port', process.env.PORT || 3000);
+console.log('config.server_port : %d', config.server_port);
+app.set('port', config.server_port);
+
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 //===== body-parser, cookie-parser, express-session 사용 설정 =====//
@@ -98,10 +102,6 @@ function createUserSchema() {
 	user.init(database, UserSchema, UserModel);
 	
 }
-
-
-
-
 
 // 4. 로그인 처리 함수를 라우팅 모듈을 호출하는 것으로 수정
 app.post('/process/login', user.login);
