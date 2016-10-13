@@ -3,18 +3,19 @@
  * 데이터베이스 관련 객체들을 init() 메소드로 설정
  * 
  */
+var config = require('../config');
 
 var database;
 var UserSchema;
 var UserModel;
 
 // 데이터베이스 객체, 스키마 객체, 모델 객체를 이 모듈에서 사용할 수 있도록 전달함
-var init = function(db, schema, model) {
-	console.log('init 호출됨.');
+var init = function(db) {
+	console.log('user  init 호출됨.');
 	
 	database = db;
-	UserSchema = schema;
-	UserModel = model;
+	UserSchema = database[config.db_schemas[0].schemaName];
+	UserModel = database[config.db_schemas[0].modelName];
 }
 
 
