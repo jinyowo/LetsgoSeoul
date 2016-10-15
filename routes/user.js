@@ -21,10 +21,6 @@ var init = function(db) {
 var login = function(req, res) {
 	console.log('user 모듈 안에 있는 login 호출됨.');
 
-	// 필요한 경우 req.app.get('database')로 참조 가능
-	//checkDatabase(req);
-	
-	
 	var paramId = req.param('id');
 	var paramPassword = req.param('password');
 	
@@ -63,9 +59,6 @@ var login = function(req, res) {
 
 var adduser = function(req, res) {
 	console.log('user 모듈 안에 있는 adduser 호출됨.');
-
-	// 필요한 경우 req.app.get('database')로 참조 가능
-	//checkDatabase(req);
 	
 	
 	var paramId = req.param('id');
