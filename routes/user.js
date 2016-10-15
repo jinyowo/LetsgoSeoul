@@ -1,4 +1,3 @@
-
 /*
  * 데이터베이스 관련 객체들을 init() 메소드로 설정
  * 
@@ -99,10 +98,6 @@ var adduser = function(req, res) {
 
 var listuser = function(req, res) {
 	console.log('user 모듈 안에 있는 listuser 호출됨.');
-
-	// 필요한 경우 req.app.get('database')로 참조 가능
-	//checkDatabase(req);
-	
 	
 	if (database) {
 		// 1. 모든 사용자 검색
@@ -114,18 +109,20 @@ var listuser = function(req, res) {
 			  
 			if (results) {
 				console.dir(results);
- 
-				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-				res.write('<h2>사용자 리스트</h2>');
-				res.write('<div><ul>');
 				
-				for (var i = 0; i < results.length; i++) {
-					var curId = results[i]._doc.id;
-					var curName = results[i]._doc.name;
-					res.write('    <li>#' + i + ' : ' + curId + ', ' + curName + '</li>');
-				}	
-			
-				res.write('</ul></div>');
+				res.writeHead('200', {'Content-Type' : 'application/json; charset=utf8'});
+				res.write(JSON.stringify(results));
+//				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+//				res.write('<h2>사용자 리스트</h2>');
+//				res.write('<div><ul>');
+//				
+//				for (var i = 0; i < results.length; i++) {
+//					var curId = results[i]._doc.id;
+//					var curName = results[i]._doc.name;
+//					res.write('    <li>#' + i + ' : ' + curId + ', ' + curName + '</li>');
+//				}	
+//			
+//				res.write('</ul></div>');
 				res.end();
 			} else {
 				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
