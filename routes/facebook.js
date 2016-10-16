@@ -24,9 +24,11 @@ var addlocation = function(req, res) {
 	var paramId = req.param('id');
 	var paramCheckins = req.param('checkins');
 	var paramName = req.param('name');
+	var paramLat = req.param('lat');
+	var paramLng = req.param('lng');
 	
 	if (database) {
-		addLocation(database, paramId, paramCheckins, paramName, function(err, result) {
+		addLocation(database, paramId, paramCheckins, paramName, paramLat, paramLng, function(err, result) {
 			if (err) {throw err;}
 			
 			if (result) {
@@ -81,11 +83,11 @@ var listlocation = function(req, res) {
 };
 
 //장소를 등록하는 함수
-var addLocation = function(database, id, checkins, name, callback) {
+var addLocation = function(database, id, checkins, name, lat, lng, callback) {
 	console.log('addLocation 호출됨.');
 	
 	// FacebookModel 인스턴스 생성
-	var facebook = new FacebookModel({"id":id, "checkins":checkins, "name":name});
+	var facebook = new FacebookModel({"id":id, "checkins":checkins, "name":name, "lat":lat, "lng":lng});
 
 	// save()로 저장
 	facebook.save(function(err) {
