@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 
 /* user init을 위해 추가 */
 var user = require('../routes/user');
+var facebook = require('../routes/facebook');
 
 //database object에  db, schma, model 추
 var database = {};
@@ -60,6 +61,7 @@ function createSchema(app, config) {
 	
 	//user database 설정
 	user.init(database);
+	facebook.init(database);
 	
 	console.log('database 객체가 app 객체의 속성으로 추가됨.');
 }
