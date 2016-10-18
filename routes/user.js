@@ -37,7 +37,7 @@ var login = function(req, res) {
 				res.write('<h1>로그인 성공</h1>');
 				res.write('<div><p>사용자 아이디 : ' + paramId + '</p></div>');
 				res.write('<div><p>사용자 이름 : ' + username + '</p></div>');
-				res.write("<br><br><a href='/public/login.html'>다시 로그인하기</a>");
+				res.write("<br><br><a href='/'>Back to Main Page</a>");
 				res.end();
 			
 			} else {
@@ -45,6 +45,8 @@ var login = function(req, res) {
 				res.write('<h1>로그인  실패</h1>');
 				res.write('<div><p>아이디와 패스워드를 다시 확인하십시오.</p></div>');
 				res.write("<br><br><a href='/public/login.html'>다시 로그인하기</a>");
+				res.write("<br><a href='/'>Back to Main Page</a>");
+				
 				res.end();
 			}
 		});
@@ -52,6 +54,7 @@ var login = function(req, res) {
 		res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 		res.write('<h2>데이터베이스 연결 실패</h2>');
 		res.write('<div><p>데이터베이스에 연결하지 못했습니다.</p></div>');
+		res.write("<br><a href='/'>Back to Main Page</a>");
 		res.end();
 	}
 	
@@ -74,16 +77,19 @@ var adduser = function(req, res) {
  
 				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 				res.write('<h2>사용자 추가 성공</h2>');
+				res.write("<br><a href='/'>Back to Main Page</a>");
 				res.end();
 			} else {
 				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 				res.write('<h2>사용자 추가  실패</h2>');
+				res.write("<br><a href='/'>Back to Main Page</a>");
 				res.end();
 			}
 		});
 	} else {
 		res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 		res.write('<h2>데이터베이스 연결 실패</h2>');
+		res.write("<br><a href='/'>Back to Main Page</a>");
 		res.end();
 	}
 	
@@ -103,8 +109,10 @@ var listuser = function(req, res) {
 			if (results) {
 				console.dir(results);
 				
-				res.writeHead('200', {'Content-Type' : 'application/json; charset=utf8'});
+				res.writeHead('200', {'Content-Type' : 'application/json, text/html;charset=utf8' });
 				res.write(JSON.stringify(results));
+				res.write("<br><br><a href='/'>Back to Main Page</a>");
+				
 //				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 //				res.write('<h2>사용자 리스트</h2>');
 //				res.write('<div><ul>');
@@ -120,12 +128,16 @@ var listuser = function(req, res) {
 			} else {
 				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 				res.write('<h2>사용자 리스트 조회  실패</h2>');
+				res.write("<br><a href='/'>Back to Main Page</a>");
+				
 				res.end();
 			}
 		});
 	} else {
 		res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 		res.write('<h2>데이터베이스 연결 실패</h2>');
+		res.write("<br><a href='/'>Back to Main Page</a>");
+		
 		res.end();
 	}
 	

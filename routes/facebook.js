@@ -36,16 +36,19 @@ var addlocation = function(req, res) {
  
 				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 				res.write('<h2>location 추가 성공</h2>');
+				res.write("<br><br><a href='/'>Back to Main Page</a>");
 				res.end();
 			} else {
 				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 				res.write('<h2>location 추가  실패</h2>');
+				res.write("<br><br><a href='/'>Back to Main Page</a>");
 				res.end();
 			}
 		});
 	} else {
 		res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 		res.write('<h2>데이터베이스 연결 실패</h2>');
+		res.write("<br><br><a href='/'>Back to Main Page</a>");
 		res.end();
 	}
 	
@@ -65,18 +68,21 @@ var listlocation = function(req, res) {
 			if (results) {
 				console.dir(results);
 				
-				res.writeHead('200', {'Content-Type' : 'application/json; charset=utf8'});
+				res.writeHead('200', {'Content-Type' : 'application/json, text/html; charset=utf8'});
 				res.write(JSON.stringify(results));
+				res.write("<br><br><a href='/'>Back to Main Page</a>");
 				res.end();
 			} else {
 				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 				res.write('<h2>facebook 리스트 조회  실패</h2>');
+				res.write("<br><br><a href='/'>Back to Main Page</a>");
 				res.end();
 			}
 		});
 	} else {
 		res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 		res.write('<h2>데이터베이스 연결 실패</h2>');
+		res.write("<br><br><a href='/'>Back to Main Page</a>");
 		res.end();
 	}
 	
