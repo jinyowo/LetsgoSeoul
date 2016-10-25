@@ -34,7 +34,7 @@ function addlocation() {
 			if (err) {throw err;}
 			
 			if (result) {
-				console.log('facebook data 추가 성공!');
+				//console.log('facebook data 추가 성공!');
 				//console.dir(result);
 			} else {
 				console.log('facebook data 추가 실패!');
@@ -87,17 +87,37 @@ var addLocation = function(database, id, checkins, name, lat, lng, callback) {
 	
 	// FacebookModel 인스턴스 생성
 	var facebook = new FacebookModel({"id":id, "checkins":checkins, "name":name, "lat":lat, "lng":lng});
-	
-	//facebook.isNew = false;
 	console.log(facebook.id);
-	// save()로 저장
-	facebook.save(function(err) {
+	
+	FacebookModel.findById(id, function(err, results) {
 		if (err) {
 			callback(err, null);
 			return;
 		}
 		
-	    console.log("장소 데이터 추가함.");
+		if (results.length > 0) {
+			console.log('이미 존재하는 장소정보');
+			facebook.update(
+					{id : id},
+					{name: name, 
+					checkins:checkins, 
+					lat:lat, 
+					lng:lng},
+					function(err) { console.log(err); });
+			console.log('update');
+			
+		} else {
+	    	console.log("새로운 장소정보");
+	    	// save()로 저장
+	    	facebook.save(function(err) {
+	    		if (err) {
+	    			callback(err, null);
+	    			return;
+	    		}
+	    	console.log("장소 데이터 추가함.");
+	    	});
+		}
+	    
 	    callback(null, facebook);
 	     
 	});
