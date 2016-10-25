@@ -3,6 +3,7 @@
  * 
  */
 var config = require('../config');
+var graph_api = require('./graph_api');
 
 var database;
 var FacebookSchema;
@@ -15,41 +16,33 @@ var init = function(db) {
 	database = db;
 	FacebookSchema = database[config.db_schemas[1].schemaName];
 	FacebookModel = database[config.db_schemas[1].modelName];
+	
 }
 
 
-var addlocation = function(req, res) {
+function addlocation() {
 	console.log('facebook 모듈 안에 있는 addLocation 호출됨.');
 	
-	var paramId = req.param('id');
-	var paramCheckins = req.param('checkins');
-	var paramName = req.param('name');
-	var paramLat = req.param('lat');
-	var paramLng = req.param('lng');
+	var paramId;
+	var list = graph_api.list;
 	
 	if (database) {
-		addLocation(database, paramId, paramCheckins, paramName, paramLat, paramLng, function(err, result) {
+		for(var i=1; i<=10; i++)
+		{
+			/*이미 존재하는 데이터의 경우 삽입을 안하도록 구*/
+			addLocation(database, i, list[i].checkins, list[i].name, list[i].lat, list[i].lng, function(err, result) {
 			if (err) {throw err;}
 			
 			if (result) {
+				console.log('facebook data 추가 성공!');
 				console.dir(result);
- 
-				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-				res.write('<h2>location 추가 성공</h2>');
-				res.write("<br><br><a href='/'>Back to Main Page</a>");
-				res.end();
 			} else {
-				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-				res.write('<h2>location 추가  실패</h2>');
-				res.write("<br><br><a href='/'>Back to Main Page</a>");
-				res.end();
+				console.log('facebook data 추가 실패!');
 			}
-		});
+			});
+		}
 	} else {
-		res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-		res.write('<h2>데이터베이스 연결 실패</h2>');
-		res.write("<br><br><a href='/'>Back to Main Page</a>");
-		res.end();
+		console.log('db연결실패!');
 	}
 	
 };
@@ -94,7 +87,9 @@ var addLocation = function(database, id, checkins, name, lat, lng, callback) {
 	
 	// FacebookModel 인스턴스 생성
 	var facebook = new FacebookModel({"id":id, "checkins":checkins, "name":name, "lat":lat, "lng":lng});
-
+	
+	facebook.isNew = false;
+	console.log(facebook.id);
 	// save()로 저장
 	facebook.save(function(err) {
 		if (err) {

@@ -6,6 +6,7 @@
  *	top_10_list : TOP10 장소 리스
  */
 var FB = require('fb');
+var facebook = require('./facebook');
 
 //장소 리스트
 var list = new Array();
@@ -15,7 +16,12 @@ var top_10_list = new Array();
 var init = function(app, config) {
 	console.log('graph_api init 호출됨.');
 	
-	searchLocation(app, config);
+	searchLocation(app, config, function()
+			{
+				console.log('@@complete@@');
+				
+				facebook.addlocation();
+			});
 }
 
 //sort 함수
@@ -26,8 +32,8 @@ function checkinsSort(a, b) {
 	return a.checkins < b.checkins ? 1 : -1;
 }
 
-//데이터를 불러오는 함
-function searchLocation(app, config) {
+//데이터를 불러오는 함수
+function searchLocation(app, config, callback) {
 	
 FB.setAccessToken('EAAIFef3CbEcBAJse1tmfQyC46ttSw7pC3qakz7YVNsZCAjWdakk0ZCN9RiKZBEZBZB06AOPRIDOqHZBw1HZCFivvU14zWiUVQL1D9GEwmO3V4sn91NZCvxsZCZBKiEEyR43YAmASPxDVkQNBPaeFGPqFFeYFuBgJ7iCMoZD');
 
@@ -60,7 +66,7 @@ FB.api(	'/search',	'GET',
 					
 					// 지워야되는 리스트 추가
 					removeFaultData(list);
-					console.log("합치기 전: "+list.length);
+					//console.log("합치기 전: "+list.length);
 					// 같은 위치 합치기
 					mergeSameLocation(list);
 					
@@ -69,7 +75,7 @@ FB.api(	'/search',	'GET',
 						top_10_list[i] = list[i];
 					}
 					console.log(top_10_list);
-					console.log(list.length);
+					callback(list.length);
 					//var jsonInfo = JSON.stringify(list);
 				});
 }

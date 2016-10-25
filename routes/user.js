@@ -203,7 +203,8 @@ var addUser = function(database, id, password, name, callback) {
 	
 	// UserModel 인스턴스 생성
 	var user = new UserModel({"id":id, "password":password, "name":name});
-
+	// 중복데이터가 입력되는 경우 무시 
+	user.isNew = false;
 	// save()로 저장
 	user.save(function(err) {
 		if (err) {
