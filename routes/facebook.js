@@ -35,7 +35,7 @@ function addlocation() {
 			
 			if (result) {
 				console.log('facebook data 추가 성공!');
-				console.dir(result);
+				//console.dir(result);
 			} else {
 				console.log('facebook data 추가 실패!');
 			}
@@ -88,7 +88,7 @@ var addLocation = function(database, id, checkins, name, lat, lng, callback) {
 	// FacebookModel 인스턴스 생성
 	var facebook = new FacebookModel({"id":id, "checkins":checkins, "name":name, "lat":lat, "lng":lng});
 	
-	facebook.isNew = false;
+	//facebook.isNew = false;
 	console.log(facebook.id);
 	// save()로 저장
 	facebook.save(function(err) {
