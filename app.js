@@ -5,6 +5,7 @@ var express = require('express')
   , path = require('path');
 
 var database = require('./database/database');
+var graph_api = require('./routes/graph_api');
 
 var user = require('./routes/user');
 var route_loader = require('./routes/route_loader');
@@ -73,7 +74,10 @@ http.createServer(app).listen(app.get('port'), function(){
 	console.log('서버가 시작되었습니다. 포트 : ' + app.get('port'));
 
 	// 데이터베이스 연결
+	graph_api.init(app, config);
 	database.init(app, config);
+	
+	
 	
 });
 
