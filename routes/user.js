@@ -17,7 +17,7 @@ var init = function(db) {
 	UserModel = database[config.db_schemas[0].modelName];
 }
 
-
+//
 var login = function(req, res) {
 	console.log('user 모듈 안에 있는 login 호출됨.');
 

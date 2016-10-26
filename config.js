@@ -16,7 +16,7 @@ module.exports = {
 	    {file:'./user', path:'/process/adduser', method:'adduser', type:'post'},	// user.adduser 
 	    {file:'./user', path:'/process/listuser', method:'listuser', type:'post'},	// user.listuser 
 	    //===== facebook =====//
-	    {file:'./facebook', path:'/facebook/addlocation', method:'addlocation', type:'post'},	// user.adduser 
+	    //{file:'./facebook', path:'/facebook/addlocation', method:'addlocation', type:'post'},	// user.adduser
 	    {file:'./facebook', path:'/facebook/listlocation', method:'listlocation', type:'post'}	// user.listuser 
 	
 	    ]

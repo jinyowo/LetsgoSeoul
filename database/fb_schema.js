@@ -25,7 +25,7 @@ Schema.createSchema = function(mongoose) {
 		return this.find({}, callback);
 	});
 	
-	console.log('FacebookSchma 정의함.');
+	console.log('FacebookSchema 정의함.');
 
 	return FacebookSchma;
 };

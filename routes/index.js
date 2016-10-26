@@ -1,3 +1,8 @@
+/*
+* http://localhost:3000/ 에 접속하면 처음으로 나오는 소개 페이지
+*
+*/
+
 var index= function(req, res) {
 	console.log('user 모듈 안에 있는 adduser 호출됨.');
 	

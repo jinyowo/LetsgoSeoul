@@ -17,9 +17,6 @@ var expressErrorHandler = require('express-error-handler');
 
 var config = require('./config');
 
-// crypto 모듈 불러들이기
-//var crypto = require('crypto');
-
 
 //===== Express 서버 객체 만들기 =====//
 var app = express();

@@ -19,23 +19,20 @@ var init = function(db) {
 	
 }
 
-
+// graph API에서 불러온 정보를 데이터베이스에 add하는 함수
 function addlocation() {
 	console.log('facebook 모듈 안에 있는 addLocation 호출됨.');
-	
-	var paramId;
+
 	var list = graph_api.list;
 	
 	if (database) {
 		for(var i=1; i<=10; i++)
 		{
-			/*이미 존재하는 데이터의 경우 삽입을 안하도록 구*/
 			addLocation(database, i, list[i].checkins, list[i].name, list[i].lat, list[i].lng, function(err, result) {
 			if (err) {throw err;}
 			
 			if (result) {
-				//console.log('facebook data 추가 성공!');
-				//console.dir(result);
+				console.log('facebook data 추가 성공!');
 			} else {
 				console.log('facebook data 추가 실패!');
 			}
@@ -51,7 +48,6 @@ var listlocation = function(req, res) {
 	console.log('facebook 모듈 안에 있는 listlocation 호출됨.');
 	
 	if (database) {
-		// 1. 모든 사용자 검색
 		FacebookModel.findAll(function(err, results) {
 			if (err) {
 				callback(err, null);
@@ -88,7 +84,9 @@ var addLocation = function(database, id, checkins, name, lat, lng, callback) {
 	// FacebookModel 인스턴스 생성
 	var facebook = new FacebookModel({"id":id, "checkins":checkins, "name":name, "lat":lat, "lng":lng});
 	console.log(facebook.id);
-	
+
+	// 해당 id가 이미 데이터베이스에 존재하는 id면 기존의 document를 update하고
+	// 새로운 id면 새로운 document를 insert한다
 	FacebookModel.findById(id, function(err, results) {
 		if (err) {
 			callback(err, null);
@@ -97,6 +95,7 @@ var addLocation = function(database, id, checkins, name, lat, lng, callback) {
 		
 		if (results.length > 0) {
 			console.log('이미 존재하는 장소정보');
+			// update()로 갱신
 			facebook.update(
 					{id : id},
 					{name: name, 
