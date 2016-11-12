@@ -73,8 +73,9 @@ FB.api(	'/search',	'GET',
 					// top 10 list 만들기
 					for(i=1; i<=10; i++) {
 						top_10_list[i] = list[i];
+
+						//console.log("#" +i +" = " +top_10_list[i].name);
 					}
-					console.log(top_10_list);
 					callback(list.length);
 					//var jsonInfo = JSON.stringify(list);
 				});

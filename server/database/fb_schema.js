@@ -9,8 +9,8 @@ Schema.createSchema = function(mongoose) {
 	
 	// 스키마 정의
 	var FacebookSchma = mongoose.Schema({
-	    id: {type: String, required: true},
-	    checkins: {type: String, required: true},
+	    id: {type: Number, required: true},
+	    checkins: {type: Number, required: true},
 	    name: {type: String, index: 'hashed'},
 	    lat: {type: Number, 'default': -1},
 	    lng: {type: Number, 'default': -1}
