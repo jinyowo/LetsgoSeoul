@@ -23,7 +23,7 @@ var init = function(db) {
 function addlocation() {
 	console.log('facebook 모듈 안에 있는 addLocation 호출됨.');
 
-	var list = graph_api.list;
+	var list = graph_api.top_10_list;
 	
 	if (database) {
 		for(var i=1; i<=10; i++)
@@ -83,7 +83,6 @@ var addLocation = function(database, id, checkins, name, lat, lng, callback) {
 	
 	// FacebookModel 인스턴스 생성
 	var facebook = new FacebookModel({"id":id, "checkins":checkins, "name":name, "lat":lat, "lng":lng});
-	console.log(facebook.id);
 
 	// 해당 id가 이미 데이터베이스에 존재하는 id면 기존의 document를 update하고
 	// 새로운 id면 새로운 document를 insert한다
@@ -94,7 +93,7 @@ var addLocation = function(database, id, checkins, name, lat, lng, callback) {
 		}
 		
 		if (results.length > 0) {
-			console.log('이미 존재하는 장소정보');
+			console.log(id+ '이미 존재하는 장소정보');
 			// update()로 갱신
 			facebook.update(
 					{id : id},
@@ -106,7 +105,7 @@ var addLocation = function(database, id, checkins, name, lat, lng, callback) {
 			console.log('update');
 			
 		} else {
-	    	console.log("새로운 장소정보");
+	    	console.log(id + "새로운 장소정보");
 	    	// save()로 저장
 	    	facebook.save(function(err) {
 	    		if (err) {
