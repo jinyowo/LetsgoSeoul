@@ -67,14 +67,20 @@ FB.api(	'/search',	'GET',
 					// 지워야되는 리스트 추가
 					removeFaultData(list);
 					//console.log("합치기 전: "+list.length);
+
 					// 같은 위치 합치기
 					mergeSameLocation(list);
-					
+					list.sort(checkinsSort);
+
+					//console.log(list);
+					//console.log("************");
 					// top 10 list 만들기
 					for(i=1; i<=10; i++) {
 						top_10_list[i] = list[i];
 					}
+					console.log("************");
 					console.log(top_10_list);
+					console.log("************");
 					callback(list.length);
 					//var jsonInfo = JSON.stringify(list);
 				});
