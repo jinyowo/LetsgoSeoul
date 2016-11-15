@@ -40,7 +40,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.provider.Settings.Secure.isLocationProviderEnabled;
@@ -51,10 +53,12 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSeoul;
     private Button btnNear;
     GPSListener gpsListener = new GPSListener();
-    final String[] hotPlace = {};
+    final String[] hotPlace = {"", "", "", "", "", "", "", "", "", "", ""};
+    //List listLocation = new ArrayList();
+
     String url = "http://nodetest.iptime.org:3000/facebook/listlocation";
-   // private double lat;
-   // private double lon;
+    private double lat;
+    private double lng;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,20 +67,19 @@ public class MainActivity extends AppCompatActivity {
         btnSeoul = (Button) findViewById(R.id.btn_seoul);
         btnNear = (Button) findViewById(R.id.btn_near);
 
+//        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_main);
+//        final StringBuffer sb = new StringBuffer();
         initList();
-        //startSort(mListView,hotPlace);
 
         checkDangerousPermissions();
     }
     public void initList() {
         //통신
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_main);
-        final StringBuffer sb = new StringBuffer();
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     public void onResponse(String response) {
                         try {
-                            //Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
 
                             //결과 값 출력
                             JSONArray jarr = new JSONArray(response);   // JSONArray 생성
@@ -84,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
                             for(int i=0; i < jarr.length(); i++){
                                 JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
                                 String name = jObject.getString("name");
-                                int checkins = jObject.getInt("checkins");
                                 int id = jObject.getInt("id");
 
                                 Log.v("Location", id + " , " +  name);
@@ -117,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSeoulButtonClicked(View v) {    //서울중심
-        //hotPlace[0] = "test";
 
         initList();
 
@@ -139,14 +140,52 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_list_item, R.id.tv_hotPlace, hotPlace);
         lv.setTextFilterEnabled(true);
         lv.setAdapter(arrayAdapter);
+
+       //list click method
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                       @Override
-                                      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                           Object vo = parent.getAdapter().getItem(position);
-                                          Intent intent = new Intent(MainActivity.this, Selected_Place.class);
-                                          intent.putExtra("hotPlace", parent.getItemIdAtPosition(position)); //선택된 것의 id 추가
-                                          startActivity(intent);
-                                          // Toast.makeText(MainActivity.this,"리스트클릭",Toast.LENGTH_LONG).show();
+                                      public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                                          // Object vo = parent.getAdapter().getItem(position);
+                                          final Intent intent = new Intent(MainActivity.this, Selected_Place.class);
+                                          intent.putExtra("position", position); //선택된 것의 id 추가
+
+                                          StringRequest request = new StringRequest(Request.Method.POST, url,
+                                                  new Response.Listener<String>() {
+                                                      public void onResponse(String response) {
+                                                          try {
+                                                              //결과 값 출력
+                                                              JSONArray jarr = new JSONArray(response);   // JSONArray 생성
+
+                                                              JSONObject jObject = jarr.getJSONObject(position);
+
+                                                              lat = jObject.getDouble("lat");
+                                                              lng = jObject.getDouble("lng");
+
+                                                              intent.putExtra("lat", lat);
+                                                              intent.putExtra("lng", lng);
+
+                                                              //Toast.makeText(MainActivity.this,lat + " , " + lng,Toast.LENGTH_LONG).show();
+
+                                                              startActivity(intent);
+                                                          } catch (Exception e) {
+                                                              e.printStackTrace();
+                                                          }
+                                                      }
+                                                  },
+                                                  new Response.ErrorListener() {
+                                                      public void onErrorResponse(VolleyError error) {
+                                                          error.printStackTrace();
+                                                      }
+                                                  }
+                                          ) {
+                                              protected Map<String, String> getParams() {
+                                                  Map<String, String> params = new HashMap<>();
+
+                                                  return params;
+                                              }
+                                          };
+
+                                          Volley.newRequestQueue(getApplicationContext()).add(request);
                                       }
                                   }
         );

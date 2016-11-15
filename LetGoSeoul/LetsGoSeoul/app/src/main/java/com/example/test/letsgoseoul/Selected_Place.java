@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -14,11 +16,22 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class Selected_Place extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private int position;
+    private double lat;
+    private double lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected__place);
+
+        Intent intent = getIntent();
+        position = intent.getIntExtra("position", -1);
+        lat = intent.getDoubleExtra("lat", -1);
+        lng = intent.getDoubleExtra("lng", -1);
+
+        Toast.makeText(getApplicationContext(), position + " = (" + lat + " , " + lng + ")", Toast.LENGTH_LONG).show();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -40,10 +53,13 @@ public class Selected_Place extends FragmentActivity implements OnMapReadyCallba
         mMap = googleMap;
 
         ///좌표 넣어줄 위치
-        LatLng placePoint= new LatLng(37.560891, 126.985246);
+        //LatLng placePoint= new LatLng(37.560891, 126.985246);
+        LatLng placePoint = new LatLng(lat, lng);
         mMap.addMarker(new MarkerOptions().position(placePoint).title("Marker"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(placePoint));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+
     }
 
 public void onRestaurantButtonClicked(View v){
