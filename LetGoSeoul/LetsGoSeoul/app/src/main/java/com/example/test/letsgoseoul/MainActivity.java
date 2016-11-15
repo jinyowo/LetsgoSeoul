@@ -31,68 +31,109 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static android.provider.Settings.Secure.isLocationProviderEnabled;
 import static com.example.test.letsgoseoul.R.id.listView;
+
 public class MainActivity extends AppCompatActivity {
     private ListView  mListView;
+    private Button btnSeoul;
+    private Button btnNear;
     GPSListener gpsListener = new GPSListener();
+    final String[] hotPlace = {};
+    String url = "http://nodetest.iptime.org:3000/facebook/listlocation";
    // private double lat;
    // private double lon;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mListView = (ListView) findViewById(listView);
-        //서울중심
-        String[] hotPlace = {"1. 명동   (Myeongdong)",
-                "2. 홍대   (Hongdae)",
-                "3. 종로   (Jongro)",
-                "4. 안산   (Ansan)",
-                "5. 상록수(Sangloksu)",
-                "6. 동대문(Dongdaemun)",
-                "7. 신촌   (Sinchon)",
-                "8. 건대   (Gundae)",
-                "9. 노원   (Nowon)",
-                "10.강남   (Gangnam)"};
-        startSort(mListView,hotPlace);
-        //System.out.println("test");
+        btnSeoul = (Button) findViewById(R.id.btn_seoul);
+        btnNear = (Button) findViewById(R.id.btn_near);
+
+        initList();
+        //startSort(mListView,hotPlace);
+
         checkDangerousPermissions();
     }
+    public void initList() {
+        //통신
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_main);
+        final StringBuffer sb = new StringBuffer();
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    public void onResponse(String response) {
+                        try {
+                            //Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
 
-public void onSeoulButtonClicked(View v) {    //서울중심
-    String[] hotPlace = {"1. 명동   (Myeongdong)",
-            "2. 홍대   (Hongdae)",
-            "3. 종로   (Jongro)",
-            "4. 안산   (Ansan)",
-            "5. 상록수(Sangloksu)",
-            "6. 동대문(Dongdaemun)",
-            "7. 신촌   (Sinchon)",
-            "8. 건대   (Gundae)",
-            "9. 노원   (Nowon)",
-            "10.강남   (Gangnam)"};
-    startSort(mListView,hotPlace);
-};
+                            //결과 값 출력
+                            JSONArray jarr = new JSONArray(response);   // JSONArray 생성
+
+                            for(int i=0; i < jarr.length(); i++){
+                                JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
+                                String name = jObject.getString("name");
+                                int checkins = jObject.getInt("checkins");
+                                int id = jObject.getInt("id");
+
+                                Log.v("Location", id + " , " +  name);
+                                hotPlace[id-1] = id + " : " + name;
+
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        startSort(mListView,hotPlace);
+                    }
+                },
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        ) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+        };
+
+        Volley.newRequestQueue(this).add(request);
+
+    }
+
+    public void onSeoulButtonClicked(View v) {    //서울중심
+        //hotPlace[0] = "test";
+
+        initList();
+
+    }
 
     public void onNearButtonClicked(View v) {    //사용자위치 중심
+        hotPlace[0] = "near";
         showSettingsAlert();
         startLocationService();
         //Double lat = gpsListener.getLat();
        // Double lon = gpsListener.getLon();
         //String msg = "Latitude : "+ lat + "\nLongitude:"+ lon;
        //Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-        String[] hotPlace = {"1. 현선   (Myeongdong)",
-                "2. 홍대   (Hongdae)",
-                "3. 종로   (Jongro)",
-                "4. 안산   (Ansan)",
-                "5. 상록수(Sangloksu)",
-                "6. 동대문(Dongdaemun)",
-                "7. 신촌   (Sinchon)",
-                "8. 건대   (Gundae)",
-                "9. 노원   (Nowon)",
-                "10.강남   (Gangnam)"};
+        //String[] hotPlace = {"1. 현선   (Myeongdong)"};
         startSort(mListView,hotPlace);
-        }
+    }
 
    public void startSort(ListView lv,String[] hotPlace) {
         ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_list_item, R.id.tv_hotPlace, hotPlace);
@@ -111,6 +152,7 @@ public void onSeoulButtonClicked(View v) {    //서울중심
         );
     }
 
+    //GPS Permission
     private void checkDangerousPermissions() {
         String[] permissions = {
                 Manifest.permission.ACCESS_FINE_LOCATION,

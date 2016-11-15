@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "24.0.1"
     defaultConfig {
         applicationId "com.example.test.letsgoseoul"
         minSdkVersion 15
@@ -31,4 +31,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:9.8.0'
 
     compile 'com.android.support:multidex:1.0.0'
+    //통신관련
+    compile 'com.android.volley:volley:1.0.0'
+    compile 'com.google.code.gson:gson:2.3.1'
 }
