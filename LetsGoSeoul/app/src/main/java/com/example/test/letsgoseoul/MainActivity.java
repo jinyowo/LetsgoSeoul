@@ -31,17 +31,36 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.provider.Settings.Secure.isLocationProviderEnabled;
 import static com.example.test.letsgoseoul.R.id.listView;
 public class MainActivity extends AppCompatActivity {
     private ListView  mListView;
-    private static ArrayList<String> hotPlace;
+
     private GPSListener gpsListener = new GPSListener();
     private LocationManager manager;
-    private static String lat;
-    private static String lon;
+
+    //화면에 띄워줄 리스트뷰
+    private static ArrayList<String> hotPlace;
+
+    //나의 위치정보를 저장
+    private static String myLat;
+    private static String myLng;
+
+    //장소 Top 10 리스트 받아옴
+    private String url = "http://nodetest.iptime.org:3000/facebook/listlocation";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,25 +72,67 @@ public class MainActivity extends AppCompatActivity {
         checkDangerousPermissions();
     }
 
-public void onSeoulButtonClicked(View v) {    //서울중심
-    setSeoul();
-};
+    public void onSeoulButtonClicked(View v) {    //서울중심
+        setSeoul();
+    }
 
     public void onNearButtonClicked(View v) {    //사용자위치 중심
         manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         showSettingsAlert();     //설정창
         startLocationService();  //gps
 
-        }
-
+    }
 
     public void setSeoul() {    //Seoul이 중심인 경우
         hotPlace.clear();
-        hotPlace.add("명동");
-        hotPlace.add("명동");
-        hotPlace.add("명동");
-        hotPlace.add("명동");
-        startSort(mListView,hotPlace);
+        //통신
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    public void onResponse(String response) {
+                        try {
+                            Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
+
+                            //결과 값 출력
+                            JSONArray jarr = new JSONArray(response);   // JSONArray 생성
+
+                            //index 1~10 까지 저장
+                            String temp[] = new String[11];
+
+                            for(int i=0; i < jarr.length(); i++){
+                                JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
+                                String name = jObject.getString("name");
+                                int id = jObject.getInt("id");
+
+                                Log.v("Location", id + " , " +  name);
+                                temp[id] = id + " : " + name;
+                            }
+
+                            for(int i=1; i<=10; i++) {
+                                hotPlace.add(temp[i]);
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        startSort(mListView,hotPlace);
+                    }
+                },
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        ) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+        };
+
+        Volley.newRequestQueue(this).add(request);
+
     }
 
     public void setNear() {     //NEAR가 중심인 경우
@@ -84,23 +145,68 @@ public void onSeoulButtonClicked(View v) {    //서울중심
         startSort(mListView,hotPlace);
 
     }
+
+    private String seletedName;
+    private double seletedLat;
+    private double seletedLng;
+
    public void startSort(ListView lv,ArrayList hotPlace) {
         ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_list_item, R.id.tv_hotPlace, hotPlace);
         lv.setTextFilterEnabled(true);
         lv.setAdapter(arrayAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                       @Override
-                                      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                           Object vo = parent.getAdapter().getItem(position);
-                                          Intent intent = new Intent(MainActivity.this, Selected_Place.class);
+                                      public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                                          final Intent intent = new Intent(MainActivity.this, Selected_Place.class);
                                           //position이 선택된 item의 순서
                                           intent.putExtra("SelectedPlace", position);   //test용
+                                          StringRequest request = new StringRequest(Request.Method.POST, url,
+                                                  new Response.Listener<String>() {
+                                                      public void onResponse(String response) {
+                                                          try {
+                                                              //결과 값 출력
+                                                              JSONArray jarr = new JSONArray(response);   // JSONArray 생성
+
+                                                              for(int i=0; i < jarr.length(); i++){
+                                                                  JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
+                                                                  if(jObject.getInt("id") == position +1) {
+                                                                      seletedLat = jObject.getDouble("lat");
+                                                                      seletedLng = jObject.getDouble("lng");
+                                                                      seletedName = jObject.getString("name");
+                                                                      break;
+                                                                  }
+                                                              }
+                                                              intent.putExtra("lat", seletedLat);
+                                                              intent.putExtra("lng", seletedLng);
+                                                              intent.putExtra("name", seletedName);
+
+                                                              //Toast.makeText(MainActivity.this,lat + " , " + lng,Toast.LENGTH_LONG).show();
+
+                                                              startActivity(intent);
+                                                          } catch (Exception e) {
+                                                              e.printStackTrace();
+                                                          }
+                                                      }
+                                                  },
+                                                  new Response.ErrorListener() {
+                                                      public void onErrorResponse(VolleyError error) {
+                                                          error.printStackTrace();
+                                                      }
+                                                  }
+                                          ) {
+                                              protected Map<String, String> getParams() {
+                                                  Map<String, String> params = new HashMap<>();
+
+                                                  return params;
+                                              }
+                                          };
+
+                                          Volley.newRequestQueue(getApplicationContext()).add(request);
                                           //intent.putExtra("SelectedPlace", "");    여기다가 선택된 아이템의 db ID 텍스트로 뒤에 넣어주면 됌
 //                                          try{
 //                                              manager.removeUpdates(gpsListener);
 //                                          } catch(SecurityException ex) {
 //                                              ex.printStackTrace();}
-                                          startActivity(intent);
                                           // Toast.makeText(MainActivity.this,"리스트클릭",Toast.LENGTH_LONG).show();
                                       }
                                   }
@@ -220,9 +326,9 @@ public void onSeoulButtonClicked(View v) {    //서울중심
         public void onLocationChanged(Location location) {
             double latitude = location.getLatitude();
             double longitude  = location.getLongitude();
-            lat = Double.toString(latitude);
-            lon = Double.toString(longitude);
-            String msg = "Latitude : "+ lat+ "\nLongitude:"+ lon;
+            myLat = Double.toString(latitude);
+            myLng = Double.toString(longitude);
+            String msg = "Latitude : "+ myLat+ "\nLongitude:"+ myLng;
             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             try {
                 manager.removeUpdates(gpsListener);

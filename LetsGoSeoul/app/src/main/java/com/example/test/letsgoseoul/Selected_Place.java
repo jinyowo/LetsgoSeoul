@@ -21,6 +21,11 @@ public class Selected_Place extends FragmentActivity implements OnMapReadyCallba
     private TextView placeName;
     private TextView textview;
 
+    private double lat;
+    private double lng;
+    private String name;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,15 +35,21 @@ public class Selected_Place extends FragmentActivity implements OnMapReadyCallba
         //String getPlaceId = intent.getExtras().getString("SelectedPlace");   //넘어온 선택된 아이템 ID
         getPlaceId = intent.getExtras().getInt("SelectedPlace");   //넘어온 test용 ID
 
+        lat = intent.getExtras().getDouble("lat");
+        lng = intent.getExtras().getDouble("lng");
+        //lng = intent.getDoubleExtra("lng", -1);
+        name = intent.getStringExtra("name");
+
+
         //getPlaceId가 잘 넘어왔나 확인
-        Toast.makeText(Selected_Place.this,"placId "+getPlaceId, Toast.LENGTH_LONG).show();
+        Toast.makeText(Selected_Place.this,"placeId "+getPlaceId, Toast.LENGTH_LONG).show();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
 
         placeName = (TextView)findViewById(R.id.placeName);     //선택된 장소의 이름 입력하는 곳
-        placeName.setText("명동");
+        placeName.setText(name);
       textview = (TextView)findViewById(R.id.placeText);     //상세정보 넣는 곳
        String text = "명동은 대한민국 서울특별시 중구에 있는 번화가이자, 지역 이름이다. 명동1가와 명동2가를 합친 면적은 0.91 ㎢이다. 명동1·2가, 충무로1·2가, 을지로1·2가 등을 포함하는 지역이다.";
         textview.setText(text);
@@ -58,7 +69,8 @@ public class Selected_Place extends FragmentActivity implements OnMapReadyCallba
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         ///받아온 getPlaceId이용해 좌표 넣어줄 위치
-        LatLng placePoint= new LatLng(37.560891, 126.985246);
+        //LatLng placePoint= new LatLng(37.560891, 126.985246);
+        LatLng placePoint= new LatLng(lat, lng);
         mMap.addMarker(new MarkerOptions().position(placePoint).title("Marker"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(placePoint));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
