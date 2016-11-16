@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:text="Seoul"
-        android:id="@+id/seoul"
+        android:id="@+id/btn_seoul"
         android:textSize="20sp"
         android:layout_weight="1"
         android:onClick="onSeoulButtonClicked" />
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:id="@+id/near"
+        android:id="@+id/btn_near"
         android:text="Near"
         android:textSize="20sp"
         android:layout_weight="1"
