@@ -73,12 +73,16 @@ FB.api(	'/search',	'GET',
 					
 					//합친 걸 체크인수로 다시 정렬
 					list.sort(checkinsSort);
+
 					// top 10 list 만들기
 					for(i=1; i<=10; i++) {
 						top_10_list[i] = list[i];
 
 						//console.log("#" +i +" = " +top_10_list[i].name);
 					}
+					console.log("************");
+					console.log(top_10_list);
+					console.log("************");
 					callback(list.length);
 					//var jsonInfo = JSON.stringify(list);
 				});
