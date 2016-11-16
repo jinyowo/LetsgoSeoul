@@ -38,7 +38,8 @@ import static com.example.test.letsgoseoul.R.id.listView;
 public class MainActivity extends AppCompatActivity {
     private ListView  mListView;
     private static ArrayList<String> hotPlace;
-    public GPSListener gpsListener = new GPSListener();
+    private GPSListener gpsListener = new GPSListener();
+    private LocationManager manager;
     private static String lat;
     private static String lon;
 
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         mListView = (ListView) findViewById(listView);
         hotPlace = new ArrayList<String>();
         //서울중심
-
         setSeoul();
         checkDangerousPermissions();
     }
@@ -58,9 +58,10 @@ public void onSeoulButtonClicked(View v) {    //서울중심
 };
 
     public void onNearButtonClicked(View v) {    //사용자위치 중심
+        manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         showSettingsAlert();     //설정창
         startLocationService();  //gps
-        if(lat!=null && lon != null) setNear();
+
         }
 
 
@@ -74,6 +75,7 @@ public void onSeoulButtonClicked(View v) {    //서울중심
     }
 
     public void setNear() {     //NEAR가 중심인 경우
+
         hotPlace.clear();
         hotPlace.add("니어");
         hotPlace.add("명동 ");
@@ -94,6 +96,10 @@ public void onSeoulButtonClicked(View v) {    //서울중심
                                           //position이 선택된 item의 순서
                                           intent.putExtra("SelectedPlace", position);   //test용
                                           //intent.putExtra("SelectedPlace", "");    여기다가 선택된 아이템의 db ID 텍스트로 뒤에 넣어주면 됌
+//                                          try{
+//                                              manager.removeUpdates(gpsListener);
+//                                          } catch(SecurityException ex) {
+//                                              ex.printStackTrace();}
                                           startActivity(intent);
                                           // Toast.makeText(MainActivity.this,"리스트클릭",Toast.LENGTH_LONG).show();
                                       }
@@ -173,7 +179,6 @@ public void onSeoulButtonClicked(View v) {    //서울중심
         }
     }
     private void startLocationService() {
-        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         //GPSListener gpsListener = new GPSListener();
         long minTime = 1000;
@@ -215,12 +220,16 @@ public void onSeoulButtonClicked(View v) {    //서울중심
         public void onLocationChanged(Location location) {
             double latitude = location.getLatitude();
             double longitude  = location.getLongitude();
-            String msg = "Latitude : "+ lat+ "\nLongitude:"+ lon;
-           Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-
-            if(lat==null && lon == null) setNear();
             lat = Double.toString(latitude);
             lon = Double.toString(longitude);
+            String msg = "Latitude : "+ lat+ "\nLongitude:"+ lon;
+            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+            try {
+                manager.removeUpdates(gpsListener);
+            } catch(SecurityException ex) {
+                ex.printStackTrace();
+            }
+            setNear();
         }
         public void onProviderDisabled(String provider) {
         }

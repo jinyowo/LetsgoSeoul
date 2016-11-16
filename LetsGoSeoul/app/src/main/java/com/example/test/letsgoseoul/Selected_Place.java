@@ -57,7 +57,6 @@ public class Selected_Place extends FragmentActivity implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         ///받아온 getPlaceId이용해 좌표 넣어줄 위치
         LatLng placePoint= new LatLng(37.560891, 126.985246);
         mMap.addMarker(new MarkerOptions().position(placePoint).title("Marker"));

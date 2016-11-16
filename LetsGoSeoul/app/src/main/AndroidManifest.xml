@@ -43,6 +43,7 @@
             android:label="LetsGoSeoul">
         </activity>
         <activity android:name=".RestaurantList"></activity>
+        <activity android:name=".Selected_Restaurant"></activity>
     </application>
 
 </manifest>

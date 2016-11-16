@@ -75,9 +75,11 @@ public class RestaurantList extends Activity {
             textView.setText(info.activityInfo.loadLabel(pm).toString());
             imageView.setOnClickListener(new Button.OnClickListener() {
                                              public void onClick(View v) {
-                                                 Intent intent = new Intent(Intent.ACTION_RUN);
-                                                 intent.setComponent(new ComponentName(info.activityInfo.packageName, info.activityInfo.name));
-                                                 act.startActivity(intent);
+                                                 Intent intent = new Intent(RestaurantList.this, Selected_Restaurant.class);
+                                                 //position이 선택된 item의 순서
+                                                 intent.putExtra("SelectedPlace", "num");   //test용
+                                                 //intent.putExtra("SelectedPlace", "");    여기다가 선택된 아이템의 db ID 텍스트로 뒤에 넣어주면 됌
+                                                 startActivity(intent);
                                              }
                                          }
             );
