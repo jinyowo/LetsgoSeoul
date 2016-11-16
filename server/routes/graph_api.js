@@ -70,10 +70,10 @@ FB.api(	'/search',	'GET',
 
 					// 같은 위치 합치기
 					mergeSameLocation(list);
+					
+					//합친 걸 체크인수로 다시 정렬
 					list.sort(checkinsSort);
 
-					//console.log(list);
-					//console.log("************");
 					// top 10 list 만들기
 					for(i=1; i<=10; i++) {
 						top_10_list[i] = list[i];
@@ -89,187 +89,85 @@ FB.api(	'/search',	'GET',
 }
 //쓸모없는 데이터를 수동으로 삭제해줌
 function removeFaultData(list) {
-	for (i = 0; i < list.length; i++) {
-		if (list[i].name.indexOf("Hotel") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("hotel") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name
-				.indexOf("រាងកាយខ្ញុំគឺអាចសើចបានតែមិនប្រាកដថាចិត្តខ្ញុំសើចដែរនោះទេ") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name
-				.indexOf("រដូវបុណ្យភ្ជុំកូននឹកពុកម៉ែណាស់") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("Hyatt") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("조선") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("콘래드") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("팰리스") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("SK텔레콤") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("Kimchicrew") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("Nami") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("Ritz-Carlton") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("Hospital") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("Hilton") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("호텔") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("Incheon") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("COEX") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("orld") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("Station") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("Parnas") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("몰") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("Ellui") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("Pullman") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("Jeju") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("Novotel") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("Fish") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
-		if (list[i].name.indexOf("Central") !== -1) {
-			list.splice(i, 1);
-			i--;
-			continue;
-		}
+
+	var removeWord = [
+         "រាងកាយខ្ញុំគឺអាចសើចបានតែមិនប្រាកដថាចិត្តខ្ញុំសើចដែរនោះទេ",
+         "ประเทศเกาหลีใ", "រដូវបុណ្យភ្ជុំកូននឹកពុកម៉ែណា", "Hotel", "hotel",
+         "캐리", "Hyatt", "조선", "콘래드", "팰리스", "COEX", "orld", "Station",
+         "Jeju", "Novotel", "Central", "SK텔레콤", "Kimchicrew", "Nami",
+         "Ritz-Carlton", "Hospital", "Hilton", "호텔", "Incheon", "Parnas",
+         "몰", "Ellui", "Pullman", "Fish" ];
+
+   //removeWord 포함되면 지움 
+   for (i = 0; i < list.length; i++) {
+      for (j = 0; j < list.length; j++) {
+         if (list[i].name.indexOf(removeWord[j]) !== -1) {
+            list.splice(i, 1);
+            i--;
+         }
+      }
+      
+      //그냥 Korea라고 나오는거
+      if (list[i].lat == 38.316666666667) {
+         list.splice(i, 1);
+         i--;
+      }
 	}
 }
 
 //같은 장소 합치기
 function mergeSameLocation(list) {
-for (i = 1; i < list.length; i++) {
-	var pivo = list[i];
-	for (var j = i + 1; j < list.length; j++) {
-		if ((pivo.lat > list[j].lat) && (pivo.lng > list[j].lng)) {
-			if ((pivo.lat - list[j].lat <= 0.005) && (pivo.lng - list[j].lng) <= 0.005) {
-				pivo.checkins += list[j].checkins;
-				list.splice(j,1);
-				j--;
-				continue;
-			}
-		}
-		if ((pivo.lat > list[j].lat) && (pivo.lng < list[j].lng)) {
-			if ((pivo.lat - list[j].lat <= 0.005) && (list[j].lng - pivo.lng) <= 0.005) {
-				pivo.checkins += list[j].checkins;
-				list.splice(j,1);
-				j--;
-				continue;
-			}
-		}
-		if ((pivo.lat < list[j].lat) && (pivo.lng > list[j].lng)) {
-			if ((list[j].lat - pivo.lat <= 0.005) && (pivo.lng - list[j].lng) <= 0.005) {
-				pivo.checkins += list[j].checkins;
-				list.splice(j,1);
-				j--;
-				continue;
-			}
-		}
-		if ((pivo.lat < list[j].lat) && (pivo.lng < list[j].lng)) {
-			if ((list[j].lat - pivo.lat <= 0.005) && (list[j].lng - pivo.lng) <= 0.005) {
-				pivo.checkins += list[j].checkins;
-				list.splice(j,1);
-				j--;
-				continue;
-			}
-		}
-	}
+
+	for (i = 1; i < list.length; i++) {
+      var pivo = list[i];
+      for (var j = i + 1; j < list.length; j++) {
+         if ((Math.abs(list[j].lat - pivo.lat) <= 0.005)
+               && (Math.abs(list[j].lng - pivo.lng) <= 0.005)) {
+            pivo.checkins += list[j].checkins;
+            list.splice(j, 1);
+            j--;
+         }
+      }
+   }
 }
-}
+
+// for (i = 1; i < list.length; i++) {
+// 	var pivo = list[i];
+// 	for (var j = i + 1; j < list.length; j++) {
+// 		if ((pivo.lat > list[j].lat) && (pivo.lng > list[j].lng)) {
+// 			if ((pivo.lat - list[j].lat <= 0.005) && (pivo.lng - list[j].lng) <= 0.005) {
+// 				pivo.checkins += list[j].checkins;
+// 				list.splice(j,1);
+// 				j--;
+// 				continue;
+// 			}
+// 		}
+// 		if ((pivo.lat > list[j].lat) && (pivo.lng < list[j].lng)) {
+// 			if ((pivo.lat - list[j].lat <= 0.005) && (list[j].lng - pivo.lng) <= 0.005) {
+// 				pivo.checkins += list[j].checkins;
+// 				list.splice(j,1);
+// 				j--;
+// 				continue;
+// 			}
+// 		}
+// 		if ((pivo.lat < list[j].lat) && (pivo.lng > list[j].lng)) {
+// 			if ((list[j].lat - pivo.lat <= 0.005) && (pivo.lng - list[j].lng) <= 0.005) {
+// 				pivo.checkins += list[j].checkins;
+// 				list.splice(j,1);
+// 				j--;
+// 				continue;
+// 			}
+// 		}
+// 		if ((pivo.lat < list[j].lat) && (pivo.lng < list[j].lng)) {
+// 			if ((list[j].lat - pivo.lat <= 0.005) && (list[j].lng - pivo.lng) <= 0.005) {
+// 				pivo.checkins += list[j].checkins;
+// 				list.splice(j,1);
+// 				j--;
+// 				continue;
+// 			}
+// 		}
+// 	}
+// }
 
 module.exports.list = list;
 module.exports.top_10_list = top_10_list;
