@@ -5,7 +5,7 @@
 
 var index= function(req, res) {
 	console.log('user 모듈 안에 있는 adduser 호출됨.');
-	
+
 	res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
 	res.write('<h1>Node.js Server</h1>');
 	res.write('<div><h2>Page Inforomation</h2></div>');
@@ -13,6 +13,7 @@ var index= function(req, res) {
 	res.write("<br><a href='/public/login.html'>Login.</a>");
 	res.write("<br><a href='/public/listuser.html'>Show user list.</a>");
 	res.write("<br><a href='/public/facebook.html'>Add location & Show location list.</a></div>");
+	res.write("<br><a href='/public/tour.html'>Tour api.</a></div>");
 	res.end();
 
 };

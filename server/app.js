@@ -6,6 +6,7 @@ var express = require('express')
 
 var database = require('./database/database');
 var graph_api = require('./routes/graph_api');
+var tour_api = require('./routes/tour_api');
 
 var user = require('./routes/user');
 var route_loader = require('./routes/route_loader');
@@ -72,9 +73,8 @@ http.createServer(app).listen(app.get('port'), function(){
 
 	// 데이터베이스 연결
 	graph_api.init(app, config);
+  tour_api.init(app, config);
 	database.init(app, config);
-	
-	
-	
-});
 
+
+});
