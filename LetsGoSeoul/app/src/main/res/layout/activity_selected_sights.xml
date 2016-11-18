@@ -25,7 +25,7 @@
         android:id="@+id/textView" />
 
     <TextView
-        android:text="Phone Number"
+        android:text="Infomation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView2" />

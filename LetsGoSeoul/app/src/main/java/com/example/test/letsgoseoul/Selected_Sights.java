@@ -28,6 +28,11 @@ import java.util.List;
 
 public class Selected_Sights extends FragmentActivity implements OnMapReadyCallback{
     private GoogleMap mMap;
+    private double lat;   //위도
+    private double lng;   //경도
+    private TextView placeName;
+    private TextView infomation;
+    private TextView address;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_restaurant);
@@ -36,6 +41,14 @@ public class Selected_Sights extends FragmentActivity implements OnMapReadyCallb
 
         //getPlaceId가 잘 넘어왔나 확인
         Toast.makeText(Selected_Sights.this,"placId "+getPlaceId, Toast.LENGTH_LONG).show();
+
+        placeName = (TextView)findViewById(R.id.Name);
+        placeName.setText("NAME : "+ "전주비빔밥");
+        infomation= (TextView)findViewById(R.id.PhoneNumber);
+        infomation.setText("INFOMATION : "+"02-231-2654");
+        address = (TextView)findViewById(R.id.Address);
+        address.setText("ADDRESS : "+"서울 서울시 중구 명동 1254-2번지");
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
