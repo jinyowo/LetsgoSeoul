@@ -159,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
                                       public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                                           final Intent intent = new Intent(MainActivity.this, Selected_Place.class);
                                           //position이 선택된 item의 순서
-                                          intent.putExtra("SelectedPlace", position);   //test용
                                           StringRequest request = new StringRequest(Request.Method.POST, url,
                                                   new Response.Listener<String>() {
                                                       public void onResponse(String response) {

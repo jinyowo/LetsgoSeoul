@@ -15,33 +15,37 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:gravity="center"
         app:srcCompat="@color/cast_expanded_controller_ad_label_background_color"
-        android:id="@+id/imageView" />
+        android:id="@+id/imageView"
+        android:src="@drawable/food1"
+        android:layout_marginTop="21dp"
+    />
 
     <TextView
         android:text="Restaurant Name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView" />
+        android:layout_height="30dp"
+        android:id="@+id/Name" />
 
     <TextView
         android:text="Phone Number"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2" />
+        android:layout_height="30dp"
+        android:id="@+id/PhoneNumber" />
 
     <TextView
         android:text="Address"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView3" />
+        android:layout_height="30dp"
+        android:id="@+id/Address" />
 
     <fragment
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         class="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_marginTop="21dp"
+        android:layout_marginBottom="21dp"
         />
 
 </LinearLayout>

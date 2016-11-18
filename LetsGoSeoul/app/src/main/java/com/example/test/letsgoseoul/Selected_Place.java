@@ -33,7 +33,7 @@ public class Selected_Place extends FragmentActivity implements OnMapReadyCallba
 
         Intent intent = new Intent(this.getIntent());
         //String getPlaceId = intent.getExtras().getString("SelectedPlace");   //넘어온 선택된 아이템 ID
-        getPlaceId = intent.getExtras().getInt("SelectedPlace");   //넘어온 test용 ID
+        // getPlaceId = intent.getExtras().getInt("SelectedPlace");   //넘어온 test용 ID
 
         lat = intent.getExtras().getDouble("lat");
         lng = intent.getExtras().getDouble("lng");
@@ -47,10 +47,9 @@ public class Selected_Place extends FragmentActivity implements OnMapReadyCallba
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
         placeName = (TextView)findViewById(R.id.placeName);     //선택된 장소의 이름 입력하는 곳
         placeName.setText(name);
-      textview = (TextView)findViewById(R.id.placeText);     //상세정보 넣는 곳
+        textview = (TextView)findViewById(R.id.placeText);     //상세정보 넣는 곳
        String text = "명동은 대한민국 서울특별시 중구에 있는 번화가이자, 지역 이름이다. 명동1가와 명동2가를 합친 면적은 0.91 ㎢이다. 명동1·2가, 충무로1·2가, 을지로1·2가 등을 포함하는 지역이다.";
         textview.setText(text);
 
@@ -78,10 +77,16 @@ public class Selected_Place extends FragmentActivity implements OnMapReadyCallba
 
 public void onRestaurantButtonClicked(View v){
     Intent intent = new Intent(getApplicationContext(),RestaurantList.class);
+    intent.putExtra("lat", lat);
+    intent.putExtra("lng", lng);
+    intent.putExtra("bottonOption", "restaurant");
     startActivity(intent);
 }
     public void onSightsButtonClicked(View v){
         Intent intent = new Intent(getApplicationContext(),RestaurantList.class);
+        intent.putExtra("lat", lat);
+        intent.putExtra("lng", lng);
+        intent.putExtra("bottonOption", "sights");
         startActivity(intent);
     }
 }
