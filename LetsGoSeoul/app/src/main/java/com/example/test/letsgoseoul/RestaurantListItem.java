@@ -7,11 +7,11 @@ public class RestaurantListItem extends Activity {
 
     private Bitmap mIcon;
     private String mData;
-    private String mId;
+    private int mId;
     private String mUrl;
     private boolean mSelectable = true;
 
-    public RestaurantListItem(Bitmap pic, String name,String id,String url){
+    public RestaurantListItem(Bitmap pic, String name,int id,String url){
         mIcon = pic;
         mData = name;
         mId = id;
@@ -30,7 +30,7 @@ public class RestaurantListItem extends Activity {
     public Bitmap getIcon() {
         return mIcon;
     }
-    public String getId() {return mId;}
+    public int getId() {return mId;}
     public String getUrl() {return mUrl;}
     public void setData(String obj) {
         mData = obj;

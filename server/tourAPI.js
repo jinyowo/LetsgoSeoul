@@ -22,7 +22,7 @@
 // var url = 'http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?'
 //        + 'ServiceKey=' + myKey
 //        + '&contentTypeId=' + contentTypeId
-//        + '&mapX=' + lat + '&mapY=' + lng
+//        + '&mapX=' + lat + '&mapY=' + lkmkmng
 //        + '&radius=' + radius
 //        + '&numOfRows=' + countFood
 //        + '&listYN=Y&arrange=E&MobileOS=' + mobileOS
