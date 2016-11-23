@@ -8,17 +8,22 @@ var myKey = 'ePhJZR2dULEVHAoBvgtMSpN3z2MkXbwTIbpAM9QaOjYDxnvPovwx9ygEPKh5SrPm33y
 
 // 주변 범위
 var radius = '1000';
+
 // 모바일OS 안드로이드:AND
 var mobileOS = 'AND';
+
 // 어플 이름
 var appName = 'letsgoseoul';
-// 불러온 데이터 갯수
-var countFood = '20';
 
-//장소 리스트
+// 불러온 데이터 갯수
+var numOfData = '20';
+
+// 위도경도
+var myLat, myLng;
+
+// 장소 리스트
 var foodList = new Array();
 var placeList = new Array();
-var myLat, myLng;
 
 //데이터베이스 객체, 스키마 객체, 모델 객체를 이 모듈에서 사용할 수 있도록 전달함
 var init = function(app, config, lat, lng) {
@@ -33,7 +38,8 @@ var init = function(app, config, lat, lng) {
                 //tour.addFoodList();
                 //tour.addPlaceList();
         });
-}
+};
+
 //food, place list 가져오기
 var getFoodList = function(lat, lng, callback) {
 	// 불러올 데이터 종류, 음식점:39, 관광지:12
@@ -42,14 +48,14 @@ var getFoodList = function(lat, lng, callback) {
 	var url = 'http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?' +
 			'ServiceKey=' + myKey +
 			'&contentTypeId=' + contentTypeId +
-			'&mapX=' + lat + '&mapY=' + lng +
+			'&mapX=' + lng + '&mapY=' + lat +
 			'&radius=' + radius +
-			'&numOfRows=' + countFood +
+			'&numOfRows=' + numOfData +
 			'&listYN=Y&arrange=E&MobileOS=' + mobileOS +
 			'&MobileApp=' + appName + '&over&_type=json';
-
 	console.log(url);
-	//// url에서 정보 가져오기
+
+	// url에서 정보 가져오기
 	request(url, function(error, response, body) {
         foodList.length = 0;
 			if (!error && response.statusCode === 200) {
@@ -71,6 +77,7 @@ var getFoodList = function(lat, lng, callback) {
 						tmp.contentid = bodyObject.response.body.items.item[i].contentid;
 						tmp.lng = bodyObject.response.body.items.item[i].mapx;
 						tmp.lat = bodyObject.response.body.items.item[i].mapy;
+                        tmp.image = bodyObject.response.body.items.item[i].firstimage;
 
 						// 음식 리스트에 추가
 						foodList.push(tmp);
@@ -79,8 +86,7 @@ var getFoodList = function(lat, lng, callback) {
 
 						//console.log(bodyObject.response.body.items.item[i]);
 					}
-					 console.log(foodList);
-
+                    console.log(foodList);
 
                     callback(null, foodList);
                     // console.log(bodyObject.response.body.items.item[5]);
@@ -91,9 +97,69 @@ var getFoodList = function(lat, lng, callback) {
 			}
 	});
 
-}
+};
+
+var getPlaceList = function(lat, lng, callback) {
+    // 불러올 데이터 종류, 음식점:39, 관광지:12
+    var contentTypeId = '12';
+    // 접근할 url 생성
+    var url = 'http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?' +
+        'ServiceKey=' + myKey +
+        '&contentTypeId=' + contentTypeId +
+        '&mapX=' + lng + '&mapY=' + lat +
+        '&radius=' + radius +
+        '&numOfRows=' + numOfData +
+        '&listYN=Y&arrange=E&MobileOS=' + mobileOS +
+        '&MobileApp=' + appName + '&over&_type=json';
+
+    console.log(url);
+
+    // url에서 정보 가져오기
+    request(url, function(error, response, body) {
+        placeList.length = 0;
+        if (!error && response.statusCode === 200) {
+            var bodyObject = JSON.parse(body);
+            console.log("bodyObject = " + bodyObject);
+
+            if(bodyObject.response.header.resultCode == 0000) {
+                var numOfItems = bodyObject.response.body.items.item.length;
+                console.log("num of Items = " + numOfItems);
+
+                for (var i = 0; i < numOfItems; i++) {
+                    // 각각의 데이터(object)
+                    var tmp = new Object();
+                    console.log(i + "번째 아이템");
+                    // console.log(JSON.stringify(bodyObject));
+                    // bodyObject들의 정보
+                    tmp.name = bodyObject.response.body.items.item[i].title;
+                    tmp.contentid = bodyObject.response.body.items.item[i].contentid;
+                    tmp.lng = bodyObject.response.body.items.item[i].mapx;
+                    tmp.lat = bodyObject.response.body.items.item[i].mapy;
+                    tmp.image = bodyObject.response.body.items.item[i].firstimage;
+
+                    //대표 이미지가 없는 경우
+                    if(bodyObject.response.body.items.item[i].firstimage == null)
+                        tmp.image = 'http://tong.visitkorea.or.kr/cms/resource/24/1717724_image2_1.jpg';
+                    // 음식 리스트에 추가
+                    placeList.push(tmp);
+                    //console.log("title: " + bodyObject.response.body.items.item[i].title + ", tel: " + bodyObject.response.body.items.item[i].tel + ", contentID " + bodyObject.response.body.items.item[i].contentid);
+                    //console.log(bodyObject.response.body.items.item[i]);
+                }
+                console.log(placeList);
+
+                callback(null, placeList);
+                // console.log(bodyObject.response.body.items.item[5]);
+            }
+            else {
+                console.log(bodyObject.response.header.resultMsg);
+            }
+        }
+    });
+
+};
 
 module.exports.init = init;
 module.exports.getFoodList = getFoodList;
+module.exports.getPlaceList = getPlaceList;
 module.exports.foodList = foodList;
 module.exports.placeList = placeList;

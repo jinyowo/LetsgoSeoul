@@ -101,7 +101,7 @@
 // tmp.tel = obj.response.body.items.item[i].tel;
 // tmp.contentid = obj.response.body.items.item[i].contentid;
 // tmp.lng = obj.response.body.items.item[i].mapx;
-// tmp.lat = obj.response.body.items.item[i].mapy;
+// tmp.lat = obj.responseody.items.item[i].mapy;
 //
 // // 관광지 리스트에 추가
 // spot_list.push(tmp);

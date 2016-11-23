@@ -10,10 +10,10 @@
 <script type="text/javascript">
     function mySubmit(index) {
         if (index == 1) {
-            document.myForm.action='/tourapi/inputlocation';
+            document.myForm.action='/tourapi/foodlist';
         }
         if (index == 2) {
-            document.myForm.action='/tourapi/place';
+            document.myForm.action='/tourapi/placelist';
         }
         document.myForm.submit();
     }
@@ -30,31 +30,8 @@
             <td><input type="text" name="lng" /></td>
         </tr>
     </table>
-    <input type="button" value="버튼1" onclick='mySubmit(1)' />
-    <input type="button" value="버튼2" onclick='mySubmit(2)' />
+    <input type="button" value="음식" onclick='mySubmit(1)' />
+    <input type="button" value="명소" onclick='mySubmit(2)' />
 </form>
-<!--<form method="post" action="/tourapi/inputlocation">-->
-    <!--<table>-->
-        <!--<tr>-->
-            <!--<td><label>위도</label></td>-->
-            <!--<td><input type="text" name="lat" /></td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-            <!--<td><label>경도</label></td>-->
-            <!--<td><input type="text" name="lng" /></td>-->
-        <!--</tr>-->
-    <!--</table>-->
-    <!--<input type="submit" value="전송" name="" />-->
-<!--</form>-->
-
-<!--<h1>리스트</h1>-->
-<!--<br>-->
-<!--<form method="post" action="/tourapi/food">-->
-	<!--<input type="submit" value="음식점" name="" />-->
-<!--</form>-->
-<!--<br>-->
-<!--<form method="post" action="/tourapi/place">-->
-	<!--<input type="submit" value="명소" name="" />-->
-<!--</form>-->
 </body>
 </html>

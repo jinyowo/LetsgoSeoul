@@ -20,8 +20,8 @@ module.exports = {
 	    //{file:'./facebook', path:'/facebook/addlocation', method:'addlocation', type:'post'},	// facebook.addlocation
 	    {file:'./facebook', path:'/facebook/listlocation', method:'listlocation', type:'post'},	// facebook.listlocation
 		//===== tour api =====//
-		{file:'./tour', path:'/tourapi/inputlocation', method:'inputLocation', type:'post'},	// tour.listfood
-		{file:'./tour', path:'/tourapi/place', method:'place', type:'post'}	// tour.listfood
+		{file:'./tour', path:'/tourapi/foodlist', method:'foodlist', type:'post'},	// tour.listfood
+		{file:'./tour', path:'/tourapi/placelist', method:'placelist', type:'post'}	// tour.listfood
 		//{file:'./tour', path:'/tourapi/place', method:'printPlaceList', type:'post'}	// tour.listplace
 	    ]
 }
