@@ -22,19 +22,19 @@
         android:text="Restaurant Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView" />
+        android:id="@+id/Name" />
 
     <TextView
         android:text="Infomation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView2" />
+        android:id="@+id/Infomation" />
 
     <TextView
         android:text="Address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3" />
+        android:id="@+id/Address" />
 
     <fragment
         android:id="@+id/map"

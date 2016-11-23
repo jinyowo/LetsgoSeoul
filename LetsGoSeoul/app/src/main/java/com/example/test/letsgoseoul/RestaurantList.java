@@ -1,5 +1,6 @@
 package com.example.test.letsgoseoul;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -36,18 +37,19 @@ import java.util.logging.LogRecord;
 
 public class RestaurantList extends Activity {
 
-  // Handler handler = new Handler();  url->bitmap
+    // Handler handler = new Handler();  url->bitmap
     //  Activity act = this;
     GridView gridView;
     gridAdapter adapter;
     private double lat;   //위도
     private double lng;   //경도
     private String buttonOption;
+    private static Bitmap bm;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_list);
-
         Intent intent = new Intent(this.getIntent());
         lat = intent.getExtras().getDouble("lat");
         lng = intent.getExtras().getDouble("lng");
@@ -55,34 +57,34 @@ public class RestaurantList extends Activity {
         adapter = new gridAdapter(this);
 
         buttonOption = intent.getStringExtra("buttonOption");
-        if(buttonOption=="restaurant")  //레스토랑일 경우
+        if (buttonOption.equals("restaurant"))  //레스토랑일 경우
         {
-              //for 문을 통해 서버에서 하나씩 받아온다
-        }
-        else  //sights 일 경우
+            //for 문을 통해 서버에서 하나씩 받아온다
+            getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","바다","id1");
+            getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","들","id2");
+        } else  //sights 일 경우
         {
+            getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","바다","id3");
+            getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","들","id4");
         }
-        //Bitmap bm1 = getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg");
-        Bitmap bm1 = BitmapFactory.decodeResource(getResources(), R.drawable.food1);
-        Bitmap bm2 = BitmapFactory.decodeResource(getResources(), R.drawable.food2);
-        Bitmap bm3 = BitmapFactory.decodeResource(getResources(), R.drawable.food3);
-        Bitmap bm4 = BitmapFactory.decodeResource(getResources(), R.drawable.food4);
-        Bitmap bm5 = BitmapFactory.decodeResource(getResources(), R.drawable.food5);
-        Bitmap bm6 = BitmapFactory.decodeResource(getResources(), R.drawable.food6);
-        adapter.addItem(new RestaurantListItem(bm1, "1"));
-        adapter.addItem(new RestaurantListItem(bm2, "2"));
-        adapter.addItem(new RestaurantListItem(bm3, "3"));
-        adapter.addItem(new RestaurantListItem(bm4, "4"));
-        adapter.addItem(new RestaurantListItem(bm5, "5"));
-        adapter.addItem(new RestaurantListItem(bm6, "6"));
 
 
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(RestaurantList.this, Selected_Restaurant.class);
-                intent.putExtra("SelectedRestaurant", position);   //test용
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {     //item 선택했을때
+                Intent intent;
+                if (buttonOption.equals("restaurant"))  //레스토랑일 경우
+                {
+                    intent = new Intent(RestaurantList.this, Selected_Restaurant.class);    //레스토랑 일 경우
+                }
+                else
+                {
+                    intent = new Intent(RestaurantList.this, Selected_Sights.class);   //명소일 경우
+                }
+                intent.putExtra("Selected", adapter.getItem(position).getId());   //선택된 곳 id 넘겨주기
+                intent.putExtra("SelectedUrl", adapter.getItem(position).getUrl());   //선택된 곳 url 넘겨주기
+                Toast.makeText(RestaurantList.this,adapter.getItem(position).getId(),Toast.LENGTH_LONG).show();
                 startActivity(intent);
             }
         });
@@ -108,7 +110,7 @@ public class RestaurantList extends Activity {
             return mItems.size();
         }
 
-        public Object getItem(int position) {
+        public RestaurantListItem getItem(int position) {
             return mItems.get(position);
         }
 
@@ -133,7 +135,7 @@ public class RestaurantList extends Activity {
             if (convertView == null) {
                 itemView = new RestaurantListView(mContext, mItems.get(position));
             } else {
-                itemView = ( RestaurantListView) convertView;
+                itemView = (RestaurantListView) convertView;
                 itemView.setIcon(mItems.get(position).getIcon());
                 itemView.setText(mItems.get(position).getData());
             }
@@ -141,30 +143,34 @@ public class RestaurantList extends Activity {
         }
     }
 
-    private Bitmap getBitmap(String url) {
-        URL imgUrl = null;
-        HttpURLConnection connection = null;
-        InputStream is = null;
-        Bitmap retBitmap = null;
-        try{
-            imgUrl = new URL(url);
-            connection = (HttpURLConnection) imgUrl.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            is = connection.getInputStream();
-            retBitmap = BitmapFactory.decodeStream(is);
-        }catch(Exception e) {
-            e.printStackTrace();
-            return null;
-        }finally {
-            if(connection!=null) {
-                connection.disconnect();
+    public void getBitmap(String imgUrl,String imgName,String id) {
+       final String urlImg =imgUrl;
+        final String urlName =imgName;
+        final String urlId =id;
+        Thread mTread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    URL imgUrlTest = new URL(urlImg);
+                    HttpURLConnection connection = (HttpURLConnection) imgUrlTest.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream is = connection.getInputStream();
+                    bm = BitmapFactory.decodeStream(is);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            return retBitmap;
+        };
+        mTread.start();
+        try {
+            mTread.join();
+            adapter.addItem(new RestaurantListItem(bm, urlName, urlId,urlImg));
+        } catch (InterruptedException e) {
         }
     }
-
 }
+
 
 
 

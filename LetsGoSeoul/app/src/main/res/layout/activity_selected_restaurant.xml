@@ -18,7 +18,6 @@
         android:gravity="center"
         app:srcCompat="@color/cast_expanded_controller_ad_label_background_color"
         android:id="@+id/imageView"
-        android:src="@drawable/food1"
         android:layout_marginTop="21dp"
     />
 

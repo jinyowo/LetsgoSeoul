@@ -79,14 +79,14 @@ public void onRestaurantButtonClicked(View v){
     Intent intent = new Intent(getApplicationContext(),RestaurantList.class);
     intent.putExtra("lat", lat);
     intent.putExtra("lng", lng);
-    intent.putExtra("bottonOption", "restaurant");
+    intent.putExtra("buttonOption", "restaurant");
     startActivity(intent);
 }
     public void onSightsButtonClicked(View v){
         Intent intent = new Intent(getApplicationContext(),RestaurantList.class);
         intent.putExtra("lat", lat);
         intent.putExtra("lng", lng);
-        intent.putExtra("bottonOption", "sights");
+        intent.putExtra("buttonOption", "sights");
         startActivity(intent);
     }
 }
