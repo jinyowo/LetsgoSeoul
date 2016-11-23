@@ -12,9 +12,7 @@ Schema.createSchema = function(mongoose) {
 	var TourSchma = mongoose.Schema({
 	    id: {type: Number, required: true},
 	    name: {type: String, index: 'hashed'},
-	    lat: {type: Number, 'default': -1},
-	    lng: {type: Number, 'default': -1},
-      image: {type: String, 'default': 'image'}
+      	image: {type: String, 'default': 'image'}
 	});
 
 	// 스키마에 static 메소드 추가

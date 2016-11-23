@@ -73,8 +73,6 @@ http.createServer(app).listen(app.get('port'), function(){
 
 	// 데이터베이스 연결
 	graph_api.init(app, config);
-  tour_api.init(app, config);
+	//tour_api.init(app, config, 126.981611, 37.568477);
 	database.init(app, config);
-
-
 });

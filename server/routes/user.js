@@ -62,12 +62,12 @@ var login = function(req, res) {
 
 var adduser = function(req, res) {
 	console.log('user 모듈 안에 있는 adduser 호출됨.');
-	
-	
+
+
 	var paramId = req.param('id');
 	var paramPassword = req.param('password');
 	var paramName = req.param('name');
-	
+
 	if (database) {
 		addUser(database, paramId, paramPassword, paramName, function(err, result) {
 			if (err) {throw err;}
