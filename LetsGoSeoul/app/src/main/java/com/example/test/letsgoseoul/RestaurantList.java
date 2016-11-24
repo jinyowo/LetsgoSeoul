@@ -136,8 +136,63 @@ public class RestaurantList extends MainActivity {
             }
         } else  //sights 일 경우
         {
-            getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","바다",3);
-            getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","들",4);
+            final String url = placeUrl + forUrlData;
+            Log.v("url", url);
+            Thread mTread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        StringRequest request = new StringRequest(Request.Method.GET, url,
+                                new Response.Listener<String>() {
+                                    public void onResponse(String response) {
+                                        try {
+                                            //결과 값 출력
+                                            JSONArray jarr = new JSONArray(response);   // JSONArray 생성
+
+                                            for(int i=0; i < jarr.length(); i++){
+                                                JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
+                                                String image = jObject.getString("image");
+                                                String name = jObject.getString("name");
+                                                int id = jObject.getInt("contentid");
+
+                                                Log.v("list", id + " , " +  name);
+                                                getBitmap(image, name, id);
+                                                adapter.notifyDataSetChanged();
+                                                //getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","바다",1);
+                                            }
+
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    public void onErrorResponse(VolleyError error) {
+                                        error.printStackTrace();
+                                    }
+                                }
+                        ) {
+                            protected Map<String, String> getParams() {
+                                Map<String, String> params = new HashMap<>();
+
+                                return params;
+                            }
+                        };
+
+                        Volley.newRequestQueue(getApplicationContext()).add(request);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            mTread.start();
+            try{
+                mTread.join();
+                adapter.notifyDataSetChanged();
+            } catch (InterruptedException e) {
+
+            }
         }
 
 
