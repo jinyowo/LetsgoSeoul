@@ -77,7 +77,6 @@ public class RestaurantList extends Activity {
         {
             final String url = foodUrl + forUrlData;
             Log.v("url", url);
-
             Thread mTread = new Thread() {
                 @Override
                 public void run() {
@@ -89,7 +88,7 @@ public class RestaurantList extends Activity {
                                             //결과 값 출력
                                             JSONArray jarr = new JSONArray(response);   // JSONArray 생성
 
-                                            for(int i=0; i < 2; i++){
+                                            for(int i=0; i < jarr.length(); i++){
                                                 JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
                                                 String image = jObject.getString("image");
                                                 String name = jObject.getString("name");
@@ -97,7 +96,8 @@ public class RestaurantList extends Activity {
 
                                                 Log.v("list", id + " , " +  name);
                                                 getBitmap(image, name, id);
-                                                getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","바다",1);
+                                                adapter.notifyDataSetChanged();
+                                                //getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","바다",1);
                                             }
 
                                         } catch (Exception e) {
@@ -119,55 +119,19 @@ public class RestaurantList extends Activity {
                         };
 
                         Volley.newRequestQueue(getApplicationContext()).add(request);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             };
             mTread.start();
-            try {
+            try{
                 mTread.join();
-                //adapter.addItem(new RestaurantListItem(bm, urlName, urlId,urlImg));
+                adapter.notifyDataSetChanged();
             } catch (InterruptedException e) {
-            }
-//            StringRequest request = new StringRequest(Request.Method.GET, url,
-//                    new Response.Listener<String>() {
-//                        public void onResponse(String response) {
-//                            try {
-//                                //결과 값 출력
-//                                JSONArray jarr = new JSONArray(response);   // JSONArray 생성
-//
-//                                for(int i=0; i < 2; i++){
-//                                    JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
-//                                    String image = jObject.getString("image");
-//                                    String name = jObject.getString("name");
-//                                    int id = jObject.getInt("contentid");
-//
-//                                    Log.v("list", id + " , " +  name);
-//                                    getBitmap(image, name, id);
-//                                    getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","바다",1);
-//                                }
-//
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    },
-//                    new Response.ErrorListener() {
-//                        public void onErrorResponse(VolleyError error) {
-//                            error.printStackTrace();
-//                        }
-//                    }
-//            ) {
-//                protected Map<String, String> getParams() {
-//                    Map<String, String> params = new HashMap<>();
-//
-//                    return params;
-//                }
-//            };
-//
-//            Volley.newRequestQueue(this).add(request);
 
+            }
         } else  //sights 일 경우
         {
             getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","바다",3);
