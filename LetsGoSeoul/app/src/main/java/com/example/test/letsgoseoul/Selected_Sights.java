@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ import java.net.URL;
 import java.util.List;
 
 
-public class Selected_Sights extends FragmentActivity implements OnMapReadyCallback{
+public class Selected_Sights extends MainActivity implements OnMapReadyCallback{
     private GoogleMap mMap;
     private double lat;   //위도
     private double lng;   //경도
