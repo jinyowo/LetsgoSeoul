@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ import java.net.URL;
 import java.util.List;
 
 
-public class Selected_Restaurant extends FragmentActivity implements OnMapReadyCallback{
+public class Selected_Restaurant extends MainActivity implements OnMapReadyCallback{
     private GoogleMap mMap;
     private TextView placeName;
     private TextView phoneNumber;

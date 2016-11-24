@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -19,7 +20,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,8 +47,9 @@ import java.util.Map;
 import static android.provider.Settings.Secure.isLocationProviderEnabled;
 import static com.example.test.letsgoseoul.R.id.listView;
 public class MainActivity extends AppCompatActivity {
-    private ListView  mListView;
 
+    private ListView  mListView;
+    //GPS 정보를 받아올 Listener
     private GPSListener gpsListener = new GPSListener();
     private LocationManager manager;
 
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setTitle("Lets Go Seoul");
+        //getSupportActionBar().setBackgroundDrawable(new ColorDrawable());
+
         mListView = (ListView) findViewById(listView);
         hotPlace = new ArrayList<String>();
         //서울중심
@@ -76,15 +80,17 @@ public class MainActivity extends AppCompatActivity {
         setSeoul();
     }
 
-    public void onNearButtonClicked(View v) {    //사용자위치 중심
+    //사용자위치 중심
+    public void onNearButtonClicked(View v) {
         manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         showSettingsAlert();     //설정창
         startLocationService();  //gps
 
     }
 
-    public void setSeoul() {    //Seoul이 중심인 경우
-        hotPlace.clear();
+    //Seoul 기준
+    public void setSeoul() {
+        hotPlace.clear();           //이전 리스트 clear
         //통신
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -135,7 +141,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void setNear() {     //NEAR가 중심인 경우
+    //NEAR가 중심인 경우
+    public void setNear() {
 
         hotPlace.clear();
         hotPlace.add("니어");
@@ -150,6 +157,8 @@ public class MainActivity extends AppCompatActivity {
     private double seletedLat;
     private double seletedLng;
 
+
+    //리스트뷰 sorting
    public void startSort(ListView lv,ArrayList hotPlace) {
         ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_list_item, R.id.tv_hotPlace, hotPlace);
         lv.setTextFilterEnabled(true);
@@ -212,7 +221,9 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    private void checkDangerousPermissions() {     //gps 허가
+
+    //gps 허가
+    private void checkDangerousPermissions() {
         String[] permissions = {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
@@ -252,10 +263,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 위치 정보 확인을 위해 정의한 메소드
-     */
-
+    //gps 설정되어있지 않을 때 설정창 이동
     public void showSettingsAlert() {
 
         ContentResolver res = getContentResolver();
@@ -283,6 +291,8 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         }
     }
+
+    //gps 정보요청
     private void startLocationService() {
 
         //GPSListener gpsListener = new GPSListener();
@@ -319,9 +329,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private class GPSListener implements LocationListener {
-        /**
-         * 위치 정보가 확인될 때 자동 호출되는 메소드
-         */
+
+        //위치 정보가 확인될 때 자동 호출되는 메소드
         public void onLocationChanged(Location location) {
             double latitude = location.getLatitude();
             double longitude  = location.getLongitude();
@@ -346,50 +355,34 @@ public class MainActivity extends AppCompatActivity {
         public void onStatusChanged(String provider, int status, Bundle extras) {
         }
     }
-}
 
-
-    /*  사용자가 찾을 장소 설정
-    @Override
+    //액션바 메뉴 띄워주기
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem searchItem = menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setQueryHint("Search Hot Place");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                //검색버튼 클릭시
-                Intent intent = new Intent(getApplicationContext(),Selected_Place.class);
-                intent.putExtra("hotPlace",query);
-                startActivity(intent);
-                Toast.makeText(MainActivity.this, "[검색버튼클릭] 검색어 = "+query, Toast.LENGTH_LONG).show();
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //검색어 입력중
-                //Toast.makeText(MainActivity.this, "입력하고있는 단어 = "+newText, Toast.LENGTH_LONG).show();
-                return false;
-            }
-        });
-
         return true;
     }
+
+    //액션바 메뉴 선택
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int curId = item.getItemId();
+        Intent intent;
         switch (curId) {
-            case R.id.menu_search:
+            case R.id.near:
+               // intent = new Intent(MainActivity.this, Selected_Place.class);
+               // startActivity(intent);
+                break;
+            case R.id.home:
+//                intent = new Intent(this, MainActivity.class);
+//                startActivity(intent);
                 break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
-*/
+
+}
 
 

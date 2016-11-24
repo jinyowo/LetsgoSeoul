@@ -3,6 +3,9 @@ package com.example.test.letsgoseoul;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,7 +17,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class Selected_Place extends FragmentActivity implements OnMapReadyCallback {
+public class Selected_Place extends MainActivity implements OnMapReadyCallback{
     private int getPlaceId; //test
    // private String getPlaceId; //id
     private GoogleMap mMap;
@@ -89,4 +92,32 @@ public void onRestaurantButtonClicked(View v){
         intent.putExtra("buttonOption", "sights");
         startActivity(intent);
     }
+
+
+//    //액션바 메뉴 띄워주기
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        super.onCreateOptionsMenu(menu);
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
+//
+//    //액션바 메뉴 선택
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int curId = item.getItemId();
+//        Intent intent;
+//        switch (curId) {
+//            case R.id.near:
+//                // intent = new Intent(MainActivity.this, Selected_Place.class);
+//                // startActivity(intent);
+//                break;
+//            case R.id.home:
+////                intent = new Intent(this, MainActivity.class);
+////                startActivity(intent);
+//                break;
+//            default:
+//                break;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 }
