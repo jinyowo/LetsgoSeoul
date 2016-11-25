@@ -108,11 +108,10 @@ function removeFaultData(list) {
             }
         }
 
-        //그냥 Korea라고 나오는거
-        if (list[i].lat == 38.316666666667) {
-            list.splice(i, 1);
-            i--;
-        }
+        if(list[i].lat<35 || list[i].lat>38 || list[i].lng<123 || list[i].lng>128) {
+			list.splice(i, 1);
+			i--;
+		}
     }
 }
 
@@ -122,8 +121,8 @@ function mergeSameLocation(list) {
     for (i = 1; i < list.length; i++) {
         var pivo = list[i];
         for (var j = i + 1; j < list.length; j++) {
-            if ((Math.abs(list[j].lat - pivo.lat) <= 0.005) &&
-                (Math.abs(list[j].lng - pivo.lng) <= 0.005)) {
+            if ((Math.abs(list[j].lat - pivo.lat) <= 0.01) &&
+                (Math.abs(list[j].lng - pivo.lng) <= 0.01)) {
                 pivo.checkins += list[j].checkins;
                 list.splice(j, 1);
                 j--;
