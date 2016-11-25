@@ -68,21 +68,31 @@ var placelist = function(req, res) {
     });
 };
 
-var printFoodList = function(req, res) {
-	console.log('tour 모듈 안에 있는 printFoodList 호출됨.');
+var printDetail = function(req, res) {
+	console.log('tour 모듈 안에 있는 printDetail 호출됨.');
 
-			// if (foodList) {
-			// 	res.writeHead('200', {'Content-Type' : 'application/json, text/html; charset=utf8'});
-			// 	res.write(JSON.stringify(foodList));
-			// 	res.end();
-			// } else {
-			// 	res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-			// 	res.write('<h2>facebook 리스트 조회  실패</h2>');
-			// 	res.write("<br><br><a href='/'>Back to Main Page</a>");
-			// 	res.end();
-			// }
+    var paramID = req.param('contentid');
 
+    tour_api.getDetail(paramID, function(err, results) {
+        console.log('getDetail');
+        if (err) {
+            throw err;
+        }
+
+        if (results) {
+            res.writeHead('200', {'Content-Type': 'application/json, text/html;charset=utf8'});
+            res.write(JSON.stringify(results));
+            res.end();
+        }
+        else {
+            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+            res.write('<h2>데이터 불러오기 실패</h2>');
+            res.end();
+        }
+
+    });
 };
 
 module.exports.foodlist =  foodlist;
 module.exports.placelist = placelist;
+module.exports.printDetail = printDetail;
