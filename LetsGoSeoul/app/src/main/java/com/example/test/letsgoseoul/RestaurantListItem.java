@@ -9,13 +9,16 @@ public class RestaurantListItem extends Activity {
     private String mData;
     private int mId;
     private String mUrl;
+    private double mLat, mLng;
     private boolean mSelectable = true;
 
-    public RestaurantListItem(Bitmap pic, String name,int id,String url){
+    public RestaurantListItem(Bitmap pic, String name,int id,String url,double lat, double lng){
         mIcon = pic;
         mData = name;
         mId = id;
-        mUrl =url;
+        mUrl = url;
+        mLat = lat;
+        mLng = lng;
     }
 
     public boolean isSelectable() {
@@ -32,6 +35,8 @@ public class RestaurantListItem extends Activity {
     }
     public int getId() {return mId;}
     public String getUrl() {return mUrl;}
+    public double getmLat() {return mLat;}
+    public double getmLng() {return mLng;}
     public void setData(String obj) {
         mData = obj;
     }

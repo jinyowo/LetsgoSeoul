@@ -69,7 +69,10 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
         Intent intent = new Intent(this.getIntent());
         int getPlaceId = intent.getExtras().getInt("Selected");   //넘어온 선택된 아이템 ID
         String getPlaceUrl = intent.getExtras().getString("SelectedUrl");   //넘어온 선택된 아이템 ID
+        lat =intent.getExtras().getDouble("Lat");
+        lng =intent.getExtras().getDouble("Lng");
 
+        Toast.makeText(getBaseContext(),"tq lat "+lat+" lng"+lng,Toast.LENGTH_SHORT).show();
         placeNameForm = (TextView)findViewById(R.id.Name);
         addressForm = (TextView)findViewById(R.id.Address);
 
@@ -96,9 +99,6 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
 
                                         String tel = jObject.getString("tel");
                                         String homepage = jObject.getString("homepage");
-
-                                        lat = jObject.getDouble("lat");
-                                        lng = jObject.getDouble("lng");
 
                                         placeNameForm.setText(name);
                                         addressForm.setText(address);
@@ -155,6 +155,7 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         ///받아온 getPlaceId이용해 좌표 넣어줄 위치
+
         LatLng placePoint= new LatLng(lat, lng);
         mMap.addMarker(new MarkerOptions().position(placePoint).title("Marker"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(placePoint));

@@ -57,6 +57,8 @@ public class RestaurantList extends MenuBar {
     gridAdapter adapter;
     private double lat;   //위도
     private double lng;   //경도
+    private double resLat;
+    private double resLng;
     private String buttonOption;
     private static Bitmap bm;
 
@@ -95,9 +97,10 @@ public class RestaurantList extends MenuBar {
                                                 String image = jObject.getString("image");
                                                 String name = jObject.getString("name");
                                                 int id = jObject.getInt("contentid");
-
+                                                resLat = jObject.getDouble("lat");
+                                                resLng = jObject.getDouble("lng");
                                                 Log.v("list", id + " , " +  name);
-                                                getBitmap(image, name, id);
+                                                getBitmap(image, name, id,resLat,resLng);
                                                 adapter.notifyDataSetChanged();
                                                 //getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","바다",1);
                                             }
@@ -153,10 +156,13 @@ public class RestaurantList extends MenuBar {
                                                 JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
                                                 String image = jObject.getString("image");
                                                 String name = jObject.getString("name");
+
                                                 int id = jObject.getInt("contentid");
+                                                resLat = jObject.getDouble("lat");
+                                                resLng = jObject.getDouble("lng");
 
                                                 Log.v("list", id + " , " +  name);
-                                                getBitmap(image, name, id);
+                                                getBitmap(image, name, id,resLat,resLng);
                                                 adapter.notifyDataSetChanged();
                                                 //getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","바다",1);
                                             }
@@ -205,6 +211,8 @@ public class RestaurantList extends MenuBar {
 
                 intent.putExtra("Selected", adapter.getItem(position).getId());   //선택된 곳 id 넘겨주기
                 intent.putExtra("SelectedUrl", adapter.getItem(position).getUrl());   //선택된 곳 url 넘겨주기
+                intent.putExtra("Lat",adapter.getItem(position).getmLat());
+                intent.putExtra("Lng",adapter.getItem(position).getmLng());
                 //Toast.makeText(RestaurantList.this,adapter.getItem(position).getId(),Toast.LENGTH_LONG).show();
                 startActivity(intent);
             }
@@ -264,10 +272,12 @@ public class RestaurantList extends MenuBar {
         }
     }
 
-    public void getBitmap(String imgUrl,String imgName,int id) {
+    public void getBitmap(String imgUrl,String imgName,int id, double lat,double lng) {
        final String urlImg =imgUrl;
         final String urlName =imgName;
         final int urlId =id;
+        final double urlLat = lat;
+        final double urlLng = lng;
         Thread mTread = new Thread() {
             @Override
             public void run() {
@@ -286,7 +296,7 @@ public class RestaurantList extends MenuBar {
         mTread.start();
         try {
             mTread.join();
-            adapter.addItem(new RestaurantListItem(bm, urlName, urlId, urlImg));
+            adapter.addItem(new RestaurantListItem(bm, urlName, urlId, urlImg,urlLat,urlLng ));
         } catch (InterruptedException e) {
         }
     }
