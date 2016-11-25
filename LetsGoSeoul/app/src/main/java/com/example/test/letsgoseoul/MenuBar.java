@@ -56,7 +56,6 @@ public class MenuBar extends AppCompatActivity {
 
         //getSupportActionBar().setBackgroundDrawable(new ColorDrawable());
         //액션바 메뉴 띄워주기
-
         checkDangerousPermissions();
     }
 
@@ -74,10 +73,10 @@ public class MenuBar extends AppCompatActivity {
         Intent intent;
         switch (curId) {
             case R.id.near:
-                // intent = new Intent(MainActivity.this, Selected_Place.class);
-                // startActivity(intent);
-                manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                showSettingsAlert();     //설정창
+                manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);       //gps 확인
+                if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    showSettingsAlert();     //설정창
+                }
                 startLocationService();  //gps
                 break;
 
@@ -101,6 +100,7 @@ public class MenuBar extends AppCompatActivity {
         intent.putExtra("name", "My Location");
         intent.putExtra("myLocation", "yes" );
         //Toast.makeText(MainActivity.this,lat + " , " + lng,Toast.LENGTH_LONG).show();
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
 
     }
@@ -149,10 +149,6 @@ public class MenuBar extends AppCompatActivity {
     //gps 설정되어있지 않을 때 설정창 이동
     public void showSettingsAlert() {
 
-        ContentResolver res = getContentResolver();
-
-        boolean gpsEnabled = isLocationProviderEnabled(res, LocationManager.GPS_PROVIDER);
-        if (!gpsEnabled) {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder
                     .setTitle("GPS 사용유무셋팅")
@@ -173,12 +169,10 @@ public class MenuBar extends AppCompatActivity {
             AlertDialog dialog = alertDialogBuilder.create();
             dialog.show();
         }
-    }
 
     //gps 정보요청
     private void startLocationService() {
 
-        //GPSListener gpsListener = new GPSListener();
         long minTime = 1000;
         float minDistance = 0;
 
@@ -221,6 +215,7 @@ public class MenuBar extends AppCompatActivity {
             myLng = longitude;
              //String msg = "Latitude : "+ myLat+ "\nLongitude:"+ myLng;
             //Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+
             try {
                 manager.removeUpdates(gpsListener);
             } catch(SecurityException ex) {

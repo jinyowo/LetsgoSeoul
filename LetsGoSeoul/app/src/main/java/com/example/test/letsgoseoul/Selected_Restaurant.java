@@ -140,11 +140,13 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
         try{
             mTread.join();
             getBitmap(getPlaceUrl);
+        } catch (InterruptedException e) {
+
+        } finally
+        {
             SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
-        } catch (InterruptedException e) {
-
         }
         //getPlaceId가 잘 넘어왔나 확인
         Toast.makeText(Selected_Restaurant.this,"restaurant "+getPlaceId, Toast.LENGTH_LONG).show();
