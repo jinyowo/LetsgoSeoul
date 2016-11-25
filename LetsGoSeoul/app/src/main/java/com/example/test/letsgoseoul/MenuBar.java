@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -53,8 +54,9 @@ public class MenuBar extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("Lets Go Seoul");
-
+        ActionBar actionBar = getSupportActionBar();
+       // getSupportActionBar().setTitle("Lets Go Seoul");
+        actionBar.setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setBackgroundDrawable(new ColorDrawable());
         //액션바 메뉴 띄워주기
         checkDangerousPermissions();
@@ -81,11 +83,16 @@ public class MenuBar extends AppCompatActivity {
                 startLocationService();  //gps
                 break;
 
-            case R.id.home:
+            case R.id.toHome:
                 intent = new Intent(getApplicationContext(), MainActivity.class); // 다음 넘어갈 클래스 지정
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent); // 다음 화면으로 넘어간다
                 break;
+
+            case android.R.id.home:
+                finish();
+                return true;
+
             default:
                 break;
         }

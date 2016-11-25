@@ -46,7 +46,7 @@ public class Selected_Place extends MenuBar implements OnMapReadyCallback{
         myLocation = intent.getStringExtra("myLocation");
 
         //getPlaceId가 잘 넘어왔나 확인
-        Toast.makeText(Selected_Place.this,"My location"+lat+" "+ lng, Toast.LENGTH_LONG).show();
+        //Toast.makeText(Selected_Place.this,"My location"+lat+" "+ lng, Toast.LENGTH_LONG).show();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
