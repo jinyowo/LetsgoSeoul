@@ -53,7 +53,6 @@ var getFoodList = function(lat, lng, callback) {
 			'&numOfRows=' + numOfData +
 			'&listYN=Y&arrange=E&MobileOS=' + mobileOS +
 			'&MobileApp=' + appName + '&over&_type=json';
-	console.log(url);
 
 	// url에서 정보 가져오기
 	request(url, function(error, response, body) {
@@ -78,7 +77,11 @@ var getFoodList = function(lat, lng, callback) {
 						tmp.lat = bodyObject.response.body.items.item[i].mapy;
                         tmp.image = bodyObject.response.body.items.item[i].firstimage;
 
-						// 음식 리스트에 추가
+                        //대표 이미지가 없는 경우
+                        if(bodyObject.response.body.items.item[i].firstimage == null)
+                            tmp.image = 'http://tong.visitkorea.or.kr/cms/resource/24/1717724_image2_1.jpg';
+
+                        // 음식 리스트에 추가
 						foodList.push(tmp);
 
 						//console.log("title: " + bodyObject.response.body.items.item[i].title + ", tel: " + bodyObject.response.body.items.item[i].tel + ", contentID " + bodyObject.response.body.items.item[i].contentid);
@@ -167,7 +170,7 @@ var getDetail = function(id, callback) {
         + myKey
         + '&contentId='
         + contentid
-        + '&defaultYN=Y&overviewYN=Y&addinfoYN=Y&mapinfoYN=Y'
+        + '&defaultYN=Y&overviewYN=Y&addrinfoYN=Y&mapinfoYN=Y'
         + '&MobileOS='
         + mobileOS + '&MobileApp=' + appName + '&_type=json';
 
@@ -177,10 +180,12 @@ var getDetail = function(id, callback) {
             var bodyObject = JSON.parse(body);
             var tmp = new Object();
 
+            //예외처리
             tmp.overview = bodyObject.response.body.items.item.overview;
             tmp.name = bodyObject.response.body.items.item.title;
             tmp.lat = bodyObject.response.body.items.item.mapy;
             tmp.lng = bodyObject.response.body.items.item.mapx;
+            tmp.address = bodyObject.response.body.items.item.addr1;
 
             if(bodyObject.response.body.items.item.firstimage == null)
                 tmp.image = 'http://tong.visitkorea.or.kr/cms/resource/24/1717724_image2_1.jpg';
@@ -201,6 +206,7 @@ var getDetail = function(id, callback) {
             }
 
             console.log(bodyObject.response.body.items.item);
+            console.log(bodyObject.response.body.items.item.address);
 
             callback(null, tmp);
         }
