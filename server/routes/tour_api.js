@@ -73,7 +73,6 @@ var getFoodList = function(lat, lng, callback) {
 						//console.log(JSON.stringify(bodyObject));
 						// bodyObjectect들의 정보
 						tmp.name = bodyObject.response.body.items.item[i].title;
-						tmp.tel = bodyObject.response.body.items.item[i].tel;
 						tmp.contentid = bodyObject.response.body.items.item[i].contentid;
 						tmp.lng = bodyObject.response.body.items.item[i].mapx;
 						tmp.lat = bodyObject.response.body.items.item[i].mapy;
@@ -158,8 +157,60 @@ var getPlaceList = function(lat, lng, callback) {
 
 };
 
+
+var getDetail = function(id, callback) {
+    // 가게 id
+    var contentid = id; // 음식점:133855, 관광지:264311
+    // 접근할 url 생성
+    var url = 'http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?'
+        + 'ServiceKey='
+        + myKey
+        + '&contentId='
+        + contentid
+        + '&defaultYN=Y&overviewYN=Y&addinfoYN=Y&mapinfoYN=Y'
+        + '&MobileOS='
+        + mobileOS + '&MobileApp=' + appName + '&_type=json';
+
+    request(url, function(error, response, body) {
+        if (!error && response.statusCode === 200) {
+            // string -> obj
+            var bodyObject = JSON.parse(body);
+            var tmp = new Object();
+
+            tmp.overview = bodyObject.response.body.items.item.overview;
+            tmp.name = bodyObject.response.body.items.item.title;
+            tmp.lat = bodyObject.response.body.items.item.mapy;
+            tmp.lng = bodyObject.response.body.items.item.mapx;
+
+            if(bodyObject.response.body.items.item.firstimage == null)
+                tmp.image = 'http://tong.visitkorea.or.kr/cms/resource/24/1717724_image2_1.jpg';
+            else {
+                tmp.image = bodyObject.response.body.items.item.firstimage;
+            }
+
+            if(bodyObject.response.body.items.item.tel==null)
+                tmp.tel = '';
+            else {
+                tmp.tel = bodyObject.response.body.items.item.tel;
+            }
+
+            if(bodyObject.response.body.items.item.homepage==null)
+                tmp.homepage = '';
+            else {
+                tmp.homepage = bodyObject.response.body.items.item.homepage;
+            }
+
+            console.log(bodyObject.response.body.items.item);
+
+            callback(null, tmp);
+        }
+    });
+};
+
+
 module.exports.init = init;
 module.exports.getFoodList = getFoodList;
 module.exports.getPlaceList = getPlaceList;
+module.exports.getDetail = getDetail;
 module.exports.foodList = foodList;
 module.exports.placeList = placeList;

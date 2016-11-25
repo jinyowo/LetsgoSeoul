@@ -21,7 +21,7 @@ module.exports = {
 	    {file:'./facebook', path:'/facebook/listlocation', method:'listlocation', type:'post'},	// facebook.listlocation
 		//===== tour api =====//
 		{file:'./tour', path:'/tourapi/foodlist', method:'foodlist', type:'get'},	// tour.listfood
-		{file:'./tour', path:'/tourapi/placelist', method:'placelist', type:'get'}	// tour.listfood
-		//{file:'./tour', path:'/tourapi/place', method:'printPlaceList', type:'post'}	// tour.listplace
+		{file:'./tour', path:'/tourapi/placelist', method:'placelist', type:'get'},	// tour.listfood
+		{file:'./tour', path:'/tourapi/detail', method:'printDetail', type:'get'}	// tour.listplace
 	    ]
 }
