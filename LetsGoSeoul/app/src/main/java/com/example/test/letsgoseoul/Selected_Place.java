@@ -17,7 +17,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class Selected_Place extends MainActivity implements OnMapReadyCallback{
+public class Selected_Place extends MenuBar implements OnMapReadyCallback{
     private int getPlaceId; //test
    // private String getPlaceId; //id
     private GoogleMap mMap;
@@ -27,6 +27,7 @@ public class Selected_Place extends MainActivity implements OnMapReadyCallback{
     private double lat;
     private double lng;
     private String name;
+    private String myLocation;
 
 
     @Override
@@ -42,10 +43,10 @@ public class Selected_Place extends MainActivity implements OnMapReadyCallback{
         lng = intent.getExtras().getDouble("lng");
         //lng = intent.getDoubleExtra("lng", -1);
         name = intent.getStringExtra("name");
-
+        myLocation = intent.getStringExtra("myLocation");
 
         //getPlaceId가 잘 넘어왔나 확인
-        Toast.makeText(Selected_Place.this,"placeId "+getPlaceId, Toast.LENGTH_LONG).show();
+        Toast.makeText(Selected_Place.this,"My location"+lat+" "+ lng, Toast.LENGTH_LONG).show();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -53,7 +54,14 @@ public class Selected_Place extends MainActivity implements OnMapReadyCallback{
         placeName = (TextView)findViewById(R.id.placeName);     //선택된 장소의 이름 입력하는 곳
         placeName.setText(name);
         textview = (TextView)findViewById(R.id.placeText);     //상세정보 넣는 곳
-       String text = "명동은 대한민국 서울특별시 중구에 있는 번화가이자, 지역 이름이다. 명동1가와 명동2가를 합친 면적은 0.91 ㎢이다. 명동1·2가, 충무로1·2가, 을지로1·2가 등을 포함하는 지역이다.";
+        String text;
+        if(myLocation.equals("yes"))
+        {
+            text = " ";
+        }
+        else {
+            text = "명동은 대한민국 서울특별시 중구에 있는 번화가이자, 지역 이름이다. 명동1가와 명동2가를 합친 면적은 0.91 ㎢이다. 명동1·2가, 충무로1·2가, 을지로1·2가 등을 포함하는 지역이다.";
+        }
         textview.setText(text);
 
 
@@ -94,30 +102,4 @@ public void onRestaurantButtonClicked(View v){
     }
 
 
-//    //액션바 메뉴 띄워주기
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        super.onCreateOptionsMenu(menu);
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    //액션바 메뉴 선택
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int curId = item.getItemId();
-//        Intent intent;
-//        switch (curId) {
-//            case R.id.near:
-//                // intent = new Intent(MainActivity.this, Selected_Place.class);
-//                // startActivity(intent);
-//                break;
-//            case R.id.home:
-////                intent = new Intent(this, MainActivity.class);
-////                startActivity(intent);
-//                break;
-//            default:
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 }

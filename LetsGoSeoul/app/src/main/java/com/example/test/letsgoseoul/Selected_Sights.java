@@ -33,7 +33,7 @@ import java.net.URL;
 import java.util.List;
 
 
-public class Selected_Sights extends MainActivity implements OnMapReadyCallback{
+public class Selected_Sights extends MenuBar implements OnMapReadyCallback{
     private GoogleMap mMap;
     private double lat;   //위도
     private double lng;   //경도
@@ -48,7 +48,7 @@ public class Selected_Sights extends MainActivity implements OnMapReadyCallback{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_sights);
         Intent intent = new Intent(this.getIntent());
-        String getPlaceId = intent.getExtras().getString("Selected");   //넘어온 선택된 아이템 ID
+        int getPlaceId = intent.getExtras().getInt("Selected");   //넘어온 선택된 아이템 ID
         String getPlaceUrl = intent.getExtras().getString("SelectedUrl");   //넘어온 선택된 아이템 ID
         Toast.makeText(Selected_Sights.this,"sights "+getPlaceId, Toast.LENGTH_LONG).show();
 

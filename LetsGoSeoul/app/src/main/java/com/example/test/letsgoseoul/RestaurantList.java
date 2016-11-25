@@ -49,7 +49,7 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 
-public class RestaurantList extends MainActivity {
+public class RestaurantList extends MenuBar {
 
     // Handler handler = new Handler();  url->bitmap
     //  Activity act = this;
@@ -211,7 +211,7 @@ public class RestaurantList extends MainActivity {
                 }
                 intent.putExtra("Selected", adapter.getItem(position).getId());   //선택된 곳 id 넘겨주기
                 intent.putExtra("SelectedUrl", adapter.getItem(position).getUrl());   //선택된 곳 url 넘겨주기
-                Toast.makeText(RestaurantList.this,adapter.getItem(position).getId(),Toast.LENGTH_LONG).show();
+                //Toast.makeText(RestaurantList.this,adapter.getItem(position).getId(),Toast.LENGTH_LONG).show();
                 startActivity(intent);
             }
         });
@@ -292,7 +292,7 @@ public class RestaurantList extends MainActivity {
         mTread.start();
         try {
             mTread.join();
-            adapter.addItem(new RestaurantListItem(bm, urlName, urlId,urlImg));
+            adapter.addItem(new RestaurantListItem(bm, urlName, urlId, urlImg));
         } catch (InterruptedException e) {
         }
     }

@@ -46,19 +46,12 @@ import java.util.Map;
 
 import static android.provider.Settings.Secure.isLocationProviderEnabled;
 import static com.example.test.letsgoseoul.R.id.listView;
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends MenuBar {
 
     private ListView  mListView;
-    //GPS 정보를 받아올 Listener
-    private GPSListener gpsListener = new GPSListener();
-    private LocationManager manager;
 
     //화면에 띄워줄 리스트뷰
     private static ArrayList<String> hotPlace;
-
-    //나의 위치정보를 저장
-    private static String myLat;
-    private static String myLng;
 
     //장소 Top 10 리스트 받아옴
     private String url = "http://nodetest.iptime.org:3000/facebook/listlocation";
@@ -66,27 +59,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("Lets Go Seoul");
-        //getSupportActionBar().setBackgroundDrawable(new ColorDrawable());
 
         mListView = (ListView) findViewById(listView);
         hotPlace = new ArrayList<String>();
         //서울중심
         setSeoul();
-        checkDangerousPermissions();
     }
 
-    public void onSeoulButtonClicked(View v) {    //서울중심
-        setSeoul();
-    }
-
-    //사용자위치 중심
-    public void onNearButtonClicked(View v) {
-        manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        showSettingsAlert();     //설정창
-        startLocationService();  //gps
-
-    }
 
     //Seoul 기준
     public void setSeoul() {
@@ -141,22 +120,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //NEAR가 중심인 경우
-    public void setNear() {
-
-        hotPlace.clear();
-        hotPlace.add("니어");
-        hotPlace.add("명동 ");
-        hotPlace.add("명동");
-        hotPlace.add("명동");
-        startSort(mListView,hotPlace);
-
-    }
-
     private String seletedName;
     private double seletedLat;
     private double seletedLng;
-
 
     //리스트뷰 sorting
    public void startSort(ListView lv,ArrayList hotPlace) {
@@ -187,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
                                                               intent.putExtra("lat", seletedLat);
                                                               intent.putExtra("lng", seletedLng);
                                                               intent.putExtra("name", seletedName);
+                                                              intent.putExtra("myLocation", "no" );
 
                                                               //Toast.makeText(MainActivity.this,lat + " , " + lng,Toast.LENGTH_LONG).show();
 
@@ -219,168 +186,6 @@ public class MainActivity extends AppCompatActivity {
                                       }
                                   }
         );
-    }
-
-
-    //gps 허가
-    private void checkDangerousPermissions() {
-        String[] permissions = {
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-        };
-
-        int permissionCheck = PackageManager.PERMISSION_GRANTED;
-        for (int i = 0; i < permissions.length; i++) {
-            permissionCheck = ContextCompat.checkSelfPermission(this, permissions[i]);
-            if (permissionCheck == PackageManager.PERMISSION_DENIED) {
-                break;
-            }
-        }
-
-        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-        //    Toast.makeText(this, "권한 있음", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "권한 없음", Toast.LENGTH_LONG).show();
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
-                Toast.makeText(this, "권한 설명 필요함.", Toast.LENGTH_LONG).show();
-            } else {
-                ActivityCompat.requestPermissions(this, permissions, 1);
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == 1) {
-            for (int i = 0; i < permissions.length; i++) {
-                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                    //Toast.makeText(this, permissions[i] + " 권한이 승인됨.", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(this, permissions[i] + " 권한이 승인되지 않음.", Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-    }
-
-    //gps 설정되어있지 않을 때 설정창 이동
-    public void showSettingsAlert() {
-
-        ContentResolver res = getContentResolver();
-
-        boolean gpsEnabled = isLocationProviderEnabled(res, LocationManager.GPS_PROVIDER);
-        if (!gpsEnabled) {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-           alertDialogBuilder
-                    .setTitle("GPS 사용유무셋팅")
-                    .setMessage("GPS 셋팅이 되지 않았습니다. \n 설정창으로 가시겠습니까?")
-                    .setPositiveButton("Setting",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                   Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                    startActivity(intent);
-                                }
-                            })
-                     .setNegativeButton("Cancel",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-            AlertDialog dialog = alertDialogBuilder.create();
-            dialog.show();
-        }
-    }
-
-    //gps 정보요청
-    private void startLocationService() {
-
-        //GPSListener gpsListener = new GPSListener();
-        long minTime = 1000;
-        float minDistance = 0;
-
-        try {
-            // GPS를 이용한 위치 요청
-            manager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    minTime,
-                    minDistance,
-                    gpsListener);
-            // 네트워크를 이용한 위치 요청
-            manager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER,
-                    minTime,
-                    minDistance,
-                    gpsListener);
-
-            // 위치 확인이 안되는 경우에도 최근에 확인된 위치 정보 먼저 확인
-            Location lastLocation = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (lastLocation != null) {
-                Double latitude = lastLocation.getLatitude();
-                Double longitude = lastLocation.getLongitude();
-
-             //   Toast.makeText(getApplicationContext(), "Last Known Location : " + "Latitude : " + latitude + "\nLongitude:" + longitude, Toast.LENGTH_LONG).show();
-            }
-        } catch(SecurityException ex) {
-            ex.printStackTrace();
-        }
-
-    }
-
-
-    private class GPSListener implements LocationListener {
-
-        //위치 정보가 확인될 때 자동 호출되는 메소드
-        public void onLocationChanged(Location location) {
-            double latitude = location.getLatitude();
-            double longitude  = location.getLongitude();
-            myLat = Double.toString(latitude);
-            myLng = Double.toString(longitude);
-            String msg = "Latitude : "+ myLat+ "\nLongitude:"+ myLng;
-            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-            try {
-                manager.removeUpdates(gpsListener);
-            } catch(SecurityException ex) {
-                ex.printStackTrace();
-            }
-            setNear();
-        }
-        public void onProviderDisabled(String provider) {
-        }
-
-
-        public void onProviderEnabled(String provider) {
-        }
-
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-    }
-
-    //액션바 메뉴 띄워주기
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    //액션바 메뉴 선택
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int curId = item.getItemId();
-        Intent intent;
-        switch (curId) {
-            case R.id.near:
-               // intent = new Intent(MainActivity.this, Selected_Place.class);
-               // startActivity(intent);
-                break;
-            case R.id.home:
-//                intent = new Intent(this, MainActivity.class);
-//                startActivity(intent);
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 }
