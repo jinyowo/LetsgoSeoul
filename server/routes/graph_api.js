@@ -80,6 +80,47 @@ function searchLocation(app, config, callback) {
 
                 //console.log("#" +i +" = " +top_10_list[i].name);
             }
+            
+
+            // list 이름 정리
+		    for (i = 1; i <= 10; i++) {
+		    	top_10_list[i].name = top_10_list[i].name.replace(/\./g, '');
+		    	top_10_list[i].name = top_10_list[i].name.replace(/\,/g, '');
+		    	top_10_list[i].name = top_10_list[i].name.replace(/[\u4E00-\u9FFF]+/g, '');
+		    	top_10_list[i].name = top_10_list[i].name.replace(/\-/g, '');
+		    	top_10_list[i].name = top_10_list[i].name.replace(/\//g, '');
+		    }
+
+		    for (i = 1; i <= 10; i++) {
+		    	var str = top_10_list[i].name.split(" ");
+			
+		    	for (j = 0; j < str.length; j++) {
+		    		if (j === 0) {
+						if (!(str[j] === 'Seoul' || str[j] === 'seoul' ||
+								str[j] === 'S' || str[j] === 's' ||
+								str[j] === 'South' || str[j] === 'south' ||
+								str[j] === 'Korea' || str[j] === 'korea')) {
+							top_10_list[i].name = str[j];
+						}
+		    		}
+
+		    		else {
+		    			if (!(str[j] === 'Seoul' || str[j] === 'seoul' ||
+		    					str[j] === 'S' || str[j] === 's' ||
+		    					str[j] === 'South' || str[j] === 'south' ||
+		    					str[j] === 'Korea' || str[j] === 'korea')) {
+		    				if (str[j] === 'Tower') {
+		    					top_10_list[i].name = top_10_list[i].name + " Seoul " + str[j];
+		    				}
+		    				
+		    				else {
+		    					top_10_list[i].name = top_10_list[i].name + " " + str[j];
+		    				}
+		    			}
+		    		}
+		    	}
+		    }
+            
             console.log("************");
             console.log(top_10_list);
             console.log("************");
@@ -108,6 +149,7 @@ function removeFaultData(list) {
             }
         }
 
+        // 한국을 벗어나는 지역 제거
         if(list[i].lat<35 || list[i].lat>38 || list[i].lng<123 || list[i].lng>128) {
 			list.splice(i, 1);
 			i--;
