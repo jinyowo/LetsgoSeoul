@@ -22,22 +22,36 @@
     />
 
     <TextView
-        android:text="Restaurant Name"
+        android:text="Name"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:id="@+id/Name" />
 
-    <TextView
-        android:text="Phone Number"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:id="@+id/PhoneNumber" />
-
-    <TextView
+     <TextView
         android:text="Address"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:id="@+id/Address" />
+
+    <TextView
+        android:text="detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Detail" />
+
+
+    <TextView
+        android:text="Phone Number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/PhoneNumber" />
+
+    <TextView
+        android:text="Home page"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/Homepage" />
+
 
     <fragment
         android:id="@+id/map"

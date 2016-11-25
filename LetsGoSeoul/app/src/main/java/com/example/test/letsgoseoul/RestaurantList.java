@@ -201,17 +201,11 @@ public class RestaurantList extends MainActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {     //item 선택했을때
                 Intent intent;
-                if (buttonOption.equals("restaurant"))  //레스토랑일 경우
-                {
-                    intent = new Intent(RestaurantList.this, Selected_Restaurant.class);    //레스토랑 일 경우
-                }
-                else
-                {
-                    intent = new Intent(RestaurantList.this, Selected_Sights.class);   //명소일 경우
-                }
+                intent = new Intent(RestaurantList.this, Selected_Restaurant.class);    //레스토랑 일 경우
+
                 intent.putExtra("Selected", adapter.getItem(position).getId());   //선택된 곳 id 넘겨주기
                 intent.putExtra("SelectedUrl", adapter.getItem(position).getUrl());   //선택된 곳 url 넘겨주기
-                Toast.makeText(RestaurantList.this,adapter.getItem(position).getId(),Toast.LENGTH_LONG).show();
+                //Toast.makeText(RestaurantList.this,adapter.getItem(position).getId(),Toast.LENGTH_LONG).show();
                 startActivity(intent);
             }
         });
