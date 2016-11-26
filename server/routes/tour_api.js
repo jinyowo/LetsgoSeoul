@@ -26,7 +26,7 @@ var foodList = new Array();
 var placeList = new Array();
 
 //데이터베이스 객체, 스키마 객체, 모델 객체를 이 모듈에서 사용할 수 있도록 전달함
-var init = function(app, config, lat, lng) {
+var init = function(lat, lng) {
         console.log('tour_api init 호출됨.');
 
         myLat = lat;
@@ -54,6 +54,7 @@ var getFoodList = function(lat, lng, callback) {
 			'&listYN=Y&arrange=E&MobileOS=' + mobileOS +
 			'&MobileApp=' + appName + '&over&_type=json';
 
+    console.log("URL : " + url);
 	// url에서 정보 가져오기
 	request(url, function(error, response, body) {
         foodList.length = 0;
@@ -62,7 +63,14 @@ var getFoodList = function(lat, lng, callback) {
 				console.log("bodyObject = " + bodyObject);
 
 				if(bodyObject.response.header.resultCode == 0000) {
-					var numOfItems = bodyObject.response.body.items.item.length;
+                    var numOfItems = 0;
+                    if(bodyObject.response.body.items === "") {
+                        numOfItems = 0;
+                    }
+                    else {
+                        numOfItems = bodyObject.response.body.items.item.length;
+                    }
+
 					console.log("num of Items = " + numOfItems);
 
 					for (var i = 0; i < numOfItems; i++) {
@@ -114,7 +122,7 @@ var getPlaceList = function(lat, lng, callback) {
         '&listYN=Y&arrange=E&MobileOS=' + mobileOS +
         '&MobileApp=' + appName + '&over&_type=json';
 
-    console.log(url);
+    console.log("URL : " + url);
 
     // url에서 정보 가져오기
     request(url, function(error, response, body) {
@@ -124,8 +132,13 @@ var getPlaceList = function(lat, lng, callback) {
             console.log("bodyObject = " + bodyObject);
 
             if(bodyObject.response.header.resultCode == 0000) {
-                var numOfItems = bodyObject.response.body.items.item.length;
-                console.log("num of Items = " + numOfItems);
+                var numOfItems = 0;
+                if(bodyObject.response.body.items === "") {
+                    numOfItems = 0;
+                }
+                else {
+                    numOfItems = bodyObject.response.body.items.item.length;
+                }
 
                 for (var i = 0; i < numOfItems; i++) {
                     // 각각의 데이터(object)
