@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -67,6 +68,11 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_restaurant);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Lets Go Seoul");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         Intent intent = new Intent(this.getIntent());
 
         int getPlaceId = intent.getExtras().getInt("Selected");   //넘어온 선택된 아이템 ID
