@@ -13,8 +13,8 @@ public class MyApplication extends Application {
         super.onCreate();
 
         Typekit.getInstance()
-                .addNormal(Typekit.createFromAsset(this, "fonts/SeoulHangangM.ttf"))
-                .addBold(Typekit.createFromAsset(this, "fonts/SeoulHangangB.ttf"));
+                .addNormal(Typekit.createFromAsset(this, "fonts/NanumBarunGothic.ttf"))
+                .addBold(Typekit.createFromAsset(this, "fonts/NanumBarunGothicBold.ttf"));
 
 
 

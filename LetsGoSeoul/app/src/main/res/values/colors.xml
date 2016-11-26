@@ -2,14 +2,7 @@
 <resources>
 <color name="colorPrimary">#3F51B5</color>
 <color name="colorPrimaryDark">#303F9F</color>
-<<<<<<< HEAD
-<color name="colorAccent">#FF4081</color>
-
-</resources>
-
-=======
 <color name="colorAccent">#da0b00</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorMenu">#586de2</color>
 </resources>
->>>>>>> 0ee41e134022da64c38167eb67299379f72dd0f7
