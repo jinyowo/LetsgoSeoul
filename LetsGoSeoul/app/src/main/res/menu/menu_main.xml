@@ -7,7 +7,7 @@
         app:showAsAction="always"
         ></item>
 
-    <item android:id="@+id/home"
+    <item android:id="@+id/toHome"
         android:icon="@drawable/home_white"
         android:title="menu_home"
         app:showAsAction="always"

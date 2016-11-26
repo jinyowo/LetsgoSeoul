@@ -83,6 +83,8 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
 
         phoneNumberForm = (TextView)findViewById(R.id.PhoneNumber);
         homepageForm = (TextView)findViewById(R.id.Homepage);
+        //homepageForm.setMovementMethod(LinkMovementMethod.getInstance());
+
 
         final String url = "http://nodetest.iptime.org:3000/tourapi/detail?contentid="+getPlaceId;
 
@@ -109,9 +111,6 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
 
                                         phoneNumberForm.setText(tel);
                                         homepageForm.setText(Html.fromHtml(homepage));
-                                        // 링크가 안나와!!!!!!!!!!!!!!!!!!!!!!
-                                        // homepageForm.setMovementMethod(LinkMovementMethod.getInstance());
-
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
