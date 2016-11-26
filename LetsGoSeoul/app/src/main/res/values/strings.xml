@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Lets Go Seoul</string>
     <string name="title_activity_selected__place">LetsGoSeoul</string>
+    <string name="bracket"></string>
 </resources>

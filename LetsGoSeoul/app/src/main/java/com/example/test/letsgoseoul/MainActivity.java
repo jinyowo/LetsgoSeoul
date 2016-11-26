@@ -18,6 +18,7 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -59,7 +60,9 @@ public class MainActivity extends MenuBar {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("  Lets Go Seoul");
+        actionBar.setDisplayHomeAsUpEnabled(false);
         mListView = (ListView) findViewById(listView);
         hotPlace = new ArrayList<String>();
         //서울중심
@@ -89,7 +92,7 @@ public class MainActivity extends MenuBar {
                                 int id = jObject.getInt("id");
 
                                 Log.v("Location", id + " , " +  name);
-                                temp[id] = id + " : " + name;
+                                temp[id] = id + " :  " + name;
                             }
 
                             for(int i=1; i<=10; i++) {

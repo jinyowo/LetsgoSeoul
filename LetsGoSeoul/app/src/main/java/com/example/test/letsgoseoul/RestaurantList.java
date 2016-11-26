@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,6 +69,11 @@ public class RestaurantList extends MenuBar {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_list);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Lets Go Seoul");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         Intent intent = new Intent(this.getIntent());
         lat = intent.getExtras().getDouble("lat");
         lng = intent.getExtras().getDouble("lng");

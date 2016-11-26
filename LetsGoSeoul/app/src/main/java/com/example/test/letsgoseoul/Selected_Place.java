@@ -3,6 +3,7 @@ package com.example.test.letsgoseoul;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,7 +35,9 @@ public class Selected_Place extends MenuBar implements OnMapReadyCallback{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected__place);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Lets Go Seoul");
+        actionBar.setDisplayHomeAsUpEnabled(true);
         Intent intent = new Intent(this.getIntent());
         //String getPlaceId = intent.getExtras().getString("SelectedPlace");   //넘어온 선택된 아이템 ID
         // getPlaceId = intent.getExtras().getInt("SelectedPlace");   //넘어온 test용 ID
