@@ -2,6 +2,7 @@ package com.example.test.letsgoseoul;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +10,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -65,9 +68,12 @@ public class RestaurantList extends MenuBar {
     private String foodUrl = "http://nodetest.iptime.org:3000/tourapi/foodlist";
     private String placeUrl = "http://nodetest.iptime.org:3000/tourapi/placelist";
 
+
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_list);
+
         Intent intent = new Intent(this.getIntent());
         lat = intent.getExtras().getDouble("lat");
         lng = intent.getExtras().getDouble("lng");
@@ -77,131 +83,78 @@ public class RestaurantList extends MenuBar {
         String forUrlData = "?lat="+lat+"&lng="+lng;
 
         buttonOption = intent.getStringExtra("buttonOption");
+        String url= null;
+
+        CheckTypesTask task = new CheckTypesTask();
+        task.execute();
+
         if (buttonOption.equals("restaurant"))  //레스토랑일 경우
-        {
-            final String url = foodUrl + forUrlData;
-            Log.v("url", url);
-            Thread mTread = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        StringRequest request = new StringRequest(Request.Method.GET, url,
-                                new Response.Listener<String>() {
-                                    public void onResponse(String response) {
-                                        try {
-                                            //결과 값 출력
-                                            JSONArray jarr = new JSONArray(response);   // JSONArray 생성
+            url = foodUrl + forUrlData;
+        else  //sights 일 경우
+            url = placeUrl + forUrlData;
 
-                                            for(int i=0; i < jarr.length(); i++){
-                                                JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
-                                                String image = jObject.getString("image");
-                                                String name = jObject.getString("name");
-                                                int id = jObject.getInt("contentid");
-                                                resLat = jObject.getDouble("lat");
-                                                resLng = jObject.getDouble("lng");
-                                                Log.v("list", id + " , " +  name);
-                                                getBitmap(image, name, id,resLat,resLng);
-                                                adapter.notifyDataSetChanged();
-                                                //getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","바다",1);
-                                            }
+        final String realUrl = url;
+        Log.v("url", url);
+        final Thread mTread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    StringRequest request = new StringRequest(Request.Method.GET, realUrl,
+                            new Response.Listener<String>() {
+                                public void onResponse(String response) {
+                                    try {
+                                        //결과 값 출력
+                                        JSONArray jarr = new JSONArray(response);   // JSONArray 생성
 
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
+                                        for(int i=0; i < jarr.length(); i++){
+                                            JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
+                                            String image = jObject.getString("image");
+                                            String name = jObject.getString("name");
+
+                                            int id = jObject.getInt("contentid");
+                                            resLat = jObject.getDouble("lat");
+                                            resLng = jObject.getDouble("lng");
+
+                                            Log.v("list", id + " , " +  name);
+                                            getBitmap(image, name, id,resLat,resLng);
+                                            adapter.notifyDataSetChanged();
+                                            //getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","바다",1);
                                         }
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    public void onErrorResponse(VolleyError error) {
-                                        error.printStackTrace();
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                     }
                                 }
-                        ) {
-                            protected Map<String, String> getParams() {
-                                Map<String, String> params = new HashMap<>();
-
-                                return params;
-                            }
-                        };
-
-                        Volley.newRequestQueue(getApplicationContext()).add(request);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-            mTread.start();
-            try{
-                mTread.join();
-                adapter.notifyDataSetChanged();
-            } catch (InterruptedException e) {
-
-            }
-        } else  //sights 일 경우
-        {
-            final String url = placeUrl + forUrlData;
-            Log.v("url", url);
-            Thread mTread = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        StringRequest request = new StringRequest(Request.Method.GET, url,
-                                new Response.Listener<String>() {
-                                    public void onResponse(String response) {
-                                        try {
-                                            //결과 값 출력
-                                            JSONArray jarr = new JSONArray(response);   // JSONArray 생성
-
-                                            for(int i=0; i < jarr.length(); i++){
-                                                JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
-                                                String image = jObject.getString("image");
-                                                String name = jObject.getString("name");
-
-                                                int id = jObject.getInt("contentid");
-                                                resLat = jObject.getDouble("lat");
-                                                resLng = jObject.getDouble("lng");
-
-                                                Log.v("list", id + " , " +  name);
-                                                getBitmap(image, name, id,resLat,resLng);
-                                                adapter.notifyDataSetChanged();
-                                                //getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","바다",1);
-                                            }
-
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    public void onErrorResponse(VolleyError error) {
-                                        error.printStackTrace();
-                                    }
+                            },
+                            new Response.ErrorListener() {
+                                public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace();
                                 }
-                        ) {
-                            protected Map<String, String> getParams() {
-                                Map<String, String> params = new HashMap<>();
-
-                                return params;
                             }
-                        };
+                    ) {
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<>();
 
-                        Volley.newRequestQueue(getApplicationContext()).add(request);
+                            return params;
+                        }
+                    };
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    Volley.newRequestQueue(getApplicationContext()).add(request);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            };
-            mTread.start();
-            try{
-                mTread.join();
-                adapter.notifyDataSetChanged();
-            } catch (InterruptedException e) {
-
             }
+        };
+
+        ////
+        mTread.start();
+        try{
+            mTread.join();
+            adapter.notifyDataSetChanged();
+        } catch (InterruptedException e) {
+
         }
-
-
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -274,7 +227,7 @@ public class RestaurantList extends MenuBar {
     }
 
     public void getBitmap(String imgUrl,String imgName,int id, double lat,double lng) {
-       final String urlImg =imgUrl;
+        final String urlImg =imgUrl;
         final String urlName =imgName;
         final int urlId =id;
         final double urlLat = lat;
@@ -299,6 +252,40 @@ public class RestaurantList extends MenuBar {
             mTread.join();
             adapter.addItem(new RestaurantListItem(bm, urlName, urlId, urlImg,urlLat,urlLng ));
         } catch (InterruptedException e) {
+        }
+    }
+    private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
+
+        ProgressDialog asyncDialog = new ProgressDialog(
+                RestaurantList.this);
+
+        @Override
+        protected void onPreExecute() {
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            asyncDialog.setMessage("로딩중입니다..");
+
+            // show dialog
+            asyncDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            try {
+                for (int i = 0; i < 5; i++) {
+                    //asyncDialog.setProgress(i * 30);
+                    Thread.sleep(500);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            asyncDialog.dismiss();
+            super.onPostExecute(result);
         }
     }
 }
