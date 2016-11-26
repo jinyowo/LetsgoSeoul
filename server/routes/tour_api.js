@@ -194,15 +194,16 @@ var getDetail = function(id, callback) {
             }
 
             if(bodyObject.response.body.items.item.tel==null)
-                tmp.tel = '';
+                tmp.tel = "";
             else {
                 tmp.tel = bodyObject.response.body.items.item.tel;
             }
 
             if(bodyObject.response.body.items.item.homepage==null)
-                tmp.homepage = '';
+                tmp.homepage = "";
             else {
-                tmp.homepage = bodyObject.response.body.items.item.homepage;
+                var addBR = bodyObject.response.body.items.item.homepage.replace('<a','<br><a');
+                tmp.homepage = addBR;
             }
 
             console.log(bodyObject.response.body.items.item);
