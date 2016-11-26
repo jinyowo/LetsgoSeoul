@@ -141,7 +141,7 @@ var getPlaceList = function(lat, lng, callback) {
 
                     //대표 이미지가 없는 경우
                     if(bodyObject.response.body.items.item[i].firstimage == null)
-                        tmp.image = 'http://localhost:3000/public/resources/default_place.png';
+                        tmp.image = 'http://nodetest.iptime.org:3000/public/resources/default_place.png';
                     // 음식 리스트에 추가
                     placeList.push(tmp);
                     //console.log("title: " + bodyObject.response.body.items.item[i].title + ", tel: " + bodyObject.response.body.items.item[i].tel + ", contentID " + bodyObject.response.body.items.item[i].contentid);
