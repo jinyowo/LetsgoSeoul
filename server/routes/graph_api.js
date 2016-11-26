@@ -13,12 +13,11 @@ var list = new Array();
 var top_10_list = new Array();
 
 //데이터베이스 객체, 스키마 객체, 모델 객체를 이 모듈에서 사용할 수 있도록 전달함
-var init = function(app, config) {
+var init = function() {
     console.log('graph_api init 호출됨.');
 
-    searchLocation(app, config, function() {
+    searchLocation(function() {
         console.log('@@complete@@');
-
         facebook.addlocation();
     });
 }
@@ -32,7 +31,7 @@ function checkinsSort(a, b) {
 }
 
 //데이터를 불러오는 함수
-function searchLocation(app, config, callback) {
+function searchLocation(callback) {
 
     FB.setAccessToken('EAAIFef3CbEcBAJse1tmfQyC46ttSw7pC3qakz7YVNsZCAjWdakk0ZCN9RiKZBEZBZB06AOPRIDOqHZBw1HZCFivvU14zWiUVQL1D9GEwmO3V4sn91NZCvxsZCZBKiEEyR43YAmASPxDVkQNBPaeFGPqFFeYFuBgJ7iCMoZD');
 

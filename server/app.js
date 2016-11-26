@@ -4,6 +4,8 @@ var express = require('express')
   , http = require('http')
   , path = require('path');
 
+var schedule = require('node-schedule');
+
 var database = require('./database/database');
 var graph_api = require('./routes/graph_api');
 var tour_api = require('./routes/tour_api');
@@ -68,11 +70,28 @@ app.on('close', function () {
 	}
 });
 
+// 스케줄링 객체에 대한 핸들을 가지는 변수
+var scheduleHandle = null;
+
+// 외부 서버로부터 컨텐츠를 제공받음
+var contentsReceiver = function() {
+	console.log("\n\n\n\n\n=====컨텐츠 리시버 시작=====");
+	graph_api.init();
+	tour_api.init(126.981106, 37.568477);
+	console.log("\n\n\n\n\n=====컨텐츠 리시버 종료=====");
+}
+
+// 서버 시작
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('서버가 시작되었습니다. 포트 : ' + app.get('port'));
 
-	// 데이터베이스 연결
-	graph_api.init(app, config);
-	//tour_api.init(app, config, 126.981611, 37.568477);
+	// 서버시작과 함꼐 데이터베이스 초기화
 	database.init(app, config);
+
+	//서버 시작과 함께 최초 한번 컨텐츠를 받아옴
+	contentsReceiver();
+
+	// 이후 스케줄된 시간에 맞춰 컨텐츠를 받아옴 // SECOND, MINUTE, HOUR ,DAY OF MONTH, DAY OF WEEK
+	scheduleHandle = schedule.scheduleJob('0 0 24 * * *', contentsReceiver); // 매 24:00:00초에 데이터를 한번 갱신
+
 });
