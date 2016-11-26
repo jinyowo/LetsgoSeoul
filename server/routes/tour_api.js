@@ -79,7 +79,7 @@ var getFoodList = function(lat, lng, callback) {
 
                         //대표 이미지가 없는 경우
                         if(bodyObject.response.body.items.item[i].firstimage == null)
-                            tmp.image = 'http://tong.visitkorea.or.kr/cms/resource/24/1717724_image2_1.jpg';
+                            tmp.image = '../public/resources/default_food.png';
 
                         // 음식 리스트에 추가
 						foodList.push(tmp);
@@ -141,7 +141,7 @@ var getPlaceList = function(lat, lng, callback) {
 
                     //대표 이미지가 없는 경우
                     if(bodyObject.response.body.items.item[i].firstimage == null)
-                        tmp.image = 'http://tong.visitkorea.or.kr/cms/resource/24/1717724_image2_1.jpg';
+                        tmp.image = '../public/resources/default_place.png';
                     // 음식 리스트에 추가
                     placeList.push(tmp);
                     //console.log("title: " + bodyObject.response.body.items.item[i].title + ", tel: " + bodyObject.response.body.items.item[i].tel + ", contentID " + bodyObject.response.body.items.item[i].contentid);
