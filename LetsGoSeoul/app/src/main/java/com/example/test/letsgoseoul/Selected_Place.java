@@ -1,6 +1,8 @@
 package com.example.test.letsgoseoul;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 public class Selected_Place extends MenuBar implements OnMapReadyCallback{
     private int getPlaceId; //test
    // private String getPlaceId; //id
@@ -27,7 +33,7 @@ public class Selected_Place extends MenuBar implements OnMapReadyCallback{
     private double lat;
     private double lng;
     private String name;
-    private String myLocation;
+    private String near;
 
 
     @Override
@@ -43,7 +49,7 @@ public class Selected_Place extends MenuBar implements OnMapReadyCallback{
         lng = intent.getExtras().getDouble("lng");
         //lng = intent.getDoubleExtra("lng", -1);
         name = intent.getStringExtra("name");
-        myLocation = intent.getStringExtra("myLocation");
+        near = intent.getStringExtra("near");
 
         //getPlaceId가 잘 넘어왔나 확인
         Toast.makeText(Selected_Place.this,"My location"+lat+" "+ lng, Toast.LENGTH_LONG).show();
@@ -55,9 +61,11 @@ public class Selected_Place extends MenuBar implements OnMapReadyCallback{
         placeName.setText(name);
         textview = (TextView)findViewById(R.id.placeText);     //상세정보 넣는 곳
         String text;
-        if(myLocation.equals("yes"))
+
+
+        if(near.equals("yes"))
         {
-            text = " ";
+            text = getAddress(lat,lng);
         }
         else {
             text = "명동은 대한민국 서울특별시 중구에 있는 번화가이자, 지역 이름이다. 명동1가와 명동2가를 합친 면적은 0.91 ㎢이다. 명동1·2가, 충무로1·2가, 을지로1·2가 등을 포함하는 지역이다.";
@@ -81,7 +89,7 @@ public class Selected_Place extends MenuBar implements OnMapReadyCallback{
         ///받아온 getPlaceId이용해 좌표 넣어줄 위치
         //LatLng placePoint= new LatLng(37.560891, 126.985246);
         LatLng placePoint= new LatLng(lat, lng);
-        mMap.addMarker(new MarkerOptions().position(placePoint).title("Marker"));
+        mMap.addMarker(new MarkerOptions().position(placePoint).title(name));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(placePoint));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
@@ -101,5 +109,26 @@ public void onRestaurantButtonClicked(View v){
         startActivity(intent);
     }
 
+    private String getAddress(double lat, double lng) {
+        String currentLocationAddress=null;
+        Geocoder geocoder = new Geocoder(this, Locale.KOREAN);
+        List<Address> address;
+        try {
+            if (geocoder != null) {
+                // 세번째 인수는 최대결과값인데 하나만 리턴받도록 설정했다
+                address = geocoder.getFromLocation(lat, lng, 1);
+
+                if (address != null && address.size() > 0) {
+                    // 주소  ,  대한민국은 뗌
+                    currentLocationAddress = address.get(0).getAddressLine(0).toString().substring(5);
+                }
+            }
+
+        } catch (IOException e) {
+            Toast.makeText(getBaseContext(), "주소취득 실패", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+        return currentLocationAddress;
+    }
 
 }

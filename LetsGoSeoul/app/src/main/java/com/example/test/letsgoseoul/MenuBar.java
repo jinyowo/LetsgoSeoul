@@ -1,9 +1,11 @@
 package com.example.test.letsgoseoul;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -15,30 +17,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import static android.provider.Settings.Secure.isLocationProviderEnabled;
-import static com.example.test.letsgoseoul.R.id.listView;
 
 public class MenuBar extends AppCompatActivity {
 
@@ -75,8 +59,9 @@ public class MenuBar extends AppCompatActivity {
             case R.id.near:
                 manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);       //gps 확인
                 if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    showSettingsAlert();     //설정창
+                    alertbox();     //설정창
                 }
+                //alertbox();
                 startLocationService();  //gps
                 break;
 
@@ -97,8 +82,8 @@ public class MenuBar extends AppCompatActivity {
          Intent intent = new Intent(getApplicationContext(), Selected_Place.class);
         intent.putExtra("lat", myLat);
         intent.putExtra("lng", myLng);
-        intent.putExtra("name", "My Location");
-        intent.putExtra("myLocation", "yes" );
+        intent.putExtra("name", "현재 위치");
+        intent.putExtra("near", "yes" );
         //Toast.makeText(MainActivity.this,lat + " , " + lng,Toast.LENGTH_LONG).show();
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -149,27 +134,56 @@ public class MenuBar extends AppCompatActivity {
     //gps 설정되어있지 않을 때 설정창 이동
     public void showSettingsAlert() {
 
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder
-                    .setTitle("GPS 사용유무셋팅")
-                    .setMessage("GPS 셋팅이 되지 않았습니다. \n 설정창으로 가시겠습니까?")
-                    .setPositiveButton("Setting",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                    startActivity(intent);
-                                }
-                            })
-                    .setNegativeButton("Cancel",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-            AlertDialog dialog = alertDialogBuilder.create();
-            dialog.show();
-        }
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder
+                .setTitle("GPS 사용유무셋팅")
+                .setMessage("GPS 셋팅이 되지 않았습니다. \n 설정창으로 가시겠습니까?")
+                .setPositiveButton("Setting".toString(),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(intent);
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog dialog = alertDialogBuilder.create();
+        dialog.show();
+    }
+    //gps 안켜져있으면 키도록 유도함
+    protected void alertbox(){
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setMessage("your device's gps is disable")
+                .setTitle("**gps status**")
+                .setPositiveButton("" +
+                        "" +
+                        "" +
+                        "" +
+                        "gps on", new DialogInterface.OnClickListener() {
 
+                    //  폰 위치 설정 페이지로 넘어감
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        android.app.AlertDialog alert = builder.create();
+        alert.show();
+
+    }
     //gps 정보요청
     private void startLocationService() {
 

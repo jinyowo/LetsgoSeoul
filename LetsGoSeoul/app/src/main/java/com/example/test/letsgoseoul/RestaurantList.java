@@ -213,6 +213,7 @@ public class RestaurantList extends MenuBar {
                 intent.putExtra("SelectedUrl", adapter.getItem(position).getUrl());   //선택된 곳 url 넘겨주기
                 intent.putExtra("Lat",adapter.getItem(position).getmLat());
                 intent.putExtra("Lng",adapter.getItem(position).getmLng());
+                intent.putExtra("name",adapter.getItem(position).getData());
                 //Toast.makeText(RestaurantList.this,adapter.getItem(position).getId(),Toast.LENGTH_LONG).show();
                 startActivity(intent);
             }

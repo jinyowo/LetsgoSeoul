@@ -59,6 +59,7 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
 
     private double lat;   //위도
     private double lng;   //경도
+    private String placename;
 
     private TextView phoneNumberForm;
     private TextView homepageForm;
@@ -67,10 +68,12 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_restaurant);
         Intent intent = new Intent(this.getIntent());
+
         int getPlaceId = intent.getExtras().getInt("Selected");   //넘어온 선택된 아이템 ID
         String getPlaceUrl = intent.getExtras().getString("SelectedUrl");   //넘어온 선택된 아이템 ID
         lat =intent.getExtras().getDouble("Lat");
         lng =intent.getExtras().getDouble("Lng");
+        placename = intent.getExtras().getString("name");
 
         Toast.makeText(getBaseContext(),"tq lat "+lat+" lng"+lng,Toast.LENGTH_SHORT).show();
         placeNameForm = (TextView)findViewById(R.id.Name);
@@ -93,14 +96,13 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
                                     try {
                                         //결과 값 출력
                                         JSONObject jObject = new JSONObject(response);
-                                        String name = jObject.getString("name");
                                         String address = jObject.getString("address");
                                         String detail = jObject.getString("overview");
 
                                         String tel = jObject.getString("tel");
                                         String homepage = jObject.getString("homepage");
 
-                                        placeNameForm.setText(name);
+                                        placeNameForm.setText(placename);
                                         addressForm.setText(address);
 
                                         detailForm.setText(Html.fromHtml(detail));
@@ -159,9 +161,9 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
         ///받아온 getPlaceId이용해 좌표 넣어줄 위치
 
         LatLng placePoint= new LatLng(lat, lng);
-        mMap.addMarker(new MarkerOptions().position(placePoint).title("Marker"));
+        mMap.addMarker(new MarkerOptions().position(placePoint).title(placename));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(placePoint));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
     }
 
     public void getBitmap(String imgUrl) {

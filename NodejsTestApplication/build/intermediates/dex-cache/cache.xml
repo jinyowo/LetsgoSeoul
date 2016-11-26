@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="24.0.1"
+        sha1="f62e763609f65e47dc6c498760a4accf02776788">
+        <dex dex="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-24.1.1_9f472858df733efe40e7b17ce22f40ced6743856\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.3.1\ecb6e1f8e4b0e84c4b886c2f14a1500caf309757\gson-2.3.1.jar"
+        jumboMode="true"
+        revision="24.0.1"
+        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
+        <dex dex="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.3.1_3d67bc6296728dce11d45e3fe02a4d0f0bf336e9\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\exploded-aar\com.android.support\multidex\1.0.1\jars\classes.jar"
+        jumboMode="true"
+        revision="24.0.1"
+        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
+        <dex dex="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-multidex-1.0.1_a30cac32bedece635e51021a9011d7e9d5342158\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="24.0.1"
+        sha1="981397173d643ae35cfb9316f399a9773c0c8885">
+        <dex dex="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_a43b54539d16467d367b3f40f1a59cb7291783fa\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="24.0.1"
+        sha1="1256c10604bb098490eab070d76754ac5ceab35c">
+        <dex dex="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-24.1.1_623fac6fe92f8ce34d83b43dee6ff58ef3d8df1d\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\exploded-aar\com.android.volley\volley\1.0.0\jars\classes.jar"
+        jumboMode="true"
+        revision="24.0.1"
+        sha1="2cd4b982617e544728de0782d718a58ce1b06e3f">
+        <dex dex="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.volley-volley-1.0.0_ff5da9a79a7d7fae03b487394cb28f33b31fc619\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="24.0.1"
+        sha1="6d7d803871e3203465f71a163e7af104f807b446">
+        <dex dex="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-24.1.1_fa0a64f88492d16a47cd76436b5bb4a806fa5bdb\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.1.1\jars\libs\internal_impl-24.1.1.jar"
+        jumboMode="true"
+        revision="24.0.1"
+        sha1="f78c2f395cb096f9dc1dc07e729922b8fcd3c4f5">
+        <dex dex="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.1.1_dfc308f2bed63fd9d8e4b7b308811c7b613a34a0\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="24.0.1"
+        sha1="2d5b072311aabee1db0fdf78043d37a9eea02374">
+        <dex dex="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_cc2d3b753fee4db4282eb4c26383e46b0f5e5adf\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="24.0.1"
+        sha1="c936c1bd42f0c018c18920c7bec619ef056b24f8">
+        <dex dex="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-24.1.1_6afc9c7fa4d8db02188381dda1b412442bf282a6\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.1.1\support-annotations-24.1.1.jar"
+        jumboMode="true"
+        revision="24.0.1"
+        sha1="3af19f153122737b372622fa6c81dd11a1c6b999">
+        <dex dex="C:\Users\Administrator\Documents\GitHub\Dalmuti-LetsgoSeoul\NodejsTestApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.1.1_624ffef837a64c3afe9bb9fe8426f6ccaa054bc1\classes.dex" />
+    </item>
+
+</items>
