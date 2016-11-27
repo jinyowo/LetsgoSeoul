@@ -76,7 +76,7 @@ public class MainActivity extends MenuBar {
                             for(int i=0; i < jarr.length(); i++){
                                 JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
                                 String name = jObject.getString("name");
-                                int id = i;
+                                int id = i+1;
 
                                 Log.v("Location", id + " , " +  name);
                                 temp[id] = id + " :  " + name;
