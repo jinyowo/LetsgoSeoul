@@ -3,8 +3,7 @@ package com.example.test.letsgoseoul;
 
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
-=======
+
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -12,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
->>>>>>> 0ee41e134022da64c38167eb67299379f72dd0f7
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -78,7 +76,7 @@ public class MainActivity extends MenuBar {
                             for(int i=0; i < jarr.length(); i++){
                                 JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
                                 String name = jObject.getString("name");
-                                int id = jObject.getInt("id");
+                                int id = i;
 
                                 Log.v("Location", id + " , " +  name);
                                 temp[id] = id + " :  " + name;
@@ -132,16 +130,20 @@ public class MainActivity extends MenuBar {
                                                           try {
                                                               //결과 값 출력
                                                               JSONArray jarr = new JSONArray(response);   // JSONArray 생성
+                                                              JSONObject jObject = jarr.getJSONObject(position);
+                                                              seletedLat = jObject.getDouble("lat");
+                                                              seletedLng = jObject.getDouble("lng");
+                                                              seletedName = jObject.getString("name");
 
-                                                              for(int i=0; i < jarr.length(); i++){
-                                                                  JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
-                                                                  if(jObject.getInt("id") == position +1) {
-                                                                      seletedLat = jObject.getDouble("lat");
-                                                                      seletedLng = jObject.getDouble("lng");
-                                                                      seletedName = jObject.getString("name");
-                                                                      break;
-                                                                  }
-                                                              }
+//                                                              for(int i=0; i < jarr.length(); i++){
+//                                                                  JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
+//                                                                  if(jObject.getInt("id") == position +1) {
+//                                                                      seletedLat = jObject.getDouble("lat");
+//                                                                      seletedLng = jObject.getDouble("lng");
+//                                                                      seletedName = jObject.getString("name");
+//                                                                      break;
+//                                                                  }
+//                                                              }
                                                               intent.putExtra("lat", seletedLat);
                                                               intent.putExtra("lng", seletedLng);
                                                               intent.putExtra("name", seletedName);
@@ -169,12 +171,6 @@ public class MainActivity extends MenuBar {
                                           };
 
                                           Volley.newRequestQueue(getApplicationContext()).add(request);
-                                          //intent.putExtra("SelectedPlace", "");    여기다가 선택된 아이템의 db ID 텍스트로 뒤에 넣어주면 됌
-//                                          try{
-//                                              manager.removeUpdates(gpsListener);
-//                                          } catch(SecurityException ex) {
-//                                              ex.printStackTrace();}
-                                          // Toast.makeText(MainActivity.this,"리스트클릭",Toast.LENGTH_LONG).show();
                                       }
                                   }
         );

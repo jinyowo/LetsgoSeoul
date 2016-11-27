@@ -22,7 +22,7 @@ Schema.createSchema = function(mongoose) {
 	});
 	
 	FacebookSchma.static('findAll', function(callback) {
-		return this.find({}, callback);
+		return this.find({}, callback).sort({checkins:-1});
 	});
 	
 	console.log('FacebookSchema 정의함.');
