@@ -7,7 +7,7 @@ var express = require('express')
 var schedule = require('node-schedule');
 
 var database = require('./database/database');
-var graph_api = require('./routes/graph_api');
+var graph_api = require('./routes/facebook_api');
 var tour_api = require('./routes/tour_api');
 
 var user = require('./routes/user');
@@ -77,7 +77,7 @@ var scheduleHandle = null;
 var contentsReceiver = function() {
 	console.log("\n\n\n\n\n=====컨텐츠 리시버 시작=====");
 	graph_api.init();
-	tour_api.init(126.981106, 37.568477);
+	//tour_api.init(126.981106, 37.568477);
 	console.log("\n\n\n\n\n=====컨텐츠 리시버 종료=====");
 }
 

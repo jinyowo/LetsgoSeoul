@@ -3,7 +3,7 @@
  *
  */
 var config = require('../config');
-var graph_api = require('./graph_api');
+var graph_api = require('./facebook_api');
 var tour_api = require('./tour_api');
 
 var database;
@@ -29,11 +29,6 @@ function addlocation() {
 		for(var i=1; i<=10; i++)
 		{
 			addLocation(database, list[i].id, list[i].checkins, list[i].name, list[i].lat, list[i].lng, function(err, result) {
-
-			//tour_api에 위도경도를 전달해줌
-			// tour_api.init(list[i].lat, list[i].lng, function() {
-			// 	console.log('tour_api');
-			// });
 
 			if (err) {throw err;}
 			if (result) {

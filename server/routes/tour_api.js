@@ -18,27 +18,23 @@ var appName = 'letsgoseoul';
 // 불러온 데이터 갯수
 var numOfData = '20';
 
-// 위도경도
-var myLat, myLng;
-
 // 장소 리스트
 var foodList = new Array();
 var placeList = new Array();
-
-//데이터베이스 객체, 스키마 객체, 모델 객체를 이 모듈에서 사용할 수 있도록 전달함
-var init = function(lat, lng) {
-        console.log('tour_api init 호출됨.');
-
-        myLat = lat;
-        myLng = lng;
-
-        getFoodList(lat, lng, function() {
-                console.log('@@(tour)complete@@');
-
-                //tour.addFoodList();
-                //tour.addPlaceList();
-        });
-};
+//
+// var init = function(lat, lng) {
+//         console.log('tour_api init 호출됨.');
+//
+//         myLat = lat;
+//         myLng = lng;
+//
+//         getFoodList(lat, lng, function() {
+//                 console.log('@@(tour)complete@@');
+//
+//                 //tour.addFoodList();
+//                 //tour.addPlaceList();
+//         });
+// };
 
 //food, place list 가져오기
 var getFoodList = function(lat, lng, callback) {
@@ -228,7 +224,7 @@ var getDetail = function(id, callback) {
 };
 
 
-module.exports.init = init;
+//module.exports.init = init;
 module.exports.getFoodList = getFoodList;
 module.exports.getPlaceList = getPlaceList;
 module.exports.getDetail = getDetail;

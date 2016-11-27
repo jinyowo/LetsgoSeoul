@@ -7,7 +7,6 @@ module.exports = {
 	db_schemas: [
 	    {file:'./user_schema', collection:'users', schemaName:'UserSchema', modelName:'UserModel'},
 	    {file:'./fb_schema', collection:'facebook', schemaName:'FacebookSchema', modelName:'FacebookModel'}
-		//	{file:'./tour_schema', collection:'tour', schemaName:'TourSchema', modelName:'TourModel'}
 	],
 	route_info: [
 	    //===== Default page =====//

@@ -27,7 +27,6 @@ var foodlist = function(req, res) {
         }
 
         if(results) {
-            //foodList = tour_api.foodList;
             res.writeHead('200', {'Content-Type':'application/json, text/html;charset=utf8'});
             res.write(JSON.stringify(results));
             res.end();

@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 /* user init을 위해 추가 */
 var user = require('../routes/user');
 var facebook = require('../routes/facebook');
-var tour = require('../routes/tour');
 
 //database object에  db, schma, model 추
 var database = {};
