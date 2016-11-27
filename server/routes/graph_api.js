@@ -52,6 +52,7 @@ function searchLocation(callback) {
                     // 각각의 데이터(object)
                     var info_list = new Object();
                     // object들의 정보
+                    info_list.id = res.data[i].id;
                     info_list.name = res.data[i].name;
                     info_list.city = res.data[i].location.city;
                     info_list.lat = res.data[i].location.latitude;

@@ -28,7 +28,7 @@ function addlocation() {
 	if (database) {
 		for(var i=1; i<=10; i++)
 		{
-			addLocation(database, i, list[i].checkins, list[i].name, list[i].lat, list[i].lng, function(err, result) {
+			addLocation(database, list[i].id, list[i].checkins, list[i].name, list[i].lat, list[i].lng, function(err, result) {
 
 			//tour_api에 위도경도를 전달해줌
 			// tour_api.init(list[i].lat, list[i].lng, function() {
