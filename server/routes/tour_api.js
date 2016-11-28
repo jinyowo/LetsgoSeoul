@@ -1,13 +1,14 @@
-/*
- *  tour_api.js : 위도 경도로 관광 api에서 정보를 받아옴
+/**
+ *  tour_api.js : Tour API에서 직접적으로 정보를 받아오는 함수
  *
  */
+
 var tour = require('./tour');
 var request = require('request');
 var myKey = 'X%2BQN2%2BwpDBWQiFgODHXp%2FlTVQbpVTMlVGjWsIzIzmKjJYh2xcNusIC%2FeHVRGHzYwRsOqu7AqsZJKcCHMDAb%2Buw%3D%3D';
 //var myKey = 'ePhJZR2dULEVHAoBvgtMSpN3z2MkXbwTIbpAM9QaOjYDxnvPovwx9ygEPKh5SrPm33yZcHcyDb7KjT4%2Br%2BgyoA%3D%3D';
 
-// 주변 범위
+// 주변 범위 1500m
 var radius = '1500';
 
 // 모바일OS 안드로이드:AND
@@ -22,20 +23,6 @@ var numOfData = '20';
 // 장소 리스트
 var foodList = new Array();
 var placeList = new Array();
-//
-// var init = function(lat, lng) {
-//         console.log('tour_api init 호출됨.');
-//
-//         myLat = lat;
-//         myLng = lng;
-//
-//         getFoodList(lat, lng, function() {
-//                 console.log('@@(tour)complete@@');
-//
-//                 //tour.addFoodList();
-//                 //tour.addPlaceList();
-//         });
-// };
 
 //food, place list 가져오기
 var getFoodList = function(lat, lng, callback) {
@@ -59,6 +46,7 @@ var getFoodList = function(lat, lng, callback) {
 				var bodyObject = JSON.parse(body);
 				console.log("bodyObject = " + bodyObject);
 
+                // resultCode = 0000 -> 정상적으로 결과를 받아옴
 				if(bodyObject.response.header.resultCode == 0000) {
                     var numOfItems = 0;
                     if(bodyObject.response.body.items === "") {
@@ -89,14 +77,10 @@ var getFoodList = function(lat, lng, callback) {
                         // 음식 리스트에 추가
 						foodList.push(tmp);
 
-						//console.log("title: " + bodyObject.response.body.items.item[i].title + ", tel: " + bodyObject.response.body.items.item[i].tel + ", contentID " + bodyObject.response.body.items.item[i].contentid);
-
-						//console.log(bodyObject.response.body.items.item[i]);
 					}
                     console.log(foodList);
 
                     callback(null, foodList);
-                    // console.log(bodyObject.response.body.items.item[5]);
 				}
 				else {
 					console.log(bodyObject.response.header.resultMsg);
@@ -141,7 +125,7 @@ var getPlaceList = function(lat, lng, callback) {
                     // 각각의 데이터(object)
                     var tmp = new Object();
                     console.log(i + "번째 아이템");
-                    // console.log(JSON.stringify(bodyObject));
+
                     // bodyObject들의 정보
                     tmp.name = bodyObject.response.body.items.item[i].title;
                     tmp.contentid = bodyObject.response.body.items.item[i].contentid;
@@ -154,13 +138,11 @@ var getPlaceList = function(lat, lng, callback) {
                         tmp.image = 'http://nodetest.iptime.org:3000/public/resources/default_place.png';
                     // 음식 리스트에 추가
                     placeList.push(tmp);
-                    //console.log("title: " + bodyObject.response.body.items.item[i].title + ", tel: " + bodyObject.response.body.items.item[i].tel + ", contentID " + bodyObject.response.body.items.item[i].contentid);
-                    //console.log(bodyObject.response.body.items.item[i]);
+
                 }
                 console.log(placeList);
 
                 callback(null, placeList);
-                // console.log(bodyObject.response.body.items.item[5]);
             }
             else {
                 console.log(bodyObject.response.header.resultMsg);
@@ -190,95 +172,37 @@ var getDetail = function(id, callback) {
             var bodyObject = JSON.parse(body);
             var tmp = new Object();
 
-            //예외처리
             tmp.overview = bodyObject.response.body.items.item.overview;
             tmp.name = bodyObject.response.body.items.item.title;
             tmp.lat = bodyObject.response.body.items.item.mapy;
             tmp.lng = bodyObject.response.body.items.item.mapx;
             tmp.address = bodyObject.response.body.items.item.addr1;
 
+            // 전화번호 정보가 없는 경운
             if(bodyObject.response.body.items.item.tel==null)
                 tmp.tel = "";
             else {
                 tmp.tel = bodyObject.response.body.items.item.tel;
             }
 
+            // 홈페이지 정보가 없는 경우
             if(bodyObject.response.body.items.item.homepage==null)
                 tmp.homepage = "";
             else {
+                // HTML포맷으로 받아온 링크에 띄어쓰기를 추가함
                 var addBR = bodyObject.response.body.items.item.homepage.replace('<a','<br><a');
                 tmp.homepage = addBR;
             }
 
             console.log(bodyObject.response.body.items.item);
-            console.log(bodyObject.response.body.items.item.address);
 
             callback(null, tmp);
         }
     });
 };
 
-//
-// var getContentId = function(lat, lng, callback) {
-//     // 불러올 데이터 종류, 음식점:39, 관광지:12
-//     var contentTypeId = '12';
-//
-//     // 접근할 url 생성
-//     var url = 'http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?' +
-//         'ServiceKey=' + myKey +
-//         '&contentTypeId=' + contentTypeId +
-//         '&mapX=' + lng + '&mapY=' + lat +
-//         '&radius=300&numOfRows=' + numOfData +
-//         '&listYN=Y&arrange=D&MobileOS=' + mobileOS +
-//         '&MobileApp=' + appName + '&over&_type=json';
-//
-//     console.log(url);
-//     // url에서 정보 가져오기
-//     request(url, function(error, response, body) {
-//         //placeList.length = 0;
-//         if (!error && response.statusCode === 200) {
-//             var bodyObject = JSON.parse(body);
-//             var numOfItems = 0;
-//
-//             if(bodyObject.response.body.items === "") {
-//                 numOfItems = 0;
-//             }
-//             else {
-//                 numOfItems = bodyObject.response.body.items.item.length;
-//             }
-//             var tmp = new Object();
-//
-//             console.log("numOfItems " + numOfItems);
-//             //+ "@@@ = " + bodyObject.response.body.items.item[numOfItems-1].title);
-//             tmp.id = bodyObject.response.body.items.item[numOfItems-1].contentid;
-//
-//             // getDetail(mainContentId, function(err, results) {
-//             //     var mainDetail;
-//             //
-//             //     if (err) {
-//             //         throw err;
-//             //     }
-//             //
-//             //     if (results) {
-//             //         mainDetail = results;
-//             //         console.log(mainDetail);
-//             //     }
-//             //     else {
-//             //     }
-//             // });
-//
-//             //console.log("@mainContentId = " + mainContentId);
-//
-//             callback(null, tmp);
-//         }
-//     });
-//
-//     //callback(null, mainContentId);
-// };
-
 module.exports.getFoodList = getFoodList;
 module.exports.getPlaceList = getPlaceList;
 module.exports.getDetail = getDetail;
-//module.exports.getContentId = getContentId;
 module.exports.foodList = foodList;
 module.exports.placeList = placeList;

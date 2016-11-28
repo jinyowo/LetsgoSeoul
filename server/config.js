@@ -16,11 +16,10 @@ module.exports = {
 	    {file:'./user', path:'/process/adduser', method:'adduser', type:'post'},	// user.adduser
 	    {file:'./user', path:'/process/listuser', method:'listuser', type:'post'},	// user.listuser
 	    //===== facebook =====//
-	    //{file:'./facebook', path:'/facebook/addlocation', method:'addlocation', type:'post'},	// facebook.addlocation
 	    {file:'./facebook', path:'/facebook/listlocation', method:'listlocation', type:'post'},	// facebook.listlocation
 		//===== tour api =====//
-		{file:'./tour', path:'/tourapi/foodlist', method:'foodlist', type:'get'},	// tour.listfood
-		{file:'./tour', path:'/tourapi/placelist', method:'placelist', type:'get'},	// tour.listfood
-		{file:'./tour', path:'/tourapi/detail', method:'printDetail', type:'get'}	// tour.listplace
+		{file:'./tour', path:'/tourapi/foodlist', method:'foodlist', type:'get'},	// tour.foodlist
+		{file:'./tour', path:'/tourapi/placelist', method:'placelist', type:'get'},	// tour.placelist
+		{file:'./tour', path:'/tourapi/detail', method:'printDetail', type:'get'}	// tour.printDetail
 	    ]
 }

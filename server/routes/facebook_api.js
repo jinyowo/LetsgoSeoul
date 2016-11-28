@@ -1,22 +1,18 @@
-/*
- *  graph_api.js : Facebook graph API에서 장소 정보를 받아와서,
+/**
+ *  facebook_api.js : Facebook graph API에서 장소 정보를 받아와서,
  * 	필터링, 정렬 하여 TOP10을 골라냄.
  *
  * 	list : 최초 장소 리스트(name, city, lat, lng, checkins)
- *	top_10_list : TOP10 장소 리스
+ *	top_10_list : TOP10 장소 리스트
  */
 var FB = require('fb');
 var facebook = require('./facebook');
-var tour_api = require('./tour_api');
 
 //장소 리스트
 var list = new Array();
 var top_10_list = new Array();
 
-//데이터베이스 객체, 스키마 객체, 모델 객체를 이 모듈에서 사용할 수 있도록 전달함
 var init = function() {
-    console.log('graph_api init 호출됨.');
-
     searchLocation(function() {
         facebook.addlocation();
     });
@@ -58,7 +54,6 @@ function searchLocation(callback) {
                     info_list.lat = res.data[i].location.latitude;
                     info_list.lng = res.data[i].location.longitude;
                     info_list.checkins = res.data[i].checkins;
-                    info_list.detail = 0;
 
                     // list에 추가
                     list.push(info_list);

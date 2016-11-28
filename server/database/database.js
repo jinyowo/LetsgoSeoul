@@ -1,12 +1,16 @@
-/* database */
+/**
+* * database 초기 설정을 위한 코드
+*
+* * 데이터베이스 스키마, 모델 정의
+*
+* */
 var mongodb = require('mongodb');
 var mongoose = require('mongoose');
 
-/* user init을 위해 추가 */
 var user = require('../routes/user');
 var facebook = require('../routes/facebook');
 
-//database object에  db, schma, model 추
+//database object에  db, schma, model 추가
 var database = {};
 
 database.init = function(app, config) {
@@ -15,7 +19,7 @@ database.init = function(app, config) {
 	connect(app, config);
 }
 
-//db에 연결하고 응답 객체의 속성으로 db객체 추가
+// db에 연결하고 응답 객체의 속성으로 db객체 추가
 function connect(app, config) {
 	console.log('database connect()호출됨');
 
@@ -54,12 +58,11 @@ function createSchema(app, config) {
 		database[curItem.modelName] = curModel;
 		console.log('스키마 이름 [%s], 모델 이름 [%s] 이 database 객체의 속성으로 추가됨.', curItem.schemaName, curItem.modelName);
 
-
 	}
 
 	app.set('database', database);
 
-	//user database 설정
+	//database init 설정
 	user.init(database);
 	facebook.init(database);
 

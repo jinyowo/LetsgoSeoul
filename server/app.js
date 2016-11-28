@@ -7,7 +7,7 @@ var express = require('express')
 var schedule = require('node-schedule');
 
 var database = require('./database/database');
-var graph_api = require('./routes/facebook_api');
+var facebook_api = require('./routes/facebook_api');
 var tour_api = require('./routes/tour_api');
 
 var user = require('./routes/user');
@@ -76,7 +76,7 @@ var scheduleHandle = null;
 // 외부 서버로부터 컨텐츠를 제공받음
 var contentsReceiver = function() {
 	console.log("\n\n=====컨텐츠 리시버 시작=====");
-	graph_api.init();
+	facebook_api.init();
 	console.log("\n\n=====컨텐츠 리시버 종료=====");
 }
 

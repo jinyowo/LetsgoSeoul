@@ -1,22 +1,19 @@
-/*
+/**
+ *  tour API에서 받아온 데이터리스트를 부르는 메소드들
  *
- *
+ *  foodlist : 음식점 정보 리스트를 받아옴
+ *  placelist : 명소 정보 리스트를 받아옴
+ *  printDetail : 음식점이나 명소에 대한 상세설명을 받아옴
  */
 var config = require('../config');
 var tour_api = require('./tour_api');
 
-// var foodList;
-// var placeList;
-
 // /tourapi/foodlist
-// Tour API에서 불러온 정보를 데이터베이스에 add하는 함수
 var foodlist = function(req, res) {
 	console.log('tour 모듈 안에 있는 foodlist 호출됨.');
 
     var paramLat = req.param('lat');
     var paramLng = req.param('lng');
-
-    console.log("<Location = " + paramLat+ " , " + paramLng);
 
     //food list
     tour_api.getFoodList(paramLat, paramLng, function(err, results) {
@@ -44,7 +41,7 @@ var placelist = function(req, res) {
     var paramLat = req.param('lat');
     var paramLng = req.param('lng');
 
-    //food list
+    //place list
     tour_api.getPlaceList(paramLat, paramLng, function(err, results) {
         console.log('getPlaceList');
         if(err) {
@@ -65,6 +62,7 @@ var placelist = function(req, res) {
     });
 };
 
+// contentID로 상세설명을 받아옴
 var printDetail = function(req, res) {
 	console.log('tour 모듈 안에 있는 printDetail 호출됨.');
 

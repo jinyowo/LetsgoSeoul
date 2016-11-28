@@ -1,5 +1,4 @@
-
-/*
+/**
  * 라우팅 모듈을 로딩하여 설정
  * 
  * 라우팅 모듈 파일에 대한 정보는 route_info.js에 기록함
@@ -36,8 +35,7 @@ function initRoutes(app) {
 		} else {
 			app.post(curItem.path, curModule[curItem.method]);
 		}
-		
-		
+
 		console.log('라우팅 모듈 [%s]이(가) 설정됨.', curItem.method);
 	}
 
