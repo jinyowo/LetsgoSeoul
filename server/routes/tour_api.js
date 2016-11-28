@@ -4,7 +4,8 @@
  */
 var tour = require('./tour');
 var request = require('request');
-var myKey = 'ePhJZR2dULEVHAoBvgtMSpN3z2MkXbwTIbpAM9QaOjYDxnvPovwx9ygEPKh5SrPm33yZcHcyDb7KjT4%2Br%2BgyoA%3D%3D';
+var myKey = 'X%2BQN2%2BwpDBWQiFgODHXp%2FlTVQbpVTMlVGjWsIzIzmKjJYh2xcNusIC%2FeHVRGHzYwRsOqu7AqsZJKcCHMDAb%2Buw%3D%3D';
+//var myKey = 'ePhJZR2dULEVHAoBvgtMSpN3z2MkXbwTIbpAM9QaOjYDxnvPovwx9ygEPKh5SrPm33yZcHcyDb7KjT4%2Br%2BgyoA%3D%3D';
 
 // 주변 범위
 var radius = '1500';
