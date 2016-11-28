@@ -61,49 +61,66 @@ public class MainActivity extends MenuBar {
     //Seoul 기준
     public void setSeoul() {
         hotPlace.clear();           //이전 리스트 clear
+
         //통신
-        StringRequest request = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    public void onResponse(String response) {
-                        try {
-                            //Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
+        final Thread mThread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    StringRequest request = new StringRequest(Request.Method.POST, url,
+                            new Response.Listener<String>() {
+                                public void onResponse(String response) {
+                                    try {
+                                        //Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
 
-                            //결과 값 출력
-                            JSONArray jarr = new JSONArray(response);   // JSONArray 생성
+                                        //결과 값 출력
+                                        JSONArray jarr = new JSONArray(response);   // JSONArray 생성
 
-                            //index 1~10 까지 저장
-                            String temp[] = new String[11];
+                                        //index 1~10 까지 저장
+                                        String temp[] = new String[11];
 
-                            for(int i=0; i < jarr.length(); i++){
-                                JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
-                                String name = jObject.getString("name");
-                                int id = i+1;
+                                        for (int i = 0; i < jarr.length(); i++) {
+                                            JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
+                                            String name = jObject.getString("name");
+                                            int id = i + 1;
 
-                                Log.v("Location", id + " , " +  name);
-                                temp[id] = id + " .  " + name;
+                                            Log.v("Location", id + " , " + name);
+                                            temp[id] = id + " .  " + name;
+                                        }
+
+                                        for (int i = 1; i <= 10; i++) {
+                                            hotPlace.add(temp[i]);
+                                        }
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    startSort(mListView, hotPlace);
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace();
+                                }
                             }
+                    ) {
+                    };
 
-                            for(int i=1; i<=10; i++) {
-                                hotPlace.add(temp[i]);
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        startSort(mListView,hotPlace);
-                    }
-                },
-                new Response.ErrorListener() {
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
+                    Volley.newRequestQueue(getApplicationContext()).add(request);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-        ) {
+            }
         };
 
-        Volley.newRequestQueue(this).add(request);
+        mThread.start();
+        try{
+            mThread.join();
 
+        } catch (InterruptedException e) {
+
+        }
     }
 
     private String seletedName;
