@@ -7,6 +7,7 @@
  */
 var FB = require('fb');
 var facebook = require('./facebook');
+var tour_api = require('./tour_api');
 
 //장소 리스트
 var list = new Array();
@@ -17,7 +18,6 @@ var init = function() {
     console.log('graph_api init 호출됨.');
 
     searchLocation(function() {
-        console.log('@@complete@@');
         facebook.addlocation();
     });
 }
@@ -58,6 +58,7 @@ function searchLocation(callback) {
                     info_list.lat = res.data[i].location.latitude;
                     info_list.lng = res.data[i].location.longitude;
                     info_list.checkins = res.data[i].checkins;
+                    info_list.detail = 0;
 
                     // list에 추가
                     list.push(info_list);
@@ -66,7 +67,6 @@ function searchLocation(callback) {
 
             // 지워야되는 리스트 추가
             removeFaultData(list);
-            //console.log("합치기 전: "+list.length);
 
             // 같은 위치 합치기
             mergeSameLocation(list);
@@ -78,11 +78,8 @@ function searchLocation(callback) {
             for (i = 1; i <= 10; i++) {
                 top_10_list[i] = list[i];
 
-                //console.log("#" +i +" = " +top_10_list[i].name);
             }
-            
-
-            // list 이름 정리
+                // list 이름 정리
 		    for (i = 1; i <= 10; i++) {
 		    	top_10_list[i].name = top_10_list[i].name.replace(/\./g, '');
 		    	top_10_list[i].name = top_10_list[i].name.replace(/\,/g, '');
@@ -125,7 +122,6 @@ function searchLocation(callback) {
             console.log(top_10_list);
             console.log("************");
             callback(list.length);
-            //var jsonInfo = JSON.stringify(list);
         });
 }
 //쓸모없는 데이터를 수동으로 삭제해줌

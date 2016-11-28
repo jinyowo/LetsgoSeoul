@@ -47,6 +47,7 @@ public class MainActivity extends MenuBar {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        startActivity(new Intent(this,Splash.class));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("  Lets Go Seoul");
         actionBar.setDisplayHomeAsUpEnabled(false);
@@ -65,7 +66,7 @@ public class MainActivity extends MenuBar {
                 new Response.Listener<String>() {
                     public void onResponse(String response) {
                         try {
-                            Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
 
                             //결과 값 출력
                             JSONArray jarr = new JSONArray(response);   // JSONArray 생성
@@ -99,11 +100,6 @@ public class MainActivity extends MenuBar {
                     }
                 }
         ) {
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-;
-                return params;
-            }
         };
 
         Volley.newRequestQueue(this).add(request);
@@ -123,33 +119,23 @@ public class MainActivity extends MenuBar {
                                       @Override
                                       public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                                           final Intent intent = new Intent(MainActivity.this, Selected_Place.class);
+
                                           //position이 선택된 item의 순서
                                           StringRequest request = new StringRequest(Request.Method.POST, url,
                                                   new Response.Listener<String>() {
                                                       public void onResponse(String response) {
                                                           try {
-                                                              //결과 값 출력
-                                                              JSONArray jarr = new JSONArray(response);   // JSONArray 생성
+                                                              //클릭한 포지션에 대한 값들 넘겨주기
+                                                              JSONArray jarr = new JSONArray(response);
                                                               JSONObject jObject = jarr.getJSONObject(position);
                                                               seletedLat = jObject.getDouble("lat");
                                                               seletedLng = jObject.getDouble("lng");
                                                               seletedName = jObject.getString("name");
 
-//                                                              for(int i=0; i < jarr.length(); i++){
-//                                                                  JSONObject jObject = jarr.getJSONObject(i);  // JSONObject 추출
-//                                                                  if(jObject.getInt("id") == position +1) {
-//                                                                      seletedLat = jObject.getDouble("lat");
-//                                                                      seletedLng = jObject.getDouble("lng");
-//                                                                      seletedName = jObject.getString("name");
-//                                                                      break;
-//                                                                  }
-//                                                              }
                                                               intent.putExtra("lat", seletedLat);
                                                               intent.putExtra("lng", seletedLng);
                                                               intent.putExtra("name", seletedName);
                                                               intent.putExtra("near", "no" );
-
-                                                              //Toast.makeText(MainActivity.this,lat + " , " + lng,Toast.LENGTH_LONG).show();
 
                                                               startActivity(intent);
                                                           } catch (Exception e) {
@@ -162,14 +148,7 @@ public class MainActivity extends MenuBar {
                                                           error.printStackTrace();
                                                       }
                                                   }
-                                          ) {
-                                              protected Map<String, String> getParams() {
-                                                  Map<String, String> params = new HashMap<>();
-
-                                                  return params;
-                                              }
-                                          };
-
+                                          );
                                           Volley.newRequestQueue(getApplicationContext()).add(request);
                                       }
                                   }

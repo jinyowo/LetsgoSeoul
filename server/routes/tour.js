@@ -8,7 +8,7 @@ var tour_api = require('./tour_api');
 // var foodList;
 // var placeList;
 
-// /tourapi/inputLocation
+// /tourapi/foodlist
 // Tour API에서 불러온 정보를 데이터베이스에 add하는 함수
 var foodlist = function(req, res) {
 	console.log('tour 모듈 안에 있는 foodlist 호출됨.');
@@ -17,7 +17,6 @@ var foodlist = function(req, res) {
     var paramLng = req.param('lng');
 
     console.log("<Location = " + paramLat+ " , " + paramLng);
-    /*add database*/
 
     //food list
     tour_api.getFoodList(paramLat, paramLng, function(err, results) {
@@ -25,7 +24,6 @@ var foodlist = function(req, res) {
         if(err) {
             throw err;
         }
-
         if(results) {
             res.writeHead('200', {'Content-Type':'application/json, text/html;charset=utf8'});
             res.write(JSON.stringify(results));

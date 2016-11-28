@@ -13,6 +13,7 @@
       android:layout_gravity="center"
       android:text="서울 관광지 랭킹 TOP10"
       android:gravity="center"
+
       android:textSize = "22sp"
       android:textStyle = "bold"
       android:textColor="@color/colorWhite"

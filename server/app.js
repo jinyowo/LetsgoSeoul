@@ -75,10 +75,9 @@ var scheduleHandle = null;
 
 // 외부 서버로부터 컨텐츠를 제공받음
 var contentsReceiver = function() {
-	console.log("\n\n\n\n\n=====컨텐츠 리시버 시작=====");
+	console.log("\n\n=====컨텐츠 리시버 시작=====");
 	graph_api.init();
-	//tour_api.init(126.981106, 37.568477);
-	console.log("\n\n\n\n\n=====컨텐츠 리시버 종료=====");
+	console.log("\n\n=====컨텐츠 리시버 종료=====");
 }
 
 // 서버 시작

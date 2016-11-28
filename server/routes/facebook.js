@@ -28,16 +28,16 @@ function addlocation() {
 	if (database) {
 		for(var i=1; i<=10; i++)
 		{
-			addLocation(database, list[i].id, list[i].checkins, list[i].name, list[i].lat, list[i].lng, function(err, result) {
+				addLocation(database, list[i].id, list[i].checkins, list[i].name, list[i].lat, list[i].lng, function(err, result) {
 
-			if (err) {throw err;}
-			if (result) {
-				console.log('facebook data 추가 성공!');
-			} else {
-				console.log('facebook data 추가 실패!');
-			}
-			});
-		}
+					if (err) {throw err;}
+					if (result) {
+						console.log('facebook data 추가 성공!');
+					} else {
+						console.log('facebook data 추가 실패!');
+					}
+				});
+        }
 	} else {
 		console.log('db연결실패!');
 	}
@@ -56,8 +56,8 @@ var listlocation = function(req, res) {
 			}
 
 			if (results) {
-				console.dir(results);
 
+				console.dir(results);
 				res.writeHead('200', {'Content-Type' : 'application/json, text/html; charset=utf8'});
 				res.write(JSON.stringify(results));
 				res.write("<br><br><a href='/'>Back to Main Page</a>");
@@ -81,8 +81,13 @@ var listlocation = function(req, res) {
 //장소를 등록하는 함수
 var addLocation = function(database, id, checkins, name, lat, lng, callback) {
 	console.log('addLocation 호출됨.');
+    //
+    // tour_api.getContentId(lat, lng, function(err, infomation) {
+    //     var mainDetail = JSON.stringify(infomation);
+    //     console.log(mainDetail);
+    // });
 
-	// FacebookModel 인스턴스 생성
+        // FacebookModel 인스턴스 생성
 	var facebook = new FacebookModel({"id":id, "checkins":checkins, "name":name, "lat":lat, "lng":lng});
 
 	// 해당 id가 이미 데이터베이스에 존재하는 id면 기존의 document를 update하고
@@ -103,8 +108,6 @@ var addLocation = function(database, id, checkins, name, lat, lng, callback) {
 					lat:lat,
 					lng:lng},
 					function(err) { console.log(err); });
-			console.log('update');
-
 		} else {
 	    	console.log(id + "새로운 장소정보");
 	    	// save()로 저장
@@ -113,12 +116,9 @@ var addLocation = function(database, id, checkins, name, lat, lng, callback) {
 	    			callback(err, null);
 	    			return;
 	    		}
-	    	console.log("장소 데이터 추가함.");
 	    	});
 		}
-
 	    callback(null, facebook);
-
 	});
 }
 

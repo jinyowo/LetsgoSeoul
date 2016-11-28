@@ -104,7 +104,7 @@ public class RestaurantList extends MenuBar {
 
         final String realUrl = url;
         Log.v("url", url);
-        final Thread mTread = new Thread() {
+        final Thread mThread = new Thread() {
             @Override
             public void run() {
                 try {
@@ -127,7 +127,6 @@ public class RestaurantList extends MenuBar {
                                             Log.v("list", id + " , " +  name);
                                             getBitmap(image, name, id,resLat,resLng);
                                             adapter.notifyDataSetChanged();
-                                            //getBitmap("http://tong.visitkorea.or.kr/cms/resource/03/1987703_image2_1.jpg","바다",1);
                                         }
 
                                     } catch (Exception e) {
@@ -141,11 +140,6 @@ public class RestaurantList extends MenuBar {
                                 }
                             }
                     ) {
-                        protected Map<String, String> getParams() {
-                            Map<String, String> params = new HashMap<>();
-
-                            return params;
-                        }
                     };
 
                     Volley.newRequestQueue(getApplicationContext()).add(request);
@@ -156,10 +150,9 @@ public class RestaurantList extends MenuBar {
             }
         };
 
-        ////
-        mTread.start();
+        mThread.start();
         try{
-            mTread.join();
+            mThread.join();
             adapter.notifyDataSetChanged();
         } catch (InterruptedException e) {
 
