@@ -125,10 +125,10 @@ var getPlaceList = function(lat, lng, callback) {
         placeList.length = 0;
         if (!error && response.statusCode === 200) {
             var bodyObject = JSON.parse(body);
-            console.log("bodyObject = " + bodyObject);
 
             if(bodyObject.response.header.resultCode == 0000) {
                 var numOfItems = 0;
+
                 if(bodyObject.response.body.items === "") {
                     numOfItems = 0;
                 }
@@ -196,12 +196,6 @@ var getDetail = function(id, callback) {
             tmp.lng = bodyObject.response.body.items.item.mapx;
             tmp.address = bodyObject.response.body.items.item.addr1;
 
-            if(bodyObject.response.body.items.item.firstimage == null)
-                tmp.image = 'http://tong.visitkorea.or.kr/cms/resource/24/1717724_image2_1.jpg';
-            else {
-                tmp.image = bodyObject.response.body.items.item.firstimage;
-            }
-
             if(bodyObject.response.body.items.item.tel==null)
                 tmp.tel = "";
             else {
@@ -223,10 +217,67 @@ var getDetail = function(id, callback) {
     });
 };
 
+//
+// var getContentId = function(lat, lng, callback) {
+//     // 불러올 데이터 종류, 음식점:39, 관광지:12
+//     var contentTypeId = '12';
+//
+//     // 접근할 url 생성
+//     var url = 'http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?' +
+//         'ServiceKey=' + myKey +
+//         '&contentTypeId=' + contentTypeId +
+//         '&mapX=' + lng + '&mapY=' + lat +
+//         '&radius=300&numOfRows=' + numOfData +
+//         '&listYN=Y&arrange=D&MobileOS=' + mobileOS +
+//         '&MobileApp=' + appName + '&over&_type=json';
+//
+//     console.log(url);
+//     // url에서 정보 가져오기
+//     request(url, function(error, response, body) {
+//         //placeList.length = 0;
+//         if (!error && response.statusCode === 200) {
+//             var bodyObject = JSON.parse(body);
+//             var numOfItems = 0;
+//
+//             if(bodyObject.response.body.items === "") {
+//                 numOfItems = 0;
+//             }
+//             else {
+//                 numOfItems = bodyObject.response.body.items.item.length;
+//             }
+//             var tmp = new Object();
+//
+//             console.log("numOfItems " + numOfItems);
+//             //+ "@@@ = " + bodyObject.response.body.items.item[numOfItems-1].title);
+//             tmp.id = bodyObject.response.body.items.item[numOfItems-1].contentid;
+//
+//             // getDetail(mainContentId, function(err, results) {
+//             //     var mainDetail;
+//             //
+//             //     if (err) {
+//             //         throw err;
+//             //     }
+//             //
+//             //     if (results) {
+//             //         mainDetail = results;
+//             //         console.log(mainDetail);
+//             //     }
+//             //     else {
+//             //     }
+//             // });
+//
+//             //console.log("@mainContentId = " + mainContentId);
+//
+//             callback(null, tmp);
+//         }
+//     });
+//
+//     //callback(null, mainContentId);
+// };
 
-//module.exports.init = init;
 module.exports.getFoodList = getFoodList;
 module.exports.getPlaceList = getPlaceList;
 module.exports.getDetail = getDetail;
+//module.exports.getContentId = getContentId;
 module.exports.foodList = foodList;
 module.exports.placeList = placeList;
