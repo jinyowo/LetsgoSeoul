@@ -22,13 +22,13 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyANGZ-ybQHoqol2dNX-g47jilVd29POBks" />
-        <activity android:name=".Splash" android:theme="@android:style/Theme.NoTitleBar" />
-        <activity android:name=".MainActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".Splash" android:theme="@android:style/Theme.NoTitleBar" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
+        <activity android:name=".MainActivity" />
 
         <activity
             android:name=".Selected_Place"

@@ -50,6 +50,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/Detail" />
 
+    <TextView
+        android:text="문의 사항"
+        android:textSize = "15sp"
+        android:textStyle = "bold"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/request" />
 
     <TextView
         android:text="Phone Number"
@@ -66,7 +76,6 @@
         android:layout_marginLeft="17dp"
         android:layout_marginRight="17dp"
         android:layout_marginBottom="10dp"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autoLink="web"
