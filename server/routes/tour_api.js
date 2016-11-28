@@ -7,7 +7,7 @@ var request = require('request');
 var myKey = 'ePhJZR2dULEVHAoBvgtMSpN3z2MkXbwTIbpAM9QaOjYDxnvPovwx9ygEPKh5SrPm33yZcHcyDb7KjT4%2Br%2BgyoA%3D%3D';
 
 // 주변 범위
-var radius = '1000';
+var radius = '1500';
 
 // 모바일OS 안드로이드:AND
 var mobileOS = 'AND';
