@@ -9,13 +9,12 @@
 
   <TextView
       android:layout_width="match_parent"
-      android:layout_height="0dp"
+      android:layout_height="40dp"
       android:layout_gravity="center"
-      android:text=" Hot Place "
+      android:text="서울 관광지 랭킹 TOP10"
       android:gravity="center"
-      android:textSize = "27dp"
+      android:textSize = "22sp"
       android:textStyle = "bold"
-      android:layout_weight="1"
       android:textColor="@color/colorWhite"
       android:background="@color/colorMenu"
       />

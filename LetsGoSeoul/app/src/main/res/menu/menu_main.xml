@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item android:id="@+id/near"
         android:icon="@drawable/place_white"
-        android:title="menu_near"
         app:showAsAction="always"
-        ></item>
+        android:title="menu_near"/>
 
     <item android:id="@+id/toHome"
         android:icon="@drawable/home_white"
         android:title="menu_home"
         app:showAsAction="always"
-        ></item>
+       />
 </menu>
+
 
     <!--app:actionViewClass="android.support.v7.widget.SearchView"/>-->

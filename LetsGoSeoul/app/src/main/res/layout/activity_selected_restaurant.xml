@@ -12,35 +12,40 @@
     android:orientation="vertical"
   >
 
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:gravity="center"
         app:srcCompat="@color/cast_expanded_controller_ad_label_background_color"
         android:id="@+id/imageView"
-        android:layout_marginTop="21dp"
     />
 
     <TextView
         android:text="Name"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
+        android:textSize = "24sp"
+        android:textStyle = "bold"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Name" />
 
      <TextView
          android:text="Address"
-         android:layout_marginTop="5dp"
-         android:layout_marginLeft="10dp"
+         android:layout_marginTop="13dp"
+         android:layout_marginLeft="17dp"
+         android:layout_marginRight="17dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Address" />
 
     <TextView
         android:text="detail"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Detail" />
@@ -48,15 +53,18 @@
 
     <TextView
         android:text="Phone Number"
-        android:layout_marginLeft="10dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/PhoneNumber" />
 
     <TextView
         android:text="Home page"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,7 +77,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         class="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_marginBottom="21dp"
+        android:layout_marginBottom="30dp"
         />
 
 </LinearLayout>

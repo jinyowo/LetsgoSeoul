@@ -12,6 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -62,6 +67,7 @@ public class Selected_Place extends MenuBar implements OnMapReadyCallback{
 
         placeName = (TextView)findViewById(R.id.placeName);     //선택된 장소의 이름 입력하는 곳
         placeName.setText(name);
+
         textview = (TextView)findViewById(R.id.placeText);     //상세정보 넣는 곳
         String text;
 
@@ -122,7 +128,7 @@ public void onRestaurantButtonClicked(View v){
                 address = geocoder.getFromLocation(lat, lng, 1);
 
                 if (address != null && address.size() > 0) {
-                    // 주소  ,  대한민국은 뗌
+                    // 주소  ,  대한민국은 주소에서 제거
                     currentLocationAddress = address.get(0).getAddressLine(0).toString().substring(5);
                 }
             }
