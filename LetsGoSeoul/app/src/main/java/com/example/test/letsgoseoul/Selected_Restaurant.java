@@ -81,7 +81,7 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
         lng =intent.getExtras().getDouble("Lng");
         placename = intent.getExtras().getString("name");
 
-        Toast.makeText(getBaseContext(),"tq lat "+lat+" lng"+lng,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getBaseContext(),"tq lat "+lat+" lng"+lng,Toast.LENGTH_SHORT).show();
         placeNameForm = (TextView)findViewById(R.id.Name);
         addressForm = (TextView)findViewById(R.id.Address);
 
@@ -89,8 +89,6 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
 
         phoneNumberForm = (TextView)findViewById(R.id.PhoneNumber);
         homepageForm = (TextView)findViewById(R.id.Homepage);
-        //homepageForm.setMovementMethod(LinkMovementMethod.getInstance());
-
 
         final String url = "http://nodetest.iptime.org:3000/tourapi/detail?contentid="+getPlaceId;
 
@@ -129,11 +127,6 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
                                 }
                             }
                     ) {
-                        protected Map<String, String> getParams() {
-                            Map<String, String> params = new HashMap<>();
-
-                            return params;
-                        }
                     };
 
                     Volley.newRequestQueue(getApplicationContext()).add(request);
@@ -155,16 +148,14 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
                     .findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
         }
-        //getPlaceId가 잘 넘어왔나 확인
-        Toast.makeText(Selected_Restaurant.this,"restaurant "+getPlaceId, Toast.LENGTH_LONG).show();
 
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        ///받아온 getPlaceId이용해 좌표 넣어줄 위치
 
+        ///받아온 getPlaceId이용해 좌표 넣어줄 위치
         LatLng placePoint= new LatLng(lat, lng);
         mMap.addMarker(new MarkerOptions().position(placePoint).title(placename));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(placePoint));

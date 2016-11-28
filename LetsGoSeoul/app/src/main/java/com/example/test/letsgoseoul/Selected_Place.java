@@ -50,7 +50,6 @@ public class Selected_Place extends MenuBar implements OnMapReadyCallback{
 
         lat = intent.getExtras().getDouble("lat");
         lng = intent.getExtras().getDouble("lng");
-        //lng = intent.getDoubleExtra("lng", -1);
         name = intent.getStringExtra("name");
         near = intent.getStringExtra("near");
 
@@ -71,7 +70,7 @@ public class Selected_Place extends MenuBar implements OnMapReadyCallback{
             text = getAddress(lat,lng);
         }
         else {
-            text = "명동은 대한민국 서울특별시 중구에 있는 번화가이자, 지역 이름이다. 명동1가와 명동2가를 합친 면적은 0.91 ㎢이다. 명동1·2가, 충무로1·2가, 을지로1·2가 등을 포함하는 지역이다.";
+            text = getAddress(lat,lng);;
         }
         textview.setText(text);
 
