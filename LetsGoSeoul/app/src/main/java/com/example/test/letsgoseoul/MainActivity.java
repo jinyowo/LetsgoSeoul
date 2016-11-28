@@ -80,7 +80,7 @@ public class MainActivity extends MenuBar {
                                 int id = i+1;
 
                                 Log.v("Location", id + " , " +  name);
-                                temp[id] = id + " :  " + name;
+                                temp[id] = id + " .  " + name;
                             }
 
                             for(int i=1; i<=10; i++) {
