@@ -11,7 +11,7 @@
       android:layout_width="match_parent"
       android:layout_height="40dp"
       android:layout_gravity="center"
-      android:text="서울 관광지 랭킹 TOP10"
+      android:text="서울 여행지 랭킹 TOP10"
       android:gravity="center"
 
       android:textSize = "22sp"

@@ -180,7 +180,7 @@ public class MenuBar extends AppCompatActivity {
         dialog.show();
     }
 
-    
+
     //gps 정보요청
     private void startLocationService() {
 
