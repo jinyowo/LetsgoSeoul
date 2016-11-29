@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.test.letsgoseoul.R.id.listView;
+
 public class MainActivity extends MenuBar {
 
     private ListView  mListView;
@@ -41,42 +42,41 @@ public class MainActivity extends MenuBar {
     //화면에 띄워줄 리스트뷰
     private static ArrayList<String> hotPlace;
 
-    //장소 Top 10 리스트 받아옴
+    // 장소 Top 10 리스트 받아옴
     private String url = "http://nodetest.iptime.org:3000/facebook/listlocation";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       //startActivity(new Intent(this,Splash.class));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("  Lets Go Seoul");
         actionBar.setDisplayHomeAsUpEnabled(false);
         mListView = (ListView) findViewById(listView);
         hotPlace = new ArrayList<String>();
-        //서울중심
-        setSeoul();
+
+        // 인기 장소 Top 10
+        initList();
     }
 
 
-    //Seoul 기준
-    public void setSeoul() {
-        hotPlace.clear();           //이전 리스트 clear
+    // 인기 장소 Top 10
+    public void initList() {
+        hotPlace.clear();           //이전 리스트 clear(hotPlace 초기화)
 
-        //통신
+        // 통신 : 서버에서 JSON형태로 데이터를 받아와서 hotPlace 리스트에 추가
         final Thread mThread = new Thread() {
             @Override
             public void run() {
                 try {
+                    // POST형태로 url에서 데이터를 받아옴
                     StringRequest request = new StringRequest(Request.Method.POST, url,
                             new Response.Listener<String>() {
                                 public void onResponse(String response) {
                                     try {
-                                        //Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
-
-                                        //결과 값 출력
+                                        // 결과 값 출력
                                         JSONArray jarr = new JSONArray(response);   // JSONArray 생성
 
-                                        //index 1~10 까지 저장
+                                        // temp index 1~10 까지 저장
                                         String temp[] = new String[11];
 
                                         for (int i = 0; i < jarr.length(); i++) {
@@ -85,9 +85,10 @@ public class MainActivity extends MenuBar {
                                             int id = i + 1;
 
                                             Log.v("Location", id + " , " + name);
+
                                             temp[id] = id + " .  " + name;
                                         }
-
+                                        // "인기 순위 . 인기 장소 이름"을 String형태로 저장
                                         for (int i = 1; i <= 10; i++) {
                                             hotPlace.add(temp[i]);
                                         }
@@ -104,16 +105,13 @@ public class MainActivity extends MenuBar {
                                     error.printStackTrace();
                                 }
                             }
-                    ) {
-                    };
-
+                    ) {};
                     Volley.newRequestQueue(getApplicationContext()).add(request);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         };
-
         mThread.start();
         try{
             mThread.join();
@@ -123,12 +121,13 @@ public class MainActivity extends MenuBar {
         }
     }
 
+    // 다음 뷰로 넘겨줄 정보를 저장할 변수
     private String seletedName;
     private double seletedLat;
     private double seletedLng;
 
-    //리스트뷰 sorting
-   public void startSort(ListView lv,ArrayList hotPlace) {
+    // 리스트뷰 sorting
+    public void startSort(ListView lv,ArrayList hotPlace) {
         ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_list_item, R.id.tv_hotPlace, hotPlace);
         lv.setTextFilterEnabled(true);
         lv.setAdapter(arrayAdapter);
