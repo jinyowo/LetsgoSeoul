@@ -74,7 +74,7 @@ public class MenuBar extends AppCompatActivity {
             case R.id.near:       //내 위치 중심으로 맛집 및 명소 검색
                 manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);       //gps 확인
                 if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    alertbox();     //설정창
+                    showSettingsAlert();    //설정창
                 }
                 startLocationService();  //gps
                 break;
@@ -180,38 +180,7 @@ public class MenuBar extends AppCompatActivity {
         dialog.show();
     }
 
-    //gps 안켜져있으면 키도록 유도함
-    protected void alertbox(){
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-        builder.setMessage("your device's gps is disable")
-                .setTitle("**gps status**")
-                .setPositiveButton("" +
-                        "" +
-                        "" +
-                        "" +
-                        "gps on", new DialogInterface.OnClickListener() {
-
-                    //  폰 위치 설정 페이지로 넘어감
-                    public void onClick(DialogInterface dialog, int id) {
-                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(myIntent);
-                        dialog.cancel();
-                    }
-                })
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        android.app.AlertDialog alert = builder.create();
-        alert.show();
-
-    }
-
-
+    
     //gps 정보요청
     private void startLocationService() {
 

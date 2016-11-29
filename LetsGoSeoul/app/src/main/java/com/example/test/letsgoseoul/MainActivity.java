@@ -144,7 +144,7 @@ public class MainActivity extends MenuBar {//MenuBar 상속
 
     //Listview에 List hotPlace를 띄워주는 함수
    public void startSort(ListView lv,ArrayList hotPlace) {
-       
+
         ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_list_item, R.id.tv_hotPlace, hotPlace);
        //lv.setTextFilterEnabled(true);
         lv.setAdapter(arrayAdapter);
