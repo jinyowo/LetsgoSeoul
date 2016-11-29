@@ -68,7 +68,9 @@
         android:layout_marginRight="17dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/PhoneNumber" />
+        android:id="@+id/PhoneNumber"
+        android:textColor="@color/colorAccent"
+        android:onClick="onCallNumberClicked"/>
 
     <TextView
         android:text="Home page"

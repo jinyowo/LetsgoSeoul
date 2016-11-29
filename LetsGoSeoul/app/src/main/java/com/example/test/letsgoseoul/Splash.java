@@ -8,6 +8,8 @@ import android.os.Message;
 
 /**
  * Created by jiny on 2016. 11. 28..
+ *
+ * 안드로이드 시작화면
  */
 public class Splash extends Activity{
 

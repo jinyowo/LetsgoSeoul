@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
@@ -114,6 +115,8 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
                                         detailForm.setText(Html.fromHtml(detail));
 
                                         phoneNumberForm.setText(tel);
+
+                                        // 홈페이지 링크를 클릭하면 해당 홈페이지로 이동하도록 html <a> 태그 적용
                                         homepageForm.setText(Html.fromHtml(homepage));
 
                                     } catch (Exception e) {
@@ -186,6 +189,13 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
             placeImg.setImageBitmap(bm);
         } catch (InterruptedException e) {
         }
+    }
+
+    // 전화번호를 누르면 자동으로 전화가 걸어짐
+    public void onCallNumberClicked(View view) {
+        Log.v("phone number", phoneNumberForm.getText().toString());
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phoneNumberForm.getText().toString()));
+        startActivity(intent);
     }
 }
 
