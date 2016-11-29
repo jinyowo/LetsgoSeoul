@@ -73,7 +73,6 @@ public class RestaurantList extends MenuBar {
     private String placeUrl = "http://nodetest.iptime.org:3000/tourapi/placelist";
 
 
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_list);
