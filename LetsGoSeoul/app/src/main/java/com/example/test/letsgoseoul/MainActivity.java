@@ -34,11 +34,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.test.letsgoseoul.R.id.listView;
-public class MainActivity extends MenuBar {
+
+//서울 인기 장소 리스트를 보여주는 화면
+public class MainActivity extends MenuBar {//MenuBar 상속
 
     private ListView  mListView;
 
-    //화면에 띄워줄 리스트뷰
+    //화면에 띄워줄 리스트
     private static ArrayList<String> hotPlace;
 
     //장소 Top 10 리스트 받아옴
@@ -47,12 +49,15 @@ public class MainActivity extends MenuBar {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       //startActivity(new Intent(this,Splash.class));
-        ActionBar actionBar = getSupportActionBar();
+
+        ActionBar actionBar = getSupportActionBar();        //ACTION BAR
         actionBar.setTitle("  Lets Go Seoul");
-        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(false);       //Home 버튼 false
+
+
         mListView = (ListView) findViewById(listView);
         hotPlace = new ArrayList<String>();
+
         //서울중심
         setSeoul();
     }
@@ -60,7 +65,8 @@ public class MainActivity extends MenuBar {
 
     //Seoul 기준
     public void setSeoul() {
-        hotPlace.clear();           //이전 리스트 clear
+
+       // hotPlace.clear();           //이전 리스트 clear
 
         //통신
         final Thread mThread = new Thread() {
@@ -96,7 +102,7 @@ public class MainActivity extends MenuBar {
                                         e.printStackTrace();
                                     }
 
-                                    startSort(mListView, hotPlace);
+                                    startSort(mListView, hotPlace);         //Listview에 List hotPlace를 띄워주는 함수
                                 }
                             },
                             new Response.ErrorListener() {
@@ -127,17 +133,20 @@ public class MainActivity extends MenuBar {
     private double seletedLat;
     private double seletedLng;
 
-    //리스트뷰 sorting
+
+    //Listview에 List hotPlace를 띄워주는 함수
    public void startSort(ListView lv,ArrayList hotPlace) {
         ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_list_item, R.id.tv_hotPlace, hotPlace);
-        lv.setTextFilterEnabled(true);
+       //lv.setTextFilterEnabled(true);
         lv.setAdapter(arrayAdapter);
+
+       //리스트 Click event
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                       @Override
                                       public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                                           final Intent intent = new Intent(MainActivity.this, Selected_Place.class);
 
-                                          //position이 선택된 item의 순서
+                                          //position : 선택된 item의 순서
                                           StringRequest request = new StringRequest(Request.Method.POST, url,
                                                   new Response.Listener<String>() {
                                                       public void onResponse(String response) {

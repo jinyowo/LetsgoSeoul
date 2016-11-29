@@ -9,6 +9,8 @@ import android.os.Message;
 /**
  * Created by jiny on 2016. 11. 28..
  */
+
+//앱 시작 화면
 public class Splash extends Activity{
 
     @Override

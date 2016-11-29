@@ -47,7 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+//선택된 RESTARURANT OR SIGHT의 정보를 보여주는 클래스
 public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
     private GoogleMap mMap;
     private static Bitmap bm;   //이미지
@@ -161,6 +161,7 @@ public class Selected_Restaurant extends MenuBar implements OnMapReadyCallback{
         mMap.moveCamera(CameraUpdateFactory.newLatLng(placePoint));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
     }
+
 
     public void getBitmap(String imgUrl) {
         final String urlImg =imgUrl;

@@ -3,6 +3,9 @@ package com.example.test.letsgoseoul;
 import android.app.Activity;
 import android.graphics.Bitmap;
 
+
+//SIGHTS OR RESTAURANT LIST의 하나의 ITEM
+
 public class RestaurantListItem extends Activity {
 
     private Bitmap mIcon;

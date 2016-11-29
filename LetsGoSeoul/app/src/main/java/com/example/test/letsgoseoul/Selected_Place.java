@@ -29,8 +29,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+
+//선택된 장소 클래스
 public class Selected_Place extends MenuBar implements OnMapReadyCallback{
-    private int getPlaceId; //test
+   // private int getPlaceId; //test
    // private String getPlaceId; //id
     private GoogleMap mMap;
     private TextView placeName;
@@ -46,9 +48,13 @@ public class Selected_Place extends MenuBar implements OnMapReadyCallback{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected__place);
+
+        //ACTION BAR
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Lets Go Seoul");
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+
         Intent intent = new Intent(this.getIntent());
         //String getPlaceId = intent.getExtras().getString("SelectedPlace");   //넘어온 선택된 아이템 ID
         // getPlaceId = intent.getExtras().getInt("SelectedPlace");   //넘어온 test용 ID
@@ -60,6 +66,8 @@ public class Selected_Place extends MenuBar implements OnMapReadyCallback{
 
         //getPlaceId가 잘 넘어왔나 확인
         //Toast.makeText(Selected_Place.this,"My location"+lat+" "+ lng, Toast.LENGTH_LONG).show();
+
+        //MAP
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -77,7 +85,7 @@ public class Selected_Place extends MenuBar implements OnMapReadyCallback{
         }
         else {
             text = getAddress(lat,lng);;
-        }
+       }
         textview.setText(text);
 
 
@@ -94,6 +102,7 @@ public class Selected_Place extends MenuBar implements OnMapReadyCallback{
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
         ///받아온 getPlaceId이용해 좌표 넣어줄 위치
         //LatLng placePoint= new LatLng(37.560891, 126.985246);
         LatLng placePoint= new LatLng(lat, lng);
@@ -102,6 +111,7 @@ public class Selected_Place extends MenuBar implements OnMapReadyCallback{
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
+    //RESTAURANT BUTTON CLICK EVENT
 public void onRestaurantButtonClicked(View v){
     Intent intent = new Intent(getApplicationContext(),RestaurantList.class);
     intent.putExtra("lat", lat);
@@ -109,6 +119,8 @@ public void onRestaurantButtonClicked(View v){
     intent.putExtra("buttonOption", "restaurant");
     startActivity(intent);
 }
+
+    //SIGHTS BUTTON CLICK EVENT
     public void onSightsButtonClicked(View v){
         Intent intent = new Intent(getApplicationContext(),RestaurantList.class);
         intent.putExtra("lat", lat);
@@ -116,6 +128,7 @@ public void onRestaurantButtonClicked(View v){
         intent.putExtra("buttonOption", "sights");
         startActivity(intent);
     }
+
 
     private String getAddress(double lat, double lng) {
         String currentLocationAddress=null;

@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-
+//메뉴바
 public class MenuBar extends AppCompatActivity {
 
     private GPSListener gpsListener = new GPSListener();
@@ -53,13 +53,13 @@ public class MenuBar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //getSupportActionBar().setBackgroundDrawable(new ColorDrawable());
-        //액션바 메뉴 띄워주기
+        //gps 허가
         checkDangerousPermissions();
     }
 
-
+    //액션바 띄워주기
     public boolean onCreateOptionsMenu(Menu menu) {
+
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -71,28 +71,28 @@ public class MenuBar extends AppCompatActivity {
         int curId = item.getItemId();
         Intent intent;
         switch (curId) {
-            case R.id.near:
+            case R.id.near:       //내 위치 중심으로 맛집 및 명소 검색
                 manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);       //gps 확인
                 if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     alertbox();     //설정창
                 }
-                //alertbox();
                 startLocationService();  //gps
                 break;
 
-            case R.id.toHome:
+            case R.id.toHome:       //MAIN 화면으로 이동
                 Context context = getApplicationContext();
-                String temp = getClass().getName();
-                //Toast.makeText(getApplicationContext(), temp, Toast.LENGTH_LONG).show();
+                String temp = getClass().getName();         //현재 화면의 클래스 이름름
+
+               //현재 위치가 HOME 화면이면 동작하지 않는다
                 if(!temp.equals("com.example.test.letsgoseoul.MainActivity")) {
                     intent = new Intent(getApplicationContext(), MainActivity.class); // 다음 넘어갈 클래스 지정
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);       //안드로이드 스택 clear
                     startActivity(intent); // 다음 화면으로 넘어간다
                 }
                 break;
 
-            case android.R.id.home:
-                finish();
+            case android.R.id.home:         //뒤로가기
+                finish();                    //창 닫기
                 return true;
 
             default:
@@ -102,7 +102,7 @@ public class MenuBar extends AppCompatActivity {
     }
 
 
-    //NEAR가 중심인 경우
+
     public void setNear() {
          Intent intent = new Intent(getApplicationContext(), Selected_Place.class);
         intent.putExtra("lat", myLat);
@@ -110,7 +110,7 @@ public class MenuBar extends AppCompatActivity {
         intent.putExtra("name", "현재 위치");
         intent.putExtra("near", "yes" );
         //Toast.makeText(MainActivity.this,lat + " , " + lng,Toast.LENGTH_LONG).show();
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);           //안드로이드 코드 clear
         startActivity(intent);
 
     }
@@ -179,6 +179,7 @@ public class MenuBar extends AppCompatActivity {
         AlertDialog dialog = alertDialogBuilder.create();
         dialog.show();
     }
+
     //gps 안켜져있으면 키도록 유도함
     protected void alertbox(){
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
@@ -209,6 +210,8 @@ public class MenuBar extends AppCompatActivity {
         alert.show();
 
     }
+
+
     //gps 정보요청
     private void startLocationService() {
 
@@ -246,7 +249,7 @@ public class MenuBar extends AppCompatActivity {
 
     private class GPSListener implements LocationListener {
 
-        //위치 정보가 확인될 때 자동 호출되는 메소드
+        //위치 정보가 업데이트 될 때
         public void onLocationChanged(Location location) {
             double latitude = location.getLatitude();
             double longitude  = location.getLongitude();
@@ -256,7 +259,7 @@ public class MenuBar extends AppCompatActivity {
             //Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
 
             try {
-                manager.removeUpdates(gpsListener);
+                manager.removeUpdates(gpsListener);         //gps 리스너 업데이트 종료
             } catch(SecurityException ex) {
                 ex.printStackTrace();
             }

@@ -55,11 +55,11 @@ import java.util.Objects;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
-
+//SIGHTS OR RESTAURANT LIST를 보여주는 화면
 public class RestaurantList extends MenuBar {
 
     // Handler handler = new Handler();  url->bitmap
-    //  Activity act = this;
+
     GridView gridView;
     gridAdapter adapter;
     private double lat;   //위도
@@ -78,7 +78,7 @@ public class RestaurantList extends MenuBar {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_list);
 
-
+        //ACTION BAR
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Lets Go Seoul");
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -86,6 +86,7 @@ public class RestaurantList extends MenuBar {
         Intent intent = new Intent(this.getIntent());
         lat = intent.getExtras().getDouble("lat");
         lng = intent.getExtras().getDouble("lng");
+
         gridView = (GridView) findViewById(R.id.gridView1);
         adapter = new gridAdapter(this);
 
@@ -162,7 +163,7 @@ public class RestaurantList extends MenuBar {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {     //item 선택했을때
                 Intent intent;
-                intent = new Intent(RestaurantList.this, Selected_Restaurant.class);    //레스토랑 일 경우
+                intent = new Intent(RestaurantList.this, Selected_Restaurant.class);
 
                 intent.putExtra("Selected", adapter.getItem(position).getId());   //선택된 곳 id 넘겨주기
                 intent.putExtra("SelectedUrl", adapter.getItem(position).getUrl());   //선택된 곳 url 넘겨주기
@@ -227,6 +228,9 @@ public class RestaurantList extends MenuBar {
             return itemView;
         }
     }
+
+    //URL, ImgName, id, lat, lng 을 받아
+    //URL -> Bitmap 으로 변경해 하나의 객체로 저장
 
     public void getBitmap(String imgUrl,String imgName,int id, double lat,double lng) {
         final String urlImg =imgUrl;

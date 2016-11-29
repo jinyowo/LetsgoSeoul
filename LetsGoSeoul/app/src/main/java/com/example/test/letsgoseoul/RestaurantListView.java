@@ -9,10 +9,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+//SIGHTS OR RESTAURANT LIST의 하나의 ITEM을
+//레이아웃의 하나의 ITEM에 매칭
+
 public class RestaurantListView extends LinearLayout {
 
     private ImageView mIcon;
     private TextView mText;
+
     public RestaurantListView(Context context, RestaurantListItem aItem) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
