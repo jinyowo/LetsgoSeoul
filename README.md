@@ -10,7 +10,7 @@
 
 
 ####<이미지>
-- ![Alt text](C:\Users\test\Desktop\finalProject\icon_img.jpg)
+- ![Icon_Img](.\APP_Img\icon_img.jpg)
 
 
 
