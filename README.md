@@ -10,7 +10,7 @@
 
 
 ####<이미지>
-- ![Icon_Img](.\APP_Img\icon_img.jpg)
+- App_Img 폴더에 첨부 
 
 
 
